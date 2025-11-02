@@ -30,7 +30,7 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest -v --cov=hhws_brick_application --cov-report=xml --cov-report=term
+        pytest -v --cov=hhw_brick --cov-report=xml --cov-report=term
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
