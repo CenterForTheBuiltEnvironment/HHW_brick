@@ -1,0 +1,36 @@
+# Primary Loop Temperature Differential Analysis - Configuration File
+
+# Analysis parameters
+analysis:
+  # Minimum temperature differential threshold (°C) - below this is considered anomalous
+  # Primary loops typically have larger differentials than secondary loops
+  threshold_min_delta: 2.0
+
+  # Maximum temperature differential threshold (°C) - above this is considered anomalous
+  threshold_max_delta: 20.0
+
+# Output settings
+output:
+  # Whether to save results
+  save_results: true
+
+  # Output directory
+  output_dir: "./results"
+
+  # Export format: csv or json
+  export_format: "csv"
+
+  # Whether to generate plots
+  generate_plots: true
+
+  # Plot format: png, pdf, svg
+  plot_format: "png"
+
+# Time range (optional)
+time_range:
+  # Start time in YYYY-MM-DD format (null = use all data)
+  start_time: null
+
+  # End time in YYYY-MM-DD format (null = use all data)
+  end_time: null
+

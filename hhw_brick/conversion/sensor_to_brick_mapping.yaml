@@ -1,0 +1,219 @@
+# HHWS Sensor Points to Brick Schema Mapping
+# This file maps CSV column headers (excluding tag, org, datetime) to Brick point types
+# Format: sensor_name: {brick_class, description, unit, equipment}
+
+# Temperature Sensors - Secondary Loop
+ret:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Return water temperature leaving the building"
+  unit: "DEG_C"
+  equipment: "secondary_loop"
+
+sup:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Supply water temperature entering the building"
+  unit: "DEG_C"
+  equipment: "secondary_loop"
+
+sup1:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Supply water temperature leaving boiler 1 (boiler outlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+sup2:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Supply water temperature leaving boiler 2 (boiler outlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+ret1:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Return water temperature entering boiler 1 (boiler inlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+ret2:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Return water temperature entering boiler 2 (boiler inlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+sup3:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Supply water temperature leaving boiler 3 (boiler outlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+ret3:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Return water temperature entering boiler 3 (boiler inlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+sup4:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Supply water temperature leaving boiler 4 (boiler outlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+ret4:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Return water temperature entering boiler 4 (boiler inlet water temperature)"
+  unit: "DEG_C"
+  equipment: "boiler"
+
+t_out:
+  brick_class: "brick:Outside_Air_Temperature_Sensor"
+  description: "Outdoor drybulb temperature"
+  unit: "DEG_C"
+  equipment: "weather_station"
+
+# Primary Circuit Temperature Sensors
+retp:
+  brick_class: "brick:Entering_Hot_Water_Temperature_Sensor"
+  description: "Common return water temperature on the primary circulation circuit"
+  unit: "DEG_C"
+  equipment: "primary_loop"
+
+supp:
+  brick_class: "brick:Leaving_Hot_Water_Temperature_Sensor"
+  description: "Common supply water temperature on the primary circulation circuit"
+  unit: "DEG_C"
+  equipment: "primary_loop"
+
+# Pressure Sensors
+dp:
+  brick_class: "brick:Differential_Pressure_Sensor"
+  description: "End-of-line differential pressure"
+  unit: "PA"
+  equipment: "secondary_loop"
+
+# Flow Rate Sensors
+flow:
+  brick_class: "brick:Flow_Sensor"
+  description: "Flow rate of water entering the building"
+  unit: "L-PER-SEC"
+  equipment: "secondary_loop"
+
+flowp:
+  brick_class: "brick:Flow_Sensor"
+  description: "Hot water flow rate (primary circuit)"
+  unit: "L-PER-SEC"
+  equipment: "primary_loop"
+
+# Gas Consumption Sensors
+gas:
+  brick_class: "brick:Natural_Gas_Flow_Sensor"
+  description: "Natural gas consumption measured at the supply to the boiler plant"
+  unit: "W"
+  equipment: "primary_loop"
+
+gas_u:
+  brick_class: "brick:Natural_Gas_Flow_Sensor"
+  description: "Natural gas consumption measured at the utility meter"
+  unit: "W"
+  equipment: "secondary_loop"
+
+# Hot Water Energy
+hw:
+  brick_class: "brick:Thermal_Power_Sensor"
+  description: "Heating power (or load) being supplied to the building"
+  unit: "W"
+  equipment: "secondary_loop"
+
+# Pump Power Sensors
+pmp1_pwr:
+  brick_class: "brick:Power_Sensor"
+  description: "Power consumption of pump 1"
+  unit: "W"
+  equipment: "pump"
+
+pmp2_pwr:
+  brick_class: "brick:Power_Sensor"
+  description: "Power consumption of pump 2"
+  unit: "W"
+  equipment: "pump"
+
+# Pump Speed Commands
+pmp1_spd:
+  brick_class: "brick:Speed_Command"
+  description: "Pump 1 speed command (normalized from 0-1)"
+  unit: "UNITLESS"
+  equipment: "pump"
+
+pmp2_spd:
+  brick_class: "brick:Speed_Command"
+  description: "Pump 2 speed command (normalized from 0-1)"
+  unit: "UNITLESS"
+  equipment: "pump"
+
+pmp_spd:
+  brick_class: "brick:Speed_Command"
+  description: "Main pump speed command (normalized from 0-1)"
+  unit: "UNITLESS"
+  equipment: "pump"
+
+# Fire/Boiler Control Points
+fire1:
+  brick_class: "brick:Firing_Rate_Sensor"
+  description: "Firing rate of boiler 1"
+  unit: "PERCENT"
+  equipment: "boiler"
+
+fire2:
+  brick_class: "brick:Firing_Rate_Sensor"
+  description: "Firing rate of boiler 2"
+  unit: "PERCENT"
+  equipment: "boiler"
+
+fire3:
+  brick_class: "brick:Firing_Rate_Sensor"
+  description: "Firing rate of boiler 3"
+  unit: "PERCENT"
+  equipment: "boiler"
+
+fire4:
+  brick_class: "brick:Firing_Rate_Sensor"
+  description: "Firing rate of boiler 4"
+  unit: "PERCENT"
+  equipment: "boiler"
+
+# Setpoint Commands
+sup_stpt:
+  brick_class: "brick:Hot_Water_Temperature_Setpoint"
+  description: "Setpoint for supply water temperature entering the building"
+  unit: "DEG_C"
+  equipment: "secondary_loop"
+
+dp_stpt:
+  brick_class: "brick:Differential_Pressure_Setpoint"
+  description: "End-of-line differential pressure setpoint"
+  unit: "PA"
+  equipment: "secondary_loop"
+
+# VFD Control Points
+pmp1_vfd:
+  brick_class: "brick:VFD_Enable_Command"
+  description: "Variable frequency drive enable command for pump 1"
+  unit: "UNITLESS"
+  equipment: "pump"
+
+pmp2_vfd:
+  brick_class: "brick:VFD_Enable_Command"
+  description: "Variable frequency drive enable command for pump 2"
+  unit: "UNITLESS"
+  equipment: "pump"
+
+# Enable/Status Points
+enab:
+  brick_class: "brick:Enable_Command"
+  description: "Enable/disable command for system operation (1/0, fractional values indicate system was enabled for part of the hour)"
+  unit: "UNITLESS"
+  equipment: "hot_water_system"
+
+oper:
+  brick_class: "brick:Enable_Status"
+  description: "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour)"
+  unit: "UNITLESS"
+  equipment: "hot_water_system"
