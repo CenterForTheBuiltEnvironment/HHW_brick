@@ -1,0 +1,57 @@
+/* Custom Styles for HHWS Brick Application Documentation */
+
+:root {
+  --md-primary-fg-color: #3f51b5;
+  --md-primary-fg-color--light: #5c6bc0;
+  --md-primary-fg-color--dark: #303f9f;
+  --md-accent-fg-color: #ff4081;
+}
+
+/* Code blocks */
+.highlight pre {
+  border-radius: 0.5rem;
+}
+
+/* Admonitions */
+.md-typeset .admonition {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+/* Cards */
+.grid.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.grid.cards > * {
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.grid.cards > *:hover {
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Better spacing for code blocks */
+.md-typeset pre {
+  margin: 1.5rem 0;
+}
+
+/* Improve table styling */
+.md-typeset table:not([class]) {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  text-align: center;
+  margin: 2rem 0;
+}
+

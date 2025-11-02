@@ -1,0 +1,166 @@
+# HHWS Brick Application Documentation
+
+site_name: HHWS Brick Application
+site_description: Heating Hot Water System Brick Ontology Application - Complete Documentation
+site_author: Mingchen Li
+site_url: https://github.com/yourusername/hhw-brick
+
+# Repository
+repo_name: hhw-brick
+repo_url: https://github.com/yourusername/hhw-brick
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024 Mingchen Li
+
+# Configuration
+theme:
+  name: material
+  language: en
+
+  # Color scheme
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # Features
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+
+  # Icon
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/water-boiler
+
+  # Favicon
+  favicon: assets/favicon.png
+
+# Plugins
+plugins:
+  - search
+  - include-markdown
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 4
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra CSS
+extra_css:
+  - stylesheets/extra.css
+
+# Extra JavaScript
+extra_javascript:
+  - javascripts/extra.js
+
+# Extra
+extra:
+  version:
+    provider: mike
+    default: stable
+
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/hhw-brick
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/hhw-brick/
+
+# Navigation
+nav:
+  - Home: index.md
+
+  - Getting Started:
+    - getting-started/index.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Understanding Brick: getting-started/understanding-brick.md
+    - CSV Data Format: getting-started/csv-format.md
+
+  - User Guide:
+    - CSV to Brick Conversion:
+      - user-guide/conversion/index.md
+      - Single Building: user-guide/conversion/single-building.md
+      - Batch Conversion: user-guide/conversion/batch-conversion.md
+      - System Types: user-guide/conversion/system-types.md
+      - Sensor Mapping: user-guide/conversion/sensor-mapping.md
+    - Model Validation:
+      - user-guide/validation/index.md
+      - Ontology Validation: user-guide/validation/ontology.md
+      - Ground Truth Comparison: user-guide/validation/ground-truth.md
+      - Subgraph Patterns: user-guide/validation/subgraph-patterns.md
+    - Analytics Applications:
+      - user-guide/applications/index.md
+      - Apps Manager: user-guide/applications/apps-manager.md
+      - Secondary Loop: user-guide/applications/secondary-loop.md
+      - Running Apps: user-guide/applications/running-apps.md
+
+  - Examples: examples/index.md
+  - FAQ: faq.md
+  - Changelog: changelog.md
+  - License: license.md
+
