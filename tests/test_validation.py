@@ -6,11 +6,24 @@ import pytest
 import os
 import pandas as pd
 from pathlib import Path
+import urllib.error
 
 from hhw_brick.validation.validator import BrickModelValidator
 from hhw_brick.validation.subgraph_pattern_validator import SubgraphPatternValidator
 from hhw_brick.validation.ground_truth_calculator import GroundTruthCalculator
 from hhw_brick.conversion.csv_to_brick import CSVToBrickConverter
+
+
+def skip_if_network_error(func):
+    """Decorator to skip tests that fail due to network issues."""
+
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except (urllib.error.URLError, ConnectionError, OSError) as e:
+            pytest.skip(f"Network error (GitHub schema download failed): {e}")
+
+    return wrapper
 
 
 @pytest.fixture
@@ -44,12 +57,14 @@ class TestBrickModelValidator:
             # Brick_Self.ttl might not exist, skip this test
             pytest.skip("Brick_Self.ttl not found in package")
 
+    @skip_if_network_error
     def test_validator_initialization_github(self):
         """Test validator initialization with GitHub nightly brick."""
         validator = BrickModelValidator(use_local_brick=False)
         assert validator is not None
         assert validator.use_local_brick is False
 
+    @skip_if_network_error
     def test_validate_ontology_valid_model(self, sample_ttl_file):
         """Test ontology validation on a valid Brick model."""
         validator = BrickModelValidator(use_local_brick=False)
@@ -61,6 +76,7 @@ class TestBrickModelValidator:
         # Should have validation results
         assert "valid" in result or "is_valid" in result
 
+    @skip_if_network_error
     def test_validate_nonexistent_file(self):
         """Test that validating non-existent file is handled gracefully."""
         validator = BrickModelValidator(use_local_brick=False)
@@ -131,6 +147,7 @@ class TestBrickModelValidator:
         except FileNotFoundError:
             pytest.skip("Local Brick schema not found")
 
+    @skip_if_network_error
     def test_create_brick_graph_github(self):
         """Test creating brick graph with GitHub schema."""
         validator = BrickModelValidator(use_local_brick=False)
@@ -139,6 +156,7 @@ class TestBrickModelValidator:
         assert graph is not None
         # GitHub version should have loaded schema
 
+    @skip_if_network_error
     def test_validate_multiple_models(self, sample_ttl_file, temp_output_dir):
         """Test validating multiple models."""
         validator = BrickModelValidator(use_local_brick=False)
