@@ -1,0 +1,61 @@
+﻿﻿[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "hhw-brick"
+version = "0.1.0"
+description = "A comprehensive Python package for Heating Hot Water System (HHWS) Brick ontology applications"
+readme = "README.md"
+authors = [
+    {name = "Mingchen Li", email = "liwei74123@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+]
+keywords = ["brick", "building", "ontology", "hvac", "hot water", "rdf", "semantic web"]
+requires-python = ">=3.8"
+dependencies = [
+    "rdflib>=6.0.0",
+    "pandas>=1.3.0",
+    "numpy>=1.21.0",
+    "pyyaml>=5.4.0",
+    "click>=8.0.0",
+    "brickschema>=0.6.0",
+]
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+]
+[project.urls]
+Homepage = "https://github.com/CenterForTheBuiltEnvironment/HHW_brick"
+Documentation = "https://github.com/CenterForTheBuiltEnvironment/HHW_brick/blob/main/README.md"
+Repository = "https://github.com/CenterForTheBuiltEnvironment/HHW_brick"
+Issues = "https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues"
+[project.scripts]
+hhw-brick = "hhw_brick.cli.main:cli"
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hhw_brick*"]
+exclude = ["tests*", "docs*", "examples*", "scripts*"]
+[tool.setuptools.package-data]
+hhw_brick = [
+    "*.ttl",
+    "*.yaml",
+    "*.yml",
+    "conversion/*.yaml",
+    "conversion/*.yml",
+]
