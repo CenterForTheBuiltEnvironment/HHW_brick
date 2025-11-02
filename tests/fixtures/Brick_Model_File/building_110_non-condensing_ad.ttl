@@ -1,0 +1,129 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix hhws: <https://hhws.example.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+brick:Firing_Rate_Sensor a owl:Class ;
+    rdfs:label "Firing Rate Sensor" ;
+    rdfs:comment "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity." ;
+    rdfs:subClassOf brick:Point .
+
+<https://hhws.example.org> a owl:Ontology ;
+    owl:imports <https://brickschema.org/schema/1.3/Brick#> .
+
+hhws:building110 a rec:Building ;
+    rdfs:label "Building 110" ;
+    hhws:belongsToOrganization "AD" ;
+    hhws:hasArea "4000.0"^^xsd:float ;
+    hhws:hasBuildingType "Academic/Office" ;
+    hhws:hasClimateZone "4A" ;
+    hhws:hasConstructionDecade 2000 ;
+    hhws:hasConstructionYear 2000 ;
+    hhws:hasHeatingDesignTemperature "-12.55555556"^^xsd:float ;
+    hhws:hasHighLevelBuildingType "Office" ;
+    hhws:hasHighLevelSystemType "Boiler" ;
+    hhws:hasSystemType "Non-condensing" ;
+    rec:isLocationOf hhws:building110.hws,
+        hhws:building110.weather_station .
+
+hhws:building110.boiler1 a brick:Noncondensing_Natural_Gas_Boiler ;
+    rdfs:label "Non-condensing Natural Gas Boiler 1 - Building 110" ;
+    brick:feeds hhws:building110.primary_pump1 ;
+    brick:hasPoint hhws:building110.boiler1.sup1 .
+
+hhws:building110.boiler1.sup1 a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature leaving boiler 1 (boiler outlet water temperature) - Building 110" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup1" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.boiler2 a brick:Noncondensing_Natural_Gas_Boiler ;
+    rdfs:label "Non-condensing Natural Gas Boiler 2 - Building 110" ;
+    brick:feeds hhws:building110.primary_pump1 ;
+    brick:hasPoint hhws:building110.boiler2.sup2 .
+
+hhws:building110.boiler2.sup2 a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature leaving boiler 2 (boiler outlet water temperature) - Building 110" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup2" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws a brick:Hot_Water_System ;
+    rdfs:label "Hot Water System - Building 110" ;
+    brick:hasPart hhws:building110.hws.enab,
+        hhws:building110.hws.oper,
+        hhws:building110.hws.primary_loop,
+        hhws:building110.hws.secondary_loop .
+
+hhws:building110.hws.enab a brick:Enable_Command ;
+    rdfs:label "Enable/disable command for system operation (1/0, fractional values indicate system was enabled for part of the hour) - Building 110" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "enab" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws.oper a brick:Enable_Status ;
+    rdfs:label "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour) - Building 110" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "oper" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws.primary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Primary Hot Water Loop - Building 110" ;
+    brick:feeds hhws:building110.hws.secondary_loop ;
+    brick:hasPart hhws:building110.boiler1,
+        hhws:building110.boiler2,
+        hhws:building110.primary_pump1 .
+
+hhws:building110.hws.secondary_loop.dp a brick:Differential_Pressure_Sensor ;
+    rdfs:label "End-of-line differential pressure - Building 110" ;
+    brick:hasUnit unit:PA ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "dp" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws.secondary_loop.ret a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Return water temperature leaving the building - Building 110" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "ret" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws.secondary_loop.sup a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature entering the building - Building 110" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.secondary_pump1 a brick:Pump ;
+    rdfs:label "Secondary Circulation Pump 1 - Building 110" .
+
+hhws:building110.weather_station a brick:Weather_Station ;
+    rdfs:label "Weather Station - Building 110" ;
+    brick:hasPoint hhws:building110.weather_station.t_out .
+
+hhws:building110.weather_station.t_out a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor drybulb temperature - Building 110" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "t_out" ;
+            ref:storedAt "110hhw_system_data.csv" ] .
+
+hhws:building110.hws.secondary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Secondary Hot Water Loop - Building 110" ;
+    brick:hasPart hhws:building110.hws.secondary_loop.dp,
+        hhws:building110.hws.secondary_loop.ret,
+        hhws:building110.hws.secondary_loop.sup,
+        hhws:building110.secondary_pump1 .
+
+hhws:building110.primary_pump1 a brick:Pump ;
+    rdfs:label "Primary Circulation Pump 1 - Building 110" .
+

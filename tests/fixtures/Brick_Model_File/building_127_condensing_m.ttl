@@ -1,0 +1,162 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix hhws: <https://hhws.example.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://hhws.example.org> a owl:Ontology ;
+    owl:imports <https://brickschema.org/schema/1.3/Brick#> .
+
+hhws:building127 a rec:Building ;
+    rdfs:label "Building 127" ;
+    hhws:belongsToOrganization "M" ;
+    hhws:hasArea "26000.0"^^xsd:float ;
+    hhws:hasBuildingType "Other/CorrectionalCenter" ;
+    hhws:hasClimateZone "3B" ;
+    hhws:hasConstructionDecade 2020 ;
+    hhws:hasConstructionYear 2020 ;
+    hhws:hasDesignReturnTemperature "37.77777778"^^xsd:float ;
+    hhws:hasDesignSupplyTemperature "60.0"^^xsd:float ;
+    hhws:hasHeatingDesignTemperature "3.666666667"^^xsd:float ;
+    hhws:hasHighLevelBuildingType "Other" ;
+    hhws:hasHighLevelSystemType "Boiler" ;
+    hhws:hasSystemType "Condensing" ;
+    rec:isLocationOf hhws:building127.hws,
+        hhws:building127.weather_station .
+
+brick:Firing_Rate_Sensor a owl:Class ;
+    rdfs:label "Firing Rate Sensor" ;
+    rdfs:comment "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity." ;
+    rdfs:subClassOf brick:Point .
+
+hhws:building127.boiler1 a brick:Condensing_Natural_Gas_Boiler ;
+    rdfs:label "Condensing Natural Gas Boiler 1 - Building 127" ;
+    brick:feeds hhws:building127.primary_pump1 ;
+    brick:hasPoint hhws:building127.boiler1.fire1 ;
+    hhws:hasManufacturer "Lochinvar" ;
+    hhws:hasMinimumFlowRequirement "1.577254917"^^xsd:float ;
+    hhws:hasMinimumTurndown "0.05"^^xsd:float ;
+    hhws:hasModel "Crest FBN2500" ;
+    hhws:hasNominalEfficiency "0.92"^^xsd:float ;
+    hhws:hasNominalInputPower "732677.675"^^xsd:float ;
+    hhws:hasNominalOutputPower "674063.461"^^xsd:float .
+
+hhws:building127.boiler1.fire1 a brick:Firing_Rate_Sensor ;
+    rdfs:label "Firing rate of boiler 1 - Building 127" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "fire1" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.boiler2 a brick:Condensing_Natural_Gas_Boiler ;
+    rdfs:label "Condensing Natural Gas Boiler 2 - Building 127" ;
+    brick:feeds hhws:building127.primary_pump1 ;
+    hhws:hasManufacturer "Lochinvar" ;
+    hhws:hasMinimumFlowRequirement "1.577254917"^^xsd:float ;
+    hhws:hasMinimumTurndown "0.05"^^xsd:float ;
+    hhws:hasModel "Crest FBN2500" ;
+    hhws:hasNominalEfficiency "0.92"^^xsd:float ;
+    hhws:hasNominalInputPower "732677.675"^^xsd:float ;
+    hhws:hasNominalOutputPower "674063.461"^^xsd:float .
+
+hhws:building127.hws a brick:Hot_Water_System ;
+    rdfs:label "Hot Water System - Building 127" ;
+    brick:hasPart hhws:building127.hws.oper,
+        hhws:building127.hws.primary_loop,
+        hhws:building127.hws.secondary_loop ;
+    hhws:hasBoilerCount 2 .
+
+hhws:building127.hws.oper a brick:Enable_Status ;
+    rdfs:label "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour) - Building 127" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "oper" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.primary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Primary Hot Water Loop - Building 127" ;
+    brick:feeds hhws:building127.hws.secondary_loop ;
+    brick:hasPart hhws:building127.boiler1,
+        hhws:building127.boiler2,
+        hhws:building127.hws.primary_loop.gas,
+        hhws:building127.hws.primary_loop.retp,
+        hhws:building127.hws.primary_loop.supp,
+        hhws:building127.primary_pump1 .
+
+hhws:building127.hws.primary_loop.gas a brick:Natural_Gas_Flow_Sensor ;
+    rdfs:label "Natural gas consumption measured at the supply to the boiler plant - Building 127" ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "gas" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.primary_loop.retp a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Common return water temperature on the primary circulation circuit - Building 127" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "retp" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.primary_loop.supp a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Common supply water temperature on the primary circulation circuit - Building 127" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "supp" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.secondary_loop.flow a brick:Flow_Sensor ;
+    rdfs:label "Flow rate of water entering the building - Building 127" ;
+    brick:hasUnit unit:L-PER-SEC ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "flow" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.secondary_loop.hw a brick:Thermal_Power_Sensor ;
+    rdfs:label "Heating power (or load) being supplied to the building - Building 127" ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "hw" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.secondary_loop.ret a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Return water temperature leaving the building - Building 127" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "ret" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.secondary_loop.sup a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature entering the building - Building 127" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.secondary_pump1 a brick:Pump ;
+    rdfs:label "Secondary Circulation Pump 1 - Building 127" .
+
+hhws:building127.weather_station a brick:Weather_Station ;
+    rdfs:label "Weather Station - Building 127" ;
+    brick:hasPoint hhws:building127.weather_station.t_out .
+
+hhws:building127.weather_station.t_out a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor drybulb temperature - Building 127" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "t_out" ;
+            ref:storedAt "127hhw_system_data.csv" ] .
+
+hhws:building127.hws.secondary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Secondary Hot Water Loop - Building 127" ;
+    brick:hasPart hhws:building127.hws.secondary_loop.flow,
+        hhws:building127.hws.secondary_loop.hw,
+        hhws:building127.hws.secondary_loop.ret,
+        hhws:building127.hws.secondary_loop.sup,
+        hhws:building127.secondary_pump1 .
+
+hhws:building127.primary_pump1 a brick:Pump ;
+    rdfs:label "Primary Circulation Pump 1 - Building 127" .
+

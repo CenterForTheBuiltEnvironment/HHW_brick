@@ -1,0 +1,116 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix hhws: <https://hhws.example.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+brick:Firing_Rate_Sensor a owl:Class ;
+    rdfs:label "Firing Rate Sensor" ;
+    rdfs:comment "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity." ;
+    rdfs:subClassOf brick:Point .
+
+<https://hhws.example.org> a owl:Ontology ;
+    owl:imports <https://brickschema.org/schema/1.3/Brick#> .
+
+hhws:building124 a rec:Building ;
+    rdfs:label "Building 124" ;
+    hhws:belongsToOrganization "AR" ;
+    hhws:hasArea "10000.0"^^xsd:float ;
+    hhws:hasBuildingType "Medical Office" ;
+    hhws:hasClimateZone "4C" ;
+    hhws:hasConstructionDecade 2010 ;
+    hhws:hasConstructionYear 2010 ;
+    hhws:hasHeatingDesignTemperature "-4.944444444"^^xsd:float ;
+    hhws:hasHighLevelBuildingType "Medical Office" ;
+    hhws:hasHighLevelSystemType "Boiler" ;
+    hhws:hasSystemType "Boiler" ;
+    rec:isLocationOf hhws:building124.hws,
+        hhws:building124.weather_station .
+
+hhws:building124.boiler1 a brick:Natural_Gas_Boiler ;
+    rdfs:label "Natural Gas Boiler 1 - Building 124" ;
+    brick:feeds hhws:building124.primary_pump1 .
+
+hhws:building124.hws a brick:Hot_Water_System ;
+    rdfs:label "Hot Water System - Building 124" ;
+    brick:hasPart hhws:building124.hws.enab,
+        hhws:building124.hws.oper,
+        hhws:building124.hws.primary_loop,
+        hhws:building124.hws.secondary_loop .
+
+hhws:building124.hws.enab a brick:Enable_Command ;
+    rdfs:label "Enable/disable command for system operation (1/0, fractional values indicate system was enabled for part of the hour) - Building 124" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "enab" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.oper a brick:Enable_Status ;
+    rdfs:label "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour) - Building 124" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "oper" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.primary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Primary Hot Water Loop - Building 124" ;
+    brick:feeds hhws:building124.hws.secondary_loop ;
+    brick:hasPart hhws:building124.boiler1,
+        hhws:building124.primary_pump1 .
+
+hhws:building124.hws.secondary_loop.flow a brick:Flow_Sensor ;
+    rdfs:label "Flow rate of water entering the building - Building 124" ;
+    brick:hasUnit unit:L-PER-SEC ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "flow" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.secondary_loop.hw a brick:Thermal_Power_Sensor ;
+    rdfs:label "Heating power (or load) being supplied to the building - Building 124" ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "hw" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.secondary_loop.ret a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Return water temperature leaving the building - Building 124" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "ret" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.secondary_loop.sup a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature entering the building - Building 124" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.secondary_pump1 a brick:Pump ;
+    rdfs:label "Secondary Circulation Pump 1 - Building 124" .
+
+hhws:building124.weather_station a brick:Weather_Station ;
+    rdfs:label "Weather Station - Building 124" ;
+    brick:hasPoint hhws:building124.weather_station.t_out .
+
+hhws:building124.weather_station.t_out a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor drybulb temperature - Building 124" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "t_out" ;
+            ref:storedAt "124hhw_system_data.csv" ] .
+
+hhws:building124.hws.secondary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Secondary Hot Water Loop - Building 124" ;
+    brick:hasPart hhws:building124.hws.secondary_loop.flow,
+        hhws:building124.hws.secondary_loop.hw,
+        hhws:building124.hws.secondary_loop.ret,
+        hhws:building124.hws.secondary_loop.sup,
+        hhws:building124.secondary_pump1 .
+
+hhws:building124.primary_pump1 a brick:Pump ;
+    rdfs:label "Primary Circulation Pump 1 - Building 124" .
+

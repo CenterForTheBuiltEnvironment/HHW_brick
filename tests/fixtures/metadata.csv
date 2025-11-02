@@ -1,0 +1,11 @@
+tag,org,area,bldg_type,year,climate,t_hdd,system,b_number,b_model,b_manufacturer,b_input,b_output,b_efficiency,b_min_turndown,b_min_flow,b_redundancy,design_supply,design_return,system_hl,bldg_type_hl,decade
+29,Z,13000,Other/EventSpace,1960,2B,4.055555556,District HW,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,District,Other,1960
+34,Z,4200,Office,1890,2B,4.055555556,District HW,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,District,Office,1890
+53,X,7700,Other/Museum,2020,3C,4.777777778,Condensing,2,BMK-1.5,Aerco,439606.605,369269.5482,0.84,0.05,1.577254917,NA,71.11111111,54.44444444,Boiler,Other,2020
+55,BF,3800,Academic/Lab,2020,3C,0.611111111,Condensing,2,BMK 2000,Aerco,586142.14,556835.033,0.95,0.05,1.8927059,0.5,57.22222222,35,Boiler,Lab,2020
+56,X,9600,Academic/Office,NA,3C,4.777777778,District Steam,1,NA,NA,NA,439606.605,NA,NA,NA,NA,82.22222222,60,District,Office,NA
+58,X,13000,Academic/Office,1920,3C,4.777777778,District Steam,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,District,Office,1920
+105,H,46000,Office,1980,3B,4.777777778,Non-condensing,3,Pennant PNCH 2000,Laars,586142.14,498513.8901,0.8505,0.25,NA,NA,87.77777778,NA,Boiler,Office,1980
+110,AD,4000,Academic/Office,2000,4A,-12.55555556,Non-condensing,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Boiler,Office,2000
+124,AR,10000,Medical Office,2010,4C,-4.944444444,Boiler,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Boiler,Medical Office,2010
+127,M,26000,Other/CorrectionalCenter,2020,3B,3.666666667,Condensing,2,Crest FBN2500,Lochinvar,732677.675,674063.461,0.92,0.05,1.577254917,NA,60,37.77777778,Boiler,Other,2020

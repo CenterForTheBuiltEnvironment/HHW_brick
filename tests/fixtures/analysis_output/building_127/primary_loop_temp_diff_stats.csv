@@ -1,0 +1,2 @@
+count,mean_temp_diff,std_temp_diff,min_temp_diff,max_temp_diff,median_temp_diff,q25_temp_diff,q75_temp_diff,mean_supply_temp,mean_return_temp,anomalies_below_threshold,anomalies_above_threshold,anomaly_rate
+17507,8.546914661690808,4.71606606306948,-1.5555555555555571,28.22222222222223,8.185185185185183,4.833333333333336,11.314814814814817,54.68123550964415,46.13432084795334,1021,43,6.0775689724110356

@@ -1,0 +1,12 @@
+analysis:
+  threshold_min_delta: 0.5
+  threshold_max_delta: 10.0
+output:
+  save_results: true
+  output_dir: ./results
+  export_format: csv
+  generate_plots: true
+  plot_format: png
+time_range:
+  start_time: null
+  end_time: null

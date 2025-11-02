@@ -1,0 +1,94 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix hhws: <https://hhws.example.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+brick:Firing_Rate_Sensor a owl:Class ;
+    rdfs:label "Firing Rate Sensor" ;
+    rdfs:comment "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity." ;
+    rdfs:subClassOf brick:Point .
+
+<https://hhws.example.org> a owl:Ontology ;
+    owl:imports <https://brickschema.org/schema/1.3/Brick#> .
+
+hhws:building34 a rec:Building ;
+    rdfs:label "Building 34" ;
+    hhws:belongsToOrganization "Z" ;
+    hhws:hasArea "4200.0"^^xsd:float ;
+    hhws:hasBuildingType "Office" ;
+    hhws:hasClimateZone "2B" ;
+    hhws:hasConstructionDecade 1890 ;
+    hhws:hasConstructionYear 1890 ;
+    hhws:hasHeatingDesignTemperature "4.055555556"^^xsd:float ;
+    hhws:hasHighLevelBuildingType "Office" ;
+    hhws:hasHighLevelSystemType "District" ;
+    hhws:hasSystemType "District HW" ;
+    rec:isLocationOf hhws:building34.hws,
+        hhws:building34.weather_station .
+
+hhws:building34.hws a brick:Hot_Water_System ;
+    rdfs:label "District Hot Water System - Building 34" ;
+    brick:hasPart hhws:building34.hws.oper,
+        hhws:building34.hws.secondary_loop .
+
+hhws:building34.hws.oper a brick:Enable_Status ;
+    rdfs:label "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour) - Building 34" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "oper" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+
+hhws:building34.hws.secondary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Hot Water Loop - Building 34" ;
+    brick:hasPart hhws:building34.hws.secondary_loop.flow,
+        hhws:building34.hws.secondary_loop.hw,
+        hhws:building34.hws.secondary_loop.ret,
+        hhws:building34.hws.secondary_loop.sup,
+        hhws:building34.pump1 .
+
+hhws:building34.hws.secondary_loop.flow a brick:Flow_Sensor ;
+    rdfs:label "Flow rate of water entering the building - Building 34" ;
+    brick:hasUnit unit:L-PER-SEC ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "flow" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+
+hhws:building34.hws.secondary_loop.hw a brick:Thermal_Power_Sensor ;
+    rdfs:label "Heating power (or load) being supplied to the building - Building 34" ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "hw" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+
+hhws:building34.hws.secondary_loop.ret a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Return water temperature leaving the building - Building 34" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "ret" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+
+hhws:building34.hws.secondary_loop.sup a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature entering the building - Building 34" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+
+hhws:building34.pump1 a brick:Pump ;
+    rdfs:label "Circulation Pump 1 - Building 34" .
+
+hhws:building34.weather_station a brick:Weather_Station ;
+    rdfs:label "Weather Station - Building 34" ;
+    brick:hasPoint hhws:building34.weather_station.t_out .
+
+hhws:building34.weather_station.t_out a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor drybulb temperature - Building 34" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "t_out" ;
+            ref:storedAt "34hhw_system_data.csv" ] .
+

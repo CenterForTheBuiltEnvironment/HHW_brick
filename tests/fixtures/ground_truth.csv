@@ -1,0 +1,11 @@
+tag,system,point_count,boiler_count,pump_count,weather_station_count
+29,District HW,6,0,1,1
+34,District HW,6,0,1,1
+53,Condensing,9,2,3,1
+55,Condensing,12,2,2,1
+56,District Steam,9,0,2,1
+58,District Steam,9,0,2,1
+105,Non-condensing,7,3,2,1
+110,Non-condensing,8,2,2,1
+124,Boiler,7,1,2,1
+127,Condensing,10,2,2,1

@@ -1,0 +1,158 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix hhws: <https://hhws.example.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+brick:Firing_Rate_Sensor a owl:Class ;
+    rdfs:label "Firing Rate Sensor" ;
+    rdfs:comment "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity." ;
+    rdfs:subClassOf brick:Point .
+
+<https://hhws.example.org> a owl:Ontology ;
+    owl:imports <https://brickschema.org/schema/1.3/Brick#> .
+
+hhws:building53 a rec:Building ;
+    rdfs:label "Building 53" ;
+    hhws:belongsToOrganization "X" ;
+    hhws:hasArea "7700.0"^^xsd:float ;
+    hhws:hasBuildingType "Other/Museum" ;
+    hhws:hasClimateZone "3C" ;
+    hhws:hasConstructionDecade 2020 ;
+    hhws:hasConstructionYear 2020 ;
+    hhws:hasDesignReturnTemperature "54.44444444"^^xsd:float ;
+    hhws:hasDesignSupplyTemperature "71.11111111"^^xsd:float ;
+    hhws:hasHeatingDesignTemperature "4.777777778"^^xsd:float ;
+    hhws:hasHighLevelBuildingType "Other" ;
+    hhws:hasHighLevelSystemType "Boiler" ;
+    hhws:hasSystemType "Condensing" ;
+    rec:isLocationOf hhws:building53.hws,
+        hhws:building53.weather_station .
+
+hhws:building53.boiler1 a brick:Condensing_Natural_Gas_Boiler ;
+    rdfs:label "Condensing Natural Gas Boiler 1 - Building 53" ;
+    brick:feeds hhws:building53.primary_pump1 ;
+    hhws:hasManufacturer "Aerco" ;
+    hhws:hasMinimumFlowRequirement "1.577254917"^^xsd:float ;
+    hhws:hasMinimumTurndown "0.05"^^xsd:float ;
+    hhws:hasModel "BMK-1.5" ;
+    hhws:hasNominalEfficiency "0.84"^^xsd:float ;
+    hhws:hasNominalInputPower "439606.605"^^xsd:float ;
+    hhws:hasNominalOutputPower "369269.5482"^^xsd:float .
+
+hhws:building53.boiler2 a brick:Condensing_Natural_Gas_Boiler ;
+    rdfs:label "Condensing Natural Gas Boiler 2 - Building 53" ;
+    brick:feeds hhws:building53.primary_pump1 ;
+    hhws:hasManufacturer "Aerco" ;
+    hhws:hasMinimumFlowRequirement "1.577254917"^^xsd:float ;
+    hhws:hasMinimumTurndown "0.05"^^xsd:float ;
+    hhws:hasModel "BMK-1.5" ;
+    hhws:hasNominalEfficiency "0.84"^^xsd:float ;
+    hhws:hasNominalInputPower "439606.605"^^xsd:float ;
+    hhws:hasNominalOutputPower "369269.5482"^^xsd:float .
+
+hhws:building53.hws a brick:Hot_Water_System ;
+    rdfs:label "Hot Water System - Building 53" ;
+    brick:hasPart hhws:building53.hws.enab,
+        hhws:building53.hws.oper,
+        hhws:building53.hws.primary_loop,
+        hhws:building53.hws.secondary_loop ;
+    hhws:hasBoilerCount 2 .
+
+hhws:building53.hws.enab a brick:Enable_Command ;
+    rdfs:label "Enable/disable command for system operation (1/0, fractional values indicate system was enabled for part of the hour) - Building 53" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "enab" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.oper a brick:Enable_Status ;
+    rdfs:label "Hot water system operation status (0=off, 1=on, fractional values indicate the system was estimated to be operating for part of the hour) - Building 53" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "oper" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.primary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Primary Hot Water Loop - Building 53" ;
+    brick:feeds hhws:building53.hws.secondary_loop ;
+    brick:hasPart hhws:building53.boiler1,
+        hhws:building53.boiler2,
+        hhws:building53.primary_pump1 .
+
+hhws:building53.hws.secondary_loop.flow a brick:Flow_Sensor ;
+    rdfs:label "Flow rate of water entering the building - Building 53" ;
+    brick:hasUnit unit:L-PER-SEC ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "flow" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.secondary_loop.hw a brick:Thermal_Power_Sensor ;
+    rdfs:label "Heating power (or load) being supplied to the building - Building 53" ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "hw" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.secondary_loop.ret a brick:Entering_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Return water temperature leaving the building - Building 53" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "ret" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.secondary_loop.sup a brick:Leaving_Hot_Water_Temperature_Sensor ;
+    rdfs:label "Supply water temperature entering the building - Building 53" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "sup" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.secondary_pump1 a brick:Pump ;
+    rdfs:label "Secondary Circulation Pump 1 - Building 53" ;
+    brick:hasPoint hhws:building53.secondary_pump1.pmp1_spd .
+
+hhws:building53.secondary_pump1.pmp1_spd a brick:Speed_Command ;
+    rdfs:label "Pump 1 speed command (normalized from 0-1) - Building 53" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "pmp1_spd" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.secondary_pump2 a brick:Pump ;
+    rdfs:label "Secondary Circulation Pump 2 - Building 53" ;
+    brick:hasPoint hhws:building53.secondary_pump2.pmp2_spd .
+
+hhws:building53.secondary_pump2.pmp2_spd a brick:Speed_Command ;
+    rdfs:label "Pump 2 speed command (normalized from 0-1) - Building 53" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "pmp2_spd" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.weather_station a brick:Weather_Station ;
+    rdfs:label "Weather Station - Building 53" ;
+    brick:hasPoint hhws:building53.weather_station.t_out .
+
+hhws:building53.weather_station.t_out a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor drybulb temperature - Building 53" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference [ a ref:TimeseriesReference ;
+            ref:hasTimeseriesId "t_out" ;
+            ref:storedAt "53hhw_system_data.csv" ] .
+
+hhws:building53.hws.secondary_loop a brick:Hot_Water_Loop ;
+    rdfs:label "Secondary Hot Water Loop - Building 53" ;
+    brick:hasPart hhws:building53.hws.secondary_loop.flow,
+        hhws:building53.hws.secondary_loop.hw,
+        hhws:building53.hws.secondary_loop.ret,
+        hhws:building53.hws.secondary_loop.sup,
+        hhws:building53.secondary_pump1,
+        hhws:building53.secondary_pump2 .
+
+hhws:building53.primary_pump1 a brick:Pump ;
+    rdfs:label "Primary Circulation Pump 1 - Building 53" .
+
