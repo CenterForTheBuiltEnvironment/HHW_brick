@@ -1,13 +1,13 @@
-# HHWS Brick Application Documentation
+# HHW Brick Application Documentation
 
-site_name: HHWS Brick Application
+site_name: HHW Brick Application
 site_description: Heating Hot Water System Brick Ontology Application - Complete Documentation
 site_author: Mingchen Li
-site_url: https://github.com/yourusername/hhw-brick
+site_url: https://github.com/CenterForTheBuiltEnvironment/HHW_brick
 
 # Repository
 repo_name: hhw-brick
-repo_url: https://github.com/yourusername/hhw-brick
+repo_url: https://github.com/CenterForTheBuiltEnvironment/HHW_brick
 edit_uri: edit/main/docs/
 
 # Copyright
@@ -126,7 +126,7 @@ extra:
 
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/hhw-brick
+      link: https://github.com/CenterForTheBuiltEnvironment/HHW_brick
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/hhw-brick/
 

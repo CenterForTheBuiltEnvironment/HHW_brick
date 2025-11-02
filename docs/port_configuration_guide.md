@@ -61,8 +61,8 @@ http://localhost:8080
 ### Docker Container Mode
 ```bash
 # Build and run
-docker build -t hhws-brick-app .
-docker run -p 8080:8080 hhws-brick-app
+docker build -t hhw-brick-app .
+docker run -p 8080:8080 hhw-brick-app
 
 # Access URL
 http://localhost:8080

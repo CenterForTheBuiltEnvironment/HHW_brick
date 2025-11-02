@@ -17,7 +17,7 @@ A simple app that:
 
 ## Prerequisites
 
-- HHWS Brick Application installed
+- HHW Brick Application installed
 - A Brick model file (e.g., `building_105.ttl`)
 - Basic Python knowledge
 
@@ -98,13 +98,13 @@ class HelloWorldApp(BaseApp):
 
 ```bash
 # List all apps (should show your new app)
-hhws-brick apps list
+hhw-brick apps list
 
 # Run your app
-hhws-brick apps run hello_world building_105.ttl
+hhw-brick apps run hello_world building_105.ttl
 
 # Run with JSON output
-hhws-brick apps run hello_world building_105.ttl -o results.json
+hhw-brick apps run hello_world building_105.ttl -o results.json
 ```
 
 ### Option B: Run in Python
@@ -272,7 +272,7 @@ def analyze(self, graph, building_name=None, **kwargs):
 ### To JSON
 
 ```bash
-hhws-brick apps run hello_world building_105.ttl -o results.json
+hhw-brick apps run hello_world building_105.ttl -o results.json
 ```
 
 Creates `results.json`:
@@ -336,7 +336,7 @@ pip install -e .
 
 ### Issue 3: App Not Listed
 
-**Problem**: `hhws-brick apps list` doesn't show your app
+**Problem**: `hhw-brick apps list` doesn't show your app
 
 **Solution**: Ensure @register_app decorator is used and file is in correct location.
 

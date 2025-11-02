@@ -1,10 +1,10 @@
 # Examples
 
-Practical code examples for using HHWS Brick Application.
+Practical code examples for using HHW Brick Application.
 
 ## Overview
 
-This section contains working code examples demonstrating how to use the HHWS Brick Application package. All examples use test data from `tests/fixtures/` to ensure they work out of the box.
+This section contains working code examples demonstrating how to use the HHW Brick Application package. All examples use test data from `tests/fixtures/` to ensure they work out of the box.
 
 ## Available Examples
 
@@ -112,5 +112,5 @@ For step-by-step learning, see:
 
 - Check the [FAQ](../faq.md) for common questions
 - Browse the [User Guide](../user-guide/conversion/index.md) for detailed documentation
-- Visit the [GitHub repository](https://github.com/yourusername/hhw-brick) for issues and discussions
+- Visit the [GitHub repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick) for issues and discussions
 

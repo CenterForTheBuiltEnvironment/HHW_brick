@@ -1,6 +1,6 @@
 # Documentation Development Guide
 
-This guide explains how to build and maintain the documentation for HHWS Brick Application.
+This guide explains how to build and maintain the documentation for HHW Brick Application.
 
 ## Documentation Stack
 

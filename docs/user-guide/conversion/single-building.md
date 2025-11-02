@@ -463,7 +463,7 @@ result.add((
 result.add((
     building_uri,
     HHWS.conversionTool,
-    Literal("HHWS Brick Application v0.2.0")
+    Literal("HHW Brick Application v0.2.0")
 ))
 
 # Save with custom metadata

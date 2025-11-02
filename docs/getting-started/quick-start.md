@@ -267,7 +267,7 @@ from hhw_brick import CSVToBrickConverter, BrickModelValidator
 from pathlib import Path
 
 def main():
-    print("HHWS Brick Application - Quick Start")
+    print("HHW Brick Application - Quick Start")
     print("=" * 50)
     
     # Step 1: Set up paths

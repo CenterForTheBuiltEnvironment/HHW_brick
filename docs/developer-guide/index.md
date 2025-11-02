@@ -1,6 +1,6 @@
 # Developer Guide
 
-Welcome to the HHWS Brick Application Developer Guide! This guide is for developers who want to extend the package or contribute to its development.
+Welcome to the HHW Brick Application Developer Guide! This guide is for developers who want to extend the package or contribute to its development.
 
 ## Overview
 
@@ -32,7 +32,7 @@ Learn how to create your own analytics applications.
 
 ### :material-source-pull: [Contributing](contributing/index.md)
 
-Contribute to the HHWS Brick Application project.
+Contribute to the HHW Brick Application project.
 
 - [Development Setup](contributing/setup.md) - Set up your environment
 - [Code Style](contributing/code-style.md) - Coding standards
@@ -218,8 +218,8 @@ apps.list_apps()  # Will include your app
 
 ## Resources
 
-- **Source Code**: [GitHub Repository](https://github.com/yourusername/hhw-brick)
-- **Issue Tracker**: [GitHub Issues](https://github.com/yourusername/hhw-brick/issues)
+- **Source Code**: [GitHub Repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick)
+- **Issue Tracker**: [GitHub Issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
 - **PyPI Package**: [hhw-brick](https://pypi.org/project/hhw-brick/)
 
 ---
@@ -227,7 +227,7 @@ apps.list_apps()  # Will include your app
 **Ready to build?** Start with [Package Architecture](architecture/index.md) or jump to [Developing Applications](developing-apps/index.md) →
 # Getting Started
 
-Welcome to HHWS Brick Application! This guide will help you get up and running quickly.
+Welcome to HHW Brick Application! This guide will help you get up and running quickly.
 
 ## What You'll Learn
 
@@ -248,7 +248,7 @@ Before you begin, make sure you have:
 
 ## Installation Overview
 
-The easiest way to install HHWS Brick Application is using pip:
+The easiest way to install HHW Brick Application is using pip:
 
 ```bash
 pip install hhw-brick
@@ -281,7 +281,7 @@ Ready to dive in? Choose your path:
 
 - :material-download: **[Install the Package](installation.md)**
 
-    Get HHWS Brick Application installed on your system
+    Get HHW Brick Application installed on your system
 
 - :material-flash: **[Quick Start Guide](quick-start.md)**
 
@@ -301,7 +301,7 @@ Ready to dive in? Choose your path:
 
 - Check the [FAQ](../faq.md) for common questions
 - Browse [Examples](../examples/index.md) for code samples
-- Visit our [GitHub repository](https://github.com/yourusername/hhw-brick) for issues and discussions
+- Visit our [GitHub repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick) for issues and discussions
 
 ---
 

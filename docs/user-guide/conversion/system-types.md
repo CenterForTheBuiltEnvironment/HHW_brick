@@ -1,10 +1,10 @@
 # System Types
 
-Understanding the different HVAC system types supported by HHWS Brick Application.
+Understanding the different HVAC system types supported by HHW Brick Application.
 
 ## Overview
 
-HHWS Brick Application supports **five main system types** for heating hot water systems. Each system type has different equipment configurations and Brick class mappings.
+HHW Brick Application supports **five main system types** for heating hot water systems. Each system type has different equipment configurations and Brick class mappings.
 
 ## Supported System Types
 

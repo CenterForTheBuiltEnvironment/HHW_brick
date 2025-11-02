@@ -1,4 +1,4 @@
-# App Developer Guide - HHWS Brick Application
+# App Developer Guide - HHW Brick Application
 
 **Version**: 1.0.0  
 **Last Updated**: October 22, 2025  
@@ -21,7 +21,7 @@
 
 ## 🎯 Introduction
 
-The HHWS Brick Application framework allows you to create custom analytics applications that analyze Brick models of hot water systems. This guide will teach you how to:
+The HHW Brick Application framework allows you to create custom analytics applications that analyze Brick models of hot water systems. This guide will teach you how to:
 
 - Create custom apps using the `BaseApp` class
 - Query Brick models using SPARQL
@@ -41,7 +41,7 @@ An **App** is a Python class that:
 - Python 3.8+
 - Basic understanding of Brick Schema
 - Familiarity with SPARQL (helpful but not required)
-- HHWS Brick Application installed
+- HHW Brick Application installed
 
 ---
 
@@ -77,7 +77,7 @@ User runs CLI → AppRunner → Your App → SPARQL Query → Brick Model
 
 ```python
 1. App is registered (via @register_app decorator or manual registration)
-2. User runs app via CLI: hhws-brick apps run <app_name> <model.ttl>
+2. User runs app via CLI: hhw-brick apps run <app_name> <model.ttl>
 3. AppRunner loads the Brick model
 4. AppRunner instantiates your app
 5. Your analyze() method is called
@@ -143,10 +143,10 @@ class MyFirstApp(BaseApp):
 
 ```bash
 # Run via CLI
-hhws-brick apps run my_first_app building_105.ttl
+hhw-brick apps run my_first_app building_105.ttl
 
 # Run with output file
-hhws-brick apps run my_first_app building_105.ttl -o results.json
+hhw-brick apps run my_first_app building_105.ttl -o results.json
 ```
 
 ### Step 3: Use in Python
@@ -570,7 +570,7 @@ python -c "from hhw_brick.analytics.core.base_app import BaseApp"
 
 ### Issue: App Not Discovered
 
-**Problem**: Your app doesn't appear in `hhws-brick apps list`
+**Problem**: Your app doesn't appear in `hhw-brick apps list`
 
 **Solutions**:
 1. Ensure you used `@register_app` decorator

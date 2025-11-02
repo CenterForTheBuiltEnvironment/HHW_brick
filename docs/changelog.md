@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to HHWS Brick Application will be documented in this file.
+All notable changes to HHW Brick Application will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -66,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - Initial Release
 
 ### Added
-- Initial release of HHWS Brick Application
+- Initial release of HHW Brick Application
 - CSV to Brick ontology conversion
 - Basic Brick model support
 - Preliminary validation tools
@@ -91,8 +91,8 @@ Example: `0.2.1`
 ## Links
 
 - [PyPI Package](https://pypi.org/project/hhw-brick/)
-- [GitHub Repository](https://github.com/yourusername/hhw-brick)
-- [Issue Tracker](https://github.com/yourusername/hhw-brick/issues)
+- [GitHub Repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick)
+- [Issue Tracker](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
 - [Documentation](https://yourusername.github.io/hhw-brick/)
 
 ---

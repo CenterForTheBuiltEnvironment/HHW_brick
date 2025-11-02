@@ -90,20 +90,20 @@ If you have questions about licensing, please:
 
 1. Check the [FAQ](faq.md)
 2. Review the full license text above
-3. [Open an issue](https://github.com/yourusername/hhw-brick/issues) on GitHub
+3. [Open an issue](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues) on GitHub
 
 ---
 
 **[Back to Home](index.md)**
 # Frequently Asked Questions
 
-Common questions and answers about HHWS Brick Application.
+Common questions and answers about HHW Brick Application.
 
 ## General Questions
 
-### What is HHWS Brick Application?
+### What is HHW Brick Application?
 
-HHWS Brick Application is a Python package for working with Brick ontology in heating hot water systems. It provides tools for converting CSV data to Brick models, validating models, and running analytics applications.
+HHW Brick Application is a Python package for working with Brick ontology in heating hot water systems. It provides tools for converting CSV data to Brick models, validating models, and running analytics applications.
 
 ### What is Brick?
 
@@ -239,7 +239,7 @@ Make sure the package is installed:
 pip install hhw-brick
 ```
 
-### "Command not found: hhws-brick"
+### "Command not found: hhw-brick"
 
 The CLI might not be in your PATH. Try:
 
@@ -323,7 +323,7 @@ See the [Contributing Guide](developer-guide/contributing/index.md) for:
 
 ### Where do I report bugs?
 
-[GitHub Issues](https://github.com/yourusername/hhw-brick/issues)
+[GitHub Issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
 
 ### Can I add my application to the package?
 
@@ -334,10 +334,10 @@ Yes! We welcome contributions of new analytics applications. See the [Pull Reque
 ## Still Have Questions?
 
 - **Check the documentation**: Browse the [User Guide](user-guide/index.md) or [Developer Guide](developer-guide/index.md)
-- **Search GitHub**: Look for similar [issues](https://github.com/yourusername/hhw-brick/issues)
-- **Ask the community**: Open a [discussion](https://github.com/yourusername/hhw-brick/discussions)
+- **Search GitHub**: Look for similar [issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
+- **Ask the community**: Open a [discussion](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/discussions)
 
 ---
 
-**Didn't find your answer?** [Open an issue](https://github.com/yourusername/hhw-brick/issues/new) on GitHub.
+**Didn't find your answer?** [Open an issue](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues/new) on GitHub.
 

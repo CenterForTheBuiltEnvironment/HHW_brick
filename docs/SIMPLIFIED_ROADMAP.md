@@ -1,4 +1,4 @@
-# 🎯 Simplified Development Roadmap - HHWS Brick Application
+# 🎯 Simplified Development Roadmap - HHW Brick Application
 
 **Date**: October 22, 2025  
 **Philosophy**: Core framework + Demo app + Developer docs → Community extends

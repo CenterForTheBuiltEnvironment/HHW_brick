@@ -1,6 +1,6 @@
 # User Guide
 
-Welcome to the HHWS Brick Application User Guide! This comprehensive guide covers all features and functionalities of the package.
+Welcome to the HHW Brick Application User Guide! This comprehensive guide covers all features and functionalities of the package.
 
 ## Overview
 

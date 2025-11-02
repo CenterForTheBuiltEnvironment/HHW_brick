@@ -136,7 +136,7 @@ Common relationships:
 
 ### What We Convert
 
-The HHWS Brick Application converts:
+The HHW Brick Application converts:
 
 ```
 CSV Data              →    Brick Model

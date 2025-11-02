@@ -4,7 +4,7 @@ Run analytics on validated Brick models to extract insights from building data.
 
 ## Overview
 
-HHWS Brick Application provides a **pluggable application framework** for running analytics on building systems. Applications are self-contained modules that:
+HHW Brick Application provides a **pluggable application framework** for running analytics on building systems. Applications are self-contained modules that:
 
 - **Qualify** buildings - Check if building has required sensors
 - **Analyze** data - Perform calculations and generate insights

@@ -1,6 +1,6 @@
 # Tutorials
 
-Step-by-step tutorials to master HHWS Brick Application.
+Step-by-step tutorials to master HHW Brick Application.
 
 ## Overview
 
@@ -89,7 +89,7 @@ We recommend following the tutorials in order for the best learning experience.
 
 Before starting the tutorials, make sure you have:
 
-- [x] Installed HHWS Brick Application
+- [x] Installed HHW Brick Application
 - [x] Basic Python knowledge
 - [x] Completed the [Quick Start Guide](../getting-started/quick-start.md)
 - [x] Familiarity with [Core Concepts](../getting-started/core-concepts.md)
@@ -119,8 +119,8 @@ If you get stuck during a tutorial:
 
 1. **Check the code** - All tutorials include complete working examples
 2. **Review the FAQ** - Common issues are documented in the [FAQ](../faq.md)
-3. **Search issues** - Look for similar problems on [GitHub](https://github.com/yourusername/hhw-brick/issues)
-4. **Ask for help** - Open a [discussion](https://github.com/yourusername/hhw-brick/discussions)
+3. **Search issues** - Look for similar problems on [GitHub](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
+4. **Ask for help** - Open a [discussion](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/discussions)
 
 ---
 
@@ -135,7 +135,7 @@ See the [Contributing Guide](../developer-guide/contributing/documentation.md) t
 **Ready to learn?** Start with [Building Your First Application](first-app.md) →
 # Examples
 
-Practical examples to help you get started with HHWS Brick Application.
+Practical examples to help you get started with HHW Brick Application.
 
 ## Overview
 

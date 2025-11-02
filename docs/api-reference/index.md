@@ -1,6 +1,6 @@
 # API Reference
 
-Complete API documentation for HHWS Brick Application.
+Complete API documentation for HHW Brick Application.
 
 ## Overview
 

@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="Figures/HHWS LOGO.png" alt="HHWS Brick Application Logo" width="150"/>
+<img src="Figures/HHWS LOGO.png" alt="HHW Brick Application Logo" width="150"/>
 
-<h1 style="margin-top: 1rem;">HHWS Brick Application</h1>
+<h1 style="margin-top: 1rem;">HHW Brick Application</h1>
 
 <p style="font-size: 1.2rem; color: #3f51b5; margin: 0.5rem 0; font-weight: 600;">
 Semantic Modeling & Analytics Toolkit for Hot Water Systems
@@ -15,7 +15,7 @@ Transform building hot water system data into standardized Brick models with aut
 <p>
   <a href="https://pypi.org/project/hhw-brick/"><img src="https://badge.fury.io/py/hhw-brick.svg" alt="PyPI version"></a>
   <a href="https://pypi.org/project/hhw-brick/"><img src="https://img.shields.io/pypi/pyversions/hhw-brick.svg" alt="Python"></a>
-  <a href="https://github.com/yourusername/hhw-brick/blob/main/LICENSE"><img src="https://img.shields.io/github/license/yourusername/hhw-brick.svg" alt="License"></a>
+  <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick/blob/main/LICENSE"><img src="https://img.shields.io/github/license/CenterForTheBuiltEnvironment/HHW_brick.svg" alt="License"></a>
 </p>
 
 <p style="margin-top: 1.5rem;">
@@ -27,11 +27,11 @@ Transform building hot water system data into standardized Brick models with aut
 
 ---
 
-## Why HHWS Brick Application?
+## Why HHW Brick Application?
 
 **A complete toolkit for hot water system analytics with portable applications and one-click deployment based on Brick ontology**
 
-HHWS Brick Application provides a specialized portable application framework designed specifically for building heating hot water systems. Built on Brick semantic standards, it enables automated data conversion, quality validation, and seamless deployment of analytics applications across different buildings.
+HHW Brick Application provides a specialized portable application framework designed specifically for building heating hot water systems. Built on Brick semantic standards, it enables automated data conversion, quality validation, and seamless deployment of analytics applications across different buildings.
 
 | Component | Description |
 |-----------|-------------|
@@ -251,9 +251,9 @@ pip install hhw-brick
     <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🔧</div>
     <h4 style="margin-top: 0;">Source Code</h4>
     <p style="margin-top: 0.8rem; font-size: 0.95rem;">
-      <a href="https://github.com/yourusername/hhw-brick">GitHub Repository</a><br/>
+      <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick">GitHub Repository</a><br/>
       <a href="examples/index.md">View Examples</a><br/>
-      <a href="https://github.com/yourusername/hhw-brick/issues">Report Issues</a>
+      <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues">Report Issues</a>
     </p>
   </div>
 

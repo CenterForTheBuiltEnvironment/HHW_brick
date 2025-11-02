@@ -39,7 +39,7 @@ if is_valid:
 
 ## Validation Types
 
-HHWS Brick Application provides three types of validation:
+HHW Brick Application provides three types of validation:
 
 ### 1. Ontology Validation
 
@@ -219,7 +219,7 @@ Based on `examples/02_ontology_validation.py` and `examples/03_point_count_valid
 ```python
 """
 Complete validation workflow
-Based on HHWS Brick Application examples
+Based on HHW Brick Application examples
 """
 
 from pathlib import Path

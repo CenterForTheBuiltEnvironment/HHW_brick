@@ -1,7 +1,7 @@
-// Custom JavaScript for HHWS Brick Application Documentation
+// Custom JavaScript for HHW Brick Application Documentation
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('HHWS Brick Application Documentation loaded');
+  console.log('HHW Brick Application Documentation loaded');
 
   // Add external link icon to all external links
   document.querySelectorAll('a[href^="http"]').forEach(function(link) {

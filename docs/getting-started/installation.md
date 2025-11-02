@@ -1,6 +1,6 @@
 # Installation
 
-Get HHWS Brick Application installed and ready to use.
+Get HHW Brick Application installed and ready to use.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ python --version
 
 ### Operating Systems
 
-HHWS Brick Application works on:
+HHW Brick Application works on:
 
 - ✅ Windows 10/11
 - ✅ macOS 10.15+
@@ -41,7 +41,7 @@ For the latest development version:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/hhw-brick.git
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
 cd hhw-brick
 
 # Install in editable mode
@@ -83,7 +83,7 @@ print(f"✓ Available apps: {apps.list_apps()}")
 
 ## Dependencies
 
-HHWS Brick Application automatically installs these dependencies:
+HHW Brick Application automatically installs these dependencies:
 
 ### Core Dependencies
 
@@ -180,7 +180,7 @@ For contributors and developers:
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/hhw-brick.git
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
 cd hhw-brick
 
 # Install development dependencies

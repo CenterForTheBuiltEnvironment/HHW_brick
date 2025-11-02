@@ -1,6 +1,6 @@
 # Getting Started
 
-Welcome to HHWS Brick Application! This guide will help you get up and running with converting heating hot water system data to Brick ontology format.
+Welcome to HHW Brick Application! This guide will help you get up and running with converting heating hot water system data to Brick ontology format.
 
 ## What You'll Learn
 
@@ -11,9 +11,9 @@ In this section, you'll learn:
 - Understanding [Brick ontology](understanding-brick.md)
 - [CSV data format](csv-format.md) requirements
 
-## What is HHWS Brick Application?
+## What is HHW Brick Application?
 
-HHWS Brick Application is a Python package that converts heating hot water system (HHWS) equipment data from CSV format into standardized Brick ontology models. It supports:
+HHW Brick Application is a Python package that converts heating hot water system (HHWS) equipment data from CSV format into standardized Brick ontology models. It supports:
 
 - **Multiple System Types**: Boiler, Condensing, Non-condensing, District HW, District Steam
 - **Batch Processing**: Convert hundreds of buildings at once
@@ -93,7 +93,7 @@ app = apps.load_app("secondary_loop_temp_diff")
 
 Ready to get started? Choose your path:
 
-- 📥 **[Install the Package](installation.md)** - Install HHWS Brick Application on your system
+- 📥 **[Install the Package](installation.md)** - Install HHW Brick Application on your system
 
 - ⚡ **[Quick Start Guide](quick-start.md)** - Convert your first building in 5 minutes
 
