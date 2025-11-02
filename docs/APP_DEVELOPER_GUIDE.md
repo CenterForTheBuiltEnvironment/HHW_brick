@@ -103,35 +103,35 @@ from rdflib import Namespace
 )
 class MyFirstApp(BaseApp):
     """A simple app that counts buildings in the model."""
-    
+
     def analyze(self, graph, building_name=None, **kwargs):
         """
         Analyze the Brick model.
-        
+
         Args:
             graph: rdflib.Graph - The loaded Brick model
             building_name: str - Optional building name filter
             **kwargs: Additional arguments
-            
+
         Returns:
             dict: Analysis results
         """
         # Define SPARQL query
         query = """
         PREFIX brick: <https://brickschema.org/schema/Brick#>
-        
+
         SELECT ?building
         WHERE {
             ?building a brick:Building .
         }
         """
-        
+
         # Execute query
         results = graph.query(query)
-        
+
         # Process results
         buildings = [str(row.building) for row in results]
-        
+
         # Return structured results
         return {
             'building_count': len(buildings),
@@ -182,7 +182,7 @@ print(f"Found {results['building_count']} buildings")
 def __init__(self, config=None):
     """
     Initialize the app.
-    
+
     Args:
         config (dict, optional): Configuration dictionary
     """
@@ -198,15 +198,15 @@ def __init__(self, config=None):
 def analyze(self, graph, building_name=None, **kwargs):
     """
     Analyze the Brick model.
-    
+
     Args:
         graph (rdflib.Graph): The loaded Brick model
         building_name (str, optional): Building name filter
         **kwargs: Additional arguments
-        
+
     Returns:
         dict: Analysis results
-        
+
     Raises:
         NotImplementedError: If not implemented by subclass
     """
@@ -218,10 +218,10 @@ def analyze(self, graph, building_name=None, **kwargs):
 def get_buildings(self, graph):
     """
     Get all buildings in the model.
-    
+
     Args:
         graph (rdflib.Graph): The Brick model
-        
+
     Returns:
         list: List of building URIs
     """
@@ -233,11 +233,11 @@ def get_buildings(self, graph):
 def get_points(self, graph, point_class=None):
     """
     Get all points in the model.
-    
+
     Args:
         graph (rdflib.Graph): The Brick model
         point_class (str, optional): Filter by point class
-        
+
     Returns:
         list: List of point URIs
     """
@@ -249,11 +249,11 @@ def get_points(self, graph, point_class=None):
 def get_equipment(self, graph, equipment_class=None):
     """
     Get all equipment in the model.
-    
+
     Args:
         graph (rdflib.Graph): The Brick model
         equipment_class (str, optional): Filter by equipment class
-        
+
     Returns:
         list: List of equipment URIs
     """
@@ -439,15 +439,15 @@ class MyApp(BaseApp):
     - What results it returns
     - Example usage
     """
-    
+
     def analyze(self, graph, **kwargs):
         """
         Clear docstring for analyze method.
-        
+
         Args:
             graph: The Brick model
             param1: What this parameter does
-            
+
         Returns:
             dict with keys:
             - 'key1': Description
@@ -482,14 +482,14 @@ def analyze(self, graph, **kwargs):
 @register_app(name="data_extractor")
 class DataExtractorApp(BaseApp):
     """Extract specific data from Brick model."""
-    
+
     def analyze(self, graph, **kwargs):
         # Query
         results = self._query_data(graph)
-        
+
         # Transform
         data = self._transform_results(results)
-        
+
         # Export-ready format
         return {
             'data': data,
@@ -503,15 +503,15 @@ class DataExtractorApp(BaseApp):
 @register_app(name="performance_analyzer")
 class PerformanceAnalyzerApp(BaseApp):
     """Calculate performance metrics."""
-    
+
     def analyze(self, graph, **kwargs):
         # Get data
         equipment = self._get_equipment(graph)
         points = self._get_points(graph)
-        
+
         # Calculate metrics
         metrics = self._calculate_metrics(equipment, points)
-        
+
         # Return analysis
         return {
             'metrics': metrics,
@@ -525,7 +525,7 @@ class PerformanceAnalyzerApp(BaseApp):
 @register_app(name="topology_validator")
 class TopologyValidatorApp(BaseApp):
     """Validate system topology."""
-    
+
     def analyze(self, graph, **kwargs):
         # Run checks
         checks = [
@@ -533,7 +533,7 @@ class TopologyValidatorApp(BaseApp):
             self._check_relationships(graph),
             self._check_completeness(graph)
         ]
-        
+
         # Aggregate results
         return {
             'valid': all(c['passed'] for c in checks),
@@ -612,4 +612,3 @@ Want to contribute your app to the project?
 **Questions?** Open an issue on GitHub or check the documentation.
 
 **Happy coding!** 🚀
-

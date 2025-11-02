@@ -15,7 +15,7 @@ def setup_logger(
     name: str,
     level: int = logging.INFO,
     log_file: Optional[str] = None,
-    format_string: Optional[str] = None
+    format_string: Optional[str] = None,
 ) -> logging.Logger:
     """
     Set up a logger with console and optional file output.
@@ -38,7 +38,7 @@ def setup_logger(
 
     # Default format
     if format_string is None:
-        format_string = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format_string = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
     formatter = logging.Formatter(format_string)
 
@@ -71,4 +71,3 @@ def get_logger(name: str) -> logging.Logger:
         Logger instance
     """
     return logging.getLogger(name)
-

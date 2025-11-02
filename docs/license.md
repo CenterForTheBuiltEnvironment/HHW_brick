@@ -340,4 +340,3 @@ Yes! We welcome contributions of new analytics applications. See the [Pull Reque
 ---
 
 **Didn't find your answer?** [Open an issue](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues/new) on GitHub.
-

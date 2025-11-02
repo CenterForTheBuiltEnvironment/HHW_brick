@@ -45,4 +45,3 @@ document.addEventListener('DOMContentLoaded', function() {
   text-align: center;
   margin: 1rem 0;
 }
-

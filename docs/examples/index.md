@@ -88,7 +88,7 @@ if is_valid:
     # Step 3: Analyze
     app = apps.load_app("secondary_loop_temp_diff")
     qualified, details = app.qualify("building_105.ttl")
-    
+
     if qualified:
         config = apps.get_default_config("secondary_loop_temp_diff")
         results = app.analyze(
@@ -113,4 +113,3 @@ For step-by-step learning, see:
 - Check the [FAQ](../faq.md) for common questions
 - Browse the [User Guide](../user-guide/conversion/index.md) for detailed documentation
 - Visit the [GitHub repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick) for issues and discussions
-

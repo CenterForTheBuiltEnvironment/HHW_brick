@@ -1,6 +1,6 @@
-# HHWS Brick Application Tests
+# HHW Brick Tests
 
-This directory contains the test suite for the HHWS Brick Application package.
+This directory contains the test suite for the HHW Brick package.
 
 ## Test Structure
 
@@ -48,7 +48,7 @@ pytest -v
 
 ### Run with coverage
 ```bash
-pytest --cov=hhws_brick_application --cov-report=html
+pytest --cov=hhw_brick --cov-report=html
 ```
 
 ## Test Categories
@@ -83,16 +83,16 @@ Common test fixtures are defined in `conftest.py`:
 ### Basic test structure
 ```python
 import pytest
-from hhws_brick_application import SomeClass
+from hhw_brick import SomeClass
 
 class TestSomeClass:
     """Test cases for SomeClass."""
-    
+
     def test_something(self):
         """Test that something works."""
         obj = SomeClass()
         assert obj is not None
-    
+
     def test_with_fixture(self, metadata_csv):
         """Test using a fixture."""
         obj = SomeClass(metadata_csv)
@@ -178,4 +178,3 @@ Tests for conversion, validation, analytics, and workflow modules.
 """
 
 __version__ = "0.2.0"
-

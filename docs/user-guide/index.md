@@ -54,7 +54,7 @@ graph LR
     A[CSV Data] -->|convert| B[Brick Model]
     B -->|validate| C[Validated Model]
     C -->|analyze| D[Results]
-    
+
     style A fill:#e1f5ff
     style B fill:#fff9c4
     style C fill:#c8e6c9
@@ -76,7 +76,7 @@ graph TD
     D -->|Yes| E[Run Analytics]
     D -->|No| F[Skip]
     E -->|Batch Process| G[Analysis Results]
-    
+
     style A fill:#e1f5ff
     style C fill:#c8e6c9
     style G fill:#f8bbd0
@@ -124,4 +124,3 @@ graph TD
 ---
 
 **Ready to start?** Pick a topic above or continue to [CSV to Brick Conversion](conversion/index.md) →
-

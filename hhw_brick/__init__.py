@@ -24,7 +24,7 @@ Main Components:
 Author: Mingchen Li
 """
 
-__version__ = "0.2.0"
+__version__ = "0.1.0"
 __author__ = "Mingchen Li"
 __email__ = "liwei74123@gmail.com"
 
@@ -56,15 +56,12 @@ from .applications.apps_manager import apps
 __all__ = [
     # Version
     "__version__",
-
     # Conversion (most common use case)
     "CSVToBrickConverter",
     "BatchConverter",
-
     # Validation
     "BrickModelValidator",
     "GroundTruthCalculator",
-
     # Analytics (simplified interface)
     "apps",
 ]

@@ -109,4 +109,3 @@ Ready to get started? Choose your path:
 ---
 
 **Let's begin!** Head over to [Installation](installation.md) →
-

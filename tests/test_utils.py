@@ -2,11 +2,8 @@
 Tests for utility modules.
 """
 
-import pytest
-import os
-from pathlib import Path
 
-from hhws_brick_application.utils import brick_query, logger, file_utils
+from hhw_brick.utils import brick_query, logger, file_utils
 
 
 class TestBrickQuery:
@@ -35,6 +32,7 @@ class TestLogger:
         """Test logger configuration."""
         # Check that we can get a logger
         import logging
+
         test_logger = logging.getLogger("test_hhws")
         assert test_logger is not None
 
@@ -50,4 +48,3 @@ class TestFileUtils:
         """Test that expected file utility functions exist."""
         module_attrs = dir(file_utils)
         assert len(module_attrs) > 0
-

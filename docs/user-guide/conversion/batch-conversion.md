@@ -311,13 +311,13 @@ batch = BatchConverter()
 
 for org in organizations:
     print(f"\nConverting buildings for: {org}")
-    
+
     # Get building IDs for this org
     org_buildings = metadata[metadata['org'] == org]['tag'].astype(str).tolist()
-    
+
     # Create org-specific output directory
     output_dir = f"brick_models/{org.replace(' ', '_')}"
-    
+
     # Convert
     results = batch.convert_all_buildings(
         metadata_csv="metadata.csv",
@@ -326,7 +326,7 @@ for org in organizations:
         building_tags=org_buildings,
         show_progress=True
     )
-    
+
     print(f"  Converted: {results['successful']}/{results['total']}")
 ```
 
@@ -354,13 +354,13 @@ logging.basicConfig(
 
 def production_conversion():
     """Production batch conversion with error handling."""
-    
+
     logging.info("Starting batch conversion")
-    
+
     # Set up paths
     output_dir = Path("brick_models_production")
     output_dir.mkdir(exist_ok=True)
-    
+
     try:
         # Convert
         batch = BatchConverter()
@@ -370,22 +370,22 @@ def production_conversion():
             output_dir=str(output_dir),
             show_progress=True
         )
-        
+
         # Log results
         logging.info(f"Conversion complete: {results['successful']}/{results['total']}")
         logging.info(f"Total triples created: {results['total_triples']:,}")
-        
+
         # Log by system type
         logging.info("Breakdown by system:")
         for system, count in results['by_system'].items():
             logging.info(f"  {system}: {count}")
-        
+
         # Log failures
         if results['failed'] > 0:
             logging.warning(f"{results['failed']} buildings failed:")
             for building_id in results['failed_buildings']:
                 logging.warning(f"  - Building {building_id}")
-        
+
         # Save results summary
         summary_file = output_dir / "conversion_summary.txt"
         with open(summary_file, 'w') as f:
@@ -394,10 +394,10 @@ def production_conversion():
             f.write(f"Successful: {results['successful']}\n")
             f.write(f"Failed: {results['failed']}\n")
             f.write(f"Total Triples: {results['total_triples']:,}\n")
-        
+
         logging.info(f"Summary saved to {summary_file}")
         return results
-        
+
     except FileNotFoundError as e:
         logging.error(f"Input file not found: {e}")
         return None
@@ -427,7 +427,7 @@ from pathlib import Path
 def convert_single_building(args):
     """Convert a single building (for use with multiprocessing)."""
     building_tag, metadata_csv, vars_csv, output_dir = args
-    
+
     try:
         converter = CSVToBrickConverter()
         result = converter.convert_to_brick(
@@ -442,33 +442,33 @@ def convert_single_building(args):
 
 def parallel_batch_conversion(metadata_csv, vars_csv, output_dir, num_workers=4):
     """Batch convert using multiple processes."""
-    
+
     # Get building IDs
     metadata = pd.read_csv(metadata_csv)
     building_ids = metadata['tag'].astype(str).tolist()
-    
+
     # Create output directory
     Path(output_dir).mkdir(exist_ok=True)
-    
+
     # Prepare arguments
     args = [
         (bid, metadata_csv, vars_csv, output_dir)
         for bid in building_ids
     ]
-    
+
     # Process in parallel
     with Pool(num_workers) as pool:
         results = pool.map(convert_single_building, args)
-    
+
     # Summarize
     successful = sum(1 for _, status, _ in results if status == 'success')
     failed = sum(1 for _, status, _ in results if status == 'failed')
-    
+
     print(f"Parallel conversion complete:")
     print(f"  Workers: {num_workers}")
     print(f"  Successful: {successful}")
     print(f"  Failed: {failed}")
-    
+
     return results
 
 # Use it
@@ -494,11 +494,11 @@ from pathlib import Path
 
 def incremental_conversion(metadata_csv, vars_csv, output_dir):
     """Convert only buildings not already in output directory."""
-    
+
     # Get all buildings
     metadata = pd.read_csv(metadata_csv)
     all_buildings = set(metadata['tag'].astype(str))
-    
+
     # Get already converted buildings
     output_path = Path(output_dir)
     if output_path.exists():
@@ -512,18 +512,18 @@ def incremental_conversion(metadata_csv, vars_csv, output_dir):
     else:
         converted = set()
         output_path.mkdir(exist_ok=True)
-    
+
     # Find new buildings
     new_buildings = all_buildings - converted
-    
+
     print(f"Total buildings: {len(all_buildings)}")
     print(f"Already converted: {len(converted)}")
     print(f"New buildings: {len(new_buildings)}")
-    
+
     if not new_buildings:
         print("No new buildings to convert")
         return
-    
+
     # Convert new buildings
     batch = BatchConverter()
     results = batch.convert_all_buildings(
@@ -533,7 +533,7 @@ def incremental_conversion(metadata_csv, vars_csv, output_dir):
         building_tags=list(new_buildings),
         show_progress=True
     )
-    
+
     print(f"\nConverted {results['successful']} new buildings")
     return results
 
@@ -597,11 +597,11 @@ results = batch.convert_all_buildings(...)
 
 if results['failed'] > 0:
     print(f"Failed buildings: {results['failed_buildings']}")
-    
+
     # Try converting failed buildings individually for debugging
     from hhw_brick import CSVToBrickConverter
     converter = CSVToBrickConverter()
-    
+
     for building_id in results['failed_buildings']:
         try:
             converter.convert_to_brick(
@@ -705,4 +705,3 @@ with open('conversion_log.json', 'w') as f:
 ---
 
 **Continue to:** [System Types](system-types.md) →
-

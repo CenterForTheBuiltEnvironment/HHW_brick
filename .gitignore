@@ -2,8 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyc
-*.pyo
 
 # C extensions
 *.so
@@ -22,13 +20,11 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
-*.whl
 
 # PyInstaller
 *.manifest
@@ -51,6 +47,8 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+cover/
+junit.xml
 
 # Translations
 *.mo
@@ -71,8 +69,10 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/.doctrees/
 
 # PyBuilder
+.pybuilder/
 target/
 
 # Jupyter Notebook
@@ -87,6 +87,12 @@ ipython_config.py
 
 # pipenv
 Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
 
 # PEP 582
 __pypackages__/
@@ -125,27 +131,103 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# pytype static type analyzer
+.pytype/
 
-# OS
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
 
 # Project specific
-*.ttl
-*.rdf
-*.owl
-!examples/**/*.ttl
-!tests/**/*.ttl
+*.ttl.bak
+*.csv.bak
+temp/
+tmp/
 output/
 results/
-temp/
-*.csv
-!examples/**/*.csv
-!tests/**/*.csv
+analysis_output/
+test_output/
+*.pickle
+*.pkl
 
+# Temporary Python scripts
+fix_bom.py
+remove_bom.py
+test_migration.py
+quick_start.py
+setup_precommit.py
+
+# Local development
+.local/
+local_config.yaml
+local_*.csv
+Env/
+
+# Generated reports (temporary, keep important ones)
+*_REPORT.md
+*_SUMMARY.md
+!MIGRATION_FIXES_REPORT.md
+架构分析与修复总结_CN.md
+COVERAGE_IMPROVEMENT_REPORT.md
+CODE_QUALITY_IMPROVEMENT_REPORT.md
+TEST_*.md
+TASK_COMPLETION_REPORT.md
+PRE_COMMIT_*.md
+VALIDATION_SUMMARY.md
+NEXT_STEPS.md
+QUICK_REFERENCE.md
+
+# Pre-commit cache
+.pre-commit-cache/
+!TEST_UPDATE_REPORT.md
+!TEST_EXECUTION_REPORT.md
+
+# Brick model outputs (development)
+building_*.ttl
+!tests/fixtures/Brick_Model_File/*.ttl
+
+# Data files (should not be committed)
+metadata.csv
+vars_available_by_building.csv
+ground_truth.csv
+!tests/fixtures/*.csv
+
+# MkDocs
+site/
+.cache/

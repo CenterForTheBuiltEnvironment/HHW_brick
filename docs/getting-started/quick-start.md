@@ -150,7 +150,7 @@ graph LR
     C -->|Map| D[Brick Classes]
     D -->|Generate| E[RDF Triples]
     E -->|Write| F[TTL File]
-    
+
     style A fill:#e1f5ff
     style F fill:#c8e6c9
 ```
@@ -269,12 +269,12 @@ from pathlib import Path
 def main():
     print("HHW Brick Application - Quick Start")
     print("=" * 50)
-    
+
     # Step 1: Set up paths
     metadata_csv = "metadata.csv"
     vars_csv = "vars_available_by_building.csv"
     output_file = "building_105.ttl"
-    
+
     # Step 2: Convert
     print("\n1. Converting building #105...")
     converter = CSVToBrickConverter()
@@ -285,25 +285,25 @@ def main():
         output_path=output_file
     )
     print(f"   ✓ Created {len(result)} RDF triples")
-    
+
     # Step 3: Validate
     print("\n2. Validating model...")
     validator = BrickModelValidator()
     is_valid, report = validator.validate_model(output_file)
-    
+
     if is_valid:
         print("   ✓ Model is valid!")
     else:
         print("   ⚠ Validation warnings (this is normal):")
         for w in report.get('warnings', [])[:3]:  # Show first 3
             print(f"     - {w}")
-    
+
     # Step 4: Summary
     print("\n3. Summary:")
     print(f"   - Input: {metadata_csv}, {vars_csv}")
     print(f"   - Output: {output_file}")
     print(f"   - Size: {Path(output_file).stat().st_size / 1024:.1f} KB")
-    
+
     print("\n✓ Quick start complete!")
     print("\nNext steps:")
     print("  - View the TTL file in a text editor")
@@ -316,7 +316,6 @@ if __name__ == "__main__":
 
 ---
 
-**Congratulations!** 🎉 You've completed the quick start. 
+**Congratulations!** 🎉 You've completed the quick start.
 
 Continue to [Understanding Brick](understanding-brick.md) or jump to [User Guide](../user-guide/conversion/index.md) →
-

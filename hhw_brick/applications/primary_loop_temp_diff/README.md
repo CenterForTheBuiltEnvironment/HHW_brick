@@ -129,7 +129,7 @@ results = analyze('model.ttl', 'data.csv', config)
 - `threshold_min_delta`: Minimum temperature differential (default: 2.0°C)
   - Below this value is considered anomalous
   - Primary loops typically need higher thresholds than secondary loops
-  
+
 - `threshold_max_delta`: Maximum temperature differential (default: 20.0°C)
   - Above this value is considered anomalous
 
@@ -250,7 +250,7 @@ if results:
   - Low load on the system
   - Boiler not operating efficiently
   - Excessive flow rate
-  
+
 - **ΔT > 20°C**: Possible issues:
   - Very high load
   - Flow rate too low
@@ -294,4 +294,3 @@ if results:
 ## License
 
 Part of the HHW Brick package.
-

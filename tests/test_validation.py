@@ -4,12 +4,13 @@ Tests for Brick model validation module.
 
 import pytest
 import os
+import pandas as pd
 from pathlib import Path
 
-from hhws_brick_application.validation.validator import BrickModelValidator
-from hhws_brick_application.validation.subgraph_pattern_validator import SubgraphPatternValidator
-from hhws_brick_application.validation.ground_truth_calculator import GroundTruthCalculator
-from hhws_brick_application.conversion.csv_to_brick import CSVToBrickConverter
+from hhw_brick.validation.validator import BrickModelValidator
+from hhw_brick.validation.subgraph_pattern_validator import SubgraphPatternValidator
+from hhw_brick.validation.ground_truth_calculator import GroundTruthCalculator
+from hhw_brick.conversion.csv_to_brick import CSVToBrickConverter
 
 
 @pytest.fixture
@@ -23,7 +24,7 @@ def sample_ttl_file(metadata_csv, vars_csv, temp_output_dir, sample_building_tag
         vars_csv=vars_csv,
         system_type="District HW",
         building_tag=sample_building_tag,
-        output_path=output_path
+        output_path=output_path,
     )
 
     return output_path
@@ -58,7 +59,7 @@ class TestBrickModelValidator:
         assert result is not None
         assert isinstance(result, dict)
         # Should have validation results
-        assert 'valid' in result or 'is_valid' in result
+        assert "valid" in result or "is_valid" in result
 
     def test_validate_nonexistent_file(self):
         """Test that validating non-existent file is handled gracefully."""
@@ -69,7 +70,9 @@ class TestBrickModelValidator:
 
         # Check that result indicates failure
         if result is not None:
-            assert result.get('valid') is False or result.get('is_valid') is False or 'error' in result
+            assert (
+                result.get("valid") is False or result.get("is_valid") is False or "error" in result
+            )
 
     def test_load_ground_truth_data(self, ground_truth_csv):
         """Test loading ground truth data."""
@@ -77,8 +80,7 @@ class TestBrickModelValidator:
             pytest.skip("ground_truth.csv not found")
 
         validator = BrickModelValidator(
-            ground_truth_csv_path=ground_truth_csv,
-            use_local_brick=False
+            ground_truth_csv_path=ground_truth_csv, use_local_brick=False
         )
 
         gt_data = validator._load_ground_truth_data()
@@ -93,8 +95,7 @@ class TestBrickModelValidator:
             pytest.skip("ground_truth.csv not found")
 
         validator = BrickModelValidator(
-            ground_truth_csv_path=ground_truth_csv,
-            use_local_brick=False
+            ground_truth_csv_path=ground_truth_csv, use_local_brick=False
         )
 
         # This method might not exist yet, wrap in try-except
@@ -103,6 +104,53 @@ class TestBrickModelValidator:
             assert result is not None
         except AttributeError:
             pytest.skip("validate_point_count method not implemented")
+
+    def test_validator_with_ground_truth(self, metadata_csv, vars_csv, temp_output_dir):
+        """Test validator with ground truth CSV."""
+        from hhw_brick import GroundTruthCalculator
+
+        # Generate ground truth
+        calculator = GroundTruthCalculator()
+        gt_path = os.path.join(temp_output_dir, "test_ground_truth.csv")
+        calculator.calculate(metadata_csv, vars_csv, gt_path)
+
+        # Create validator with ground truth
+        validator = BrickModelValidator(ground_truth_csv_path=gt_path, use_local_brick=True)
+
+        assert validator.ground_truth_csv_path == gt_path
+        assert validator._ground_truth_data is None  # Lazy loading
+
+    def test_create_brick_graph_local(self):
+        """Test creating brick graph with local schema."""
+        try:
+            validator = BrickModelValidator(use_local_brick=True)
+            graph = validator._create_brick_graph()
+
+            assert graph is not None
+            assert len(graph) > 0  # Should have loaded Brick schema
+        except FileNotFoundError:
+            pytest.skip("Local Brick schema not found")
+
+    def test_create_brick_graph_github(self):
+        """Test creating brick graph with GitHub schema."""
+        validator = BrickModelValidator(use_local_brick=False)
+        graph = validator._create_brick_graph()
+
+        assert graph is not None
+        # GitHub version should have loaded schema
+
+    def test_validate_multiple_models(self, sample_ttl_file, temp_output_dir):
+        """Test validating multiple models."""
+        validator = BrickModelValidator(use_local_brick=False)
+
+        # Validate multiple times to test reusability
+        results = []
+        for i in range(2):
+            result = validator.validate_ontology(sample_ttl_file)
+            results.append(result)
+
+        assert len(results) == 2
+        assert all("valid" in r or "is_valid" in r for r in results)
 
 
 class TestSubgraphPatternValidator:
@@ -133,10 +181,11 @@ class TestSubgraphPatternValidator:
             validator = SubgraphPatternValidator()
 
             # Check if patterns are loaded
-            if hasattr(validator, 'patterns'):
+            if hasattr(validator, "patterns"):
                 assert validator.patterns is not None
         except Exception as e:
             pytest.skip(f"Pattern loading not implemented: {e}")
+
 
 class TestGroundTruthCalculator:
     """Test cases for GroundTruthCalculator class."""
@@ -146,76 +195,104 @@ class TestGroundTruthCalculator:
         calculator = GroundTruthCalculator()
         assert calculator is not None
 
-    def test_calculate_point_counts_single(self, brick_model_fixtures):
-        """Test calculating point counts for a single building."""
-        if not brick_model_fixtures:
-            pytest.skip("No Brick model fixtures available")
-
+    def test_calculate_ground_truth(self, metadata_csv, vars_csv, temp_output_dir):
+        """Test calculating ground truth from CSV files."""
         calculator = GroundTruthCalculator()
-        model_file = brick_model_fixtures[0]
 
-        result = calculator.calculate_point_count(str(model_file))
+        output_path = os.path.join(temp_output_dir, "test_ground_truth.csv")
 
+        result = calculator.calculate(
+            metadata_csv=metadata_csv, vars_csv=vars_csv, output_csv=output_path
+        )
+
+        # Check result DataFrame
         assert result is not None
-        assert isinstance(result, dict)
-        assert 'building_tag' in result or 'total_points' in result
+        assert isinstance(result, pd.DataFrame)
+        assert len(result) > 0
 
-    def test_calculate_equipment_counts_single(self, brick_model_fixtures):
-        """Test calculating equipment counts for a single building."""
-        if not brick_model_fixtures:
-            pytest.skip("No Brick model fixtures available")
+        # Check required columns
+        required_columns = [
+            "tag",
+            "system",
+            "point_count",
+            "boiler_count",
+            "pump_count",
+            "weather_station_count",
+        ]
+        for col in required_columns:
+            assert col in result.columns
 
-        calculator = GroundTruthCalculator()
-        model_file = brick_model_fixtures[0]
+        # Check output file was created
+        assert os.path.exists(output_path)
 
-        result = calculator.calculate_equipment_count(str(model_file))
-
-        assert result is not None
-        assert isinstance(result, dict)
-
-    def test_batch_calculate_point_counts(self, brick_model_dir_fixture):
-        """Test batch calculating point counts."""
-        if not brick_model_dir_fixture:
-            pytest.skip("No Brick model directory available")
-
-        calculator = GroundTruthCalculator()
-
-        results = calculator.batch_calculate_point_counts(str(brick_model_dir_fixture))
-
-        assert results is not None
-        assert isinstance(results, (list, dict))
-        assert len(results) > 0
-
-    def test_batch_calculate_equipment_counts(self, brick_model_dir_fixture):
-        """Test batch calculating equipment counts."""
-        if not brick_model_dir_fixture:
-            pytest.skip("No Brick model directory available")
-
+    def test_ground_truth_data_types(self, metadata_csv, vars_csv, temp_output_dir):
+        """Test that ground truth data has correct types."""
         calculator = GroundTruthCalculator()
 
-        results = calculator.batch_calculate_equipment_counts(str(brick_model_dir_fixture))
+        output_path = os.path.join(temp_output_dir, "test_ground_truth_types.csv")
 
-        assert results is not None
-        assert isinstance(results, (list, dict))
-        assert len(results) > 0
+        result = calculator.calculate(
+            metadata_csv=metadata_csv, vars_csv=vars_csv, output_csv=output_path
+        )
 
-    def test_save_ground_truth(self, brick_model_dir_fixture, tmp_path):
-        """Test saving ground truth to CSV."""
-        if not brick_model_dir_fixture:
-            pytest.skip("No Brick model directory available")
+        # Check data types
+        assert result["tag"].dtype == object  # String
+        assert result["system"].dtype == object  # String
+        assert result["point_count"].dtype in [int, "int64", "int32"]
+        assert result["boiler_count"].dtype in [int, "int64", "int32"]
+        assert result["pump_count"].dtype in [int, "int64", "int32"]
+        assert result["weather_station_count"].dtype in [int, "int64", "int32"]
 
+    def test_ground_truth_non_negative_counts(self, metadata_csv, vars_csv, temp_output_dir):
+        """Test that all counts are non-negative."""
         calculator = GroundTruthCalculator()
 
-        # Calculate ground truth
-        point_counts = calculator.batch_calculate_point_counts(str(brick_model_dir_fixture))
-        equipment_counts = calculator.batch_calculate_equipment_counts(str(brick_model_dir_fixture))
+        output_path = os.path.join(temp_output_dir, "test_ground_truth_nonneg.csv")
 
-        # Save to CSV
-        output_file = tmp_path / "test_ground_truth.csv"
-        calculator.save_to_csv(point_counts, equipment_counts, str(output_file))
+        result = calculator.calculate(
+            metadata_csv=metadata_csv, vars_csv=vars_csv, output_csv=output_path
+        )
 
-        assert output_file.exists()
-        assert output_file.stat().st_size > 0
+        # All counts should be >= 0
+        assert (result["point_count"] >= 0).all()
+        assert (result["boiler_count"] >= 0).all()
+        assert (result["pump_count"] >= 0).all()
+        assert (result["weather_station_count"] >= 0).all()
+
+    def test_ground_truth_district_systems_no_boilers(
+        self, metadata_csv, vars_csv, temp_output_dir
+    ):
+        """Test that district systems have 0 boilers."""
+        calculator = GroundTruthCalculator()
+
+        output_path = os.path.join(temp_output_dir, "test_ground_truth_district.csv")
+
+        result = calculator.calculate(
+            metadata_csv=metadata_csv, vars_csv=vars_csv, output_csv=output_path
+        )
+
+        # Filter district systems
+        district_systems = result[result["system"].str.contains("district", case=False, na=False)]
+
+        if len(district_systems) > 0:
+            # District systems should have 0 boilers
+            assert (district_systems["boiler_count"] == 0).all()
+
+    def test_ground_truth_output_file_format(self, metadata_csv, vars_csv, temp_output_dir):
+        """Test that output CSV file is properly formatted."""
+        calculator = GroundTruthCalculator()
+
+        output_path = os.path.join(temp_output_dir, "test_ground_truth_format.csv")
+
+        calculator.calculate(metadata_csv=metadata_csv, vars_csv=vars_csv, output_csv=output_path)
+
+        # Read back the CSV
+        df_readback = pd.read_csv(output_path)
+
+        # Should have the same structure
+        assert len(df_readback) > 0
+        assert "tag" in df_readback.columns
+        assert "system" in df_readback.columns
 
 
 # Additional fixtures for GroundTruthCalculator tests
@@ -237,4 +314,3 @@ def brick_model_dir_fixture():
     if fixtures_dir.exists() and any(fixtures_dir.glob("*.ttl")):
         return fixtures_dir
     return None
-

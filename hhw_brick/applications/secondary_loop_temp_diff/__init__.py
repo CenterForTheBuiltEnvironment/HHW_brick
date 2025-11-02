@@ -15,4 +15,3 @@ Run directly: python app.py <brick_model.ttl> <data.csv>
 """
 
 __all__ = []
-

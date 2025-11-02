@@ -7,10 +7,9 @@ Provides unified interface to access Brick models and timeseries data in Final_T
 Allows App developers to conveniently access test data
 """
 
-import os
 import random
 from pathlib import Path
-from typing import List, Dict, Tuple, Optional, Union
+from typing import List, Dict, Optional
 import pandas as pd
 from rdflib import Graph, Namespace
 
@@ -63,27 +62,29 @@ class TestDataset:
         for file in self.brick_models_dir.glob("building_*.ttl"):
             # Extract building ID and system type
             stem = file.stem  # building_29_district_hw_z
-            parts = stem.split('_')
+            parts = stem.split("_")
 
             if len(parts) < 3:
                 continue
 
             building_id = parts[1]
-            file_system_type = '_'.join(parts[2:-1]) if len(parts) > 3 else parts[2]
+            file_system_type = "_".join(parts[2:-1]) if len(parts) > 3 else parts[2]
 
             # Filter system type
             if system_type and not file_system_type.startswith(system_type):
                 continue
 
-            buildings.append({
-                'id': building_id,
-                'system_type': file_system_type,
-                'organization': parts[-1] if len(parts) > 3 else 'unknown',
-                'brick_model': str(file),
-                'timeseries_data': self._get_timeseries_path(building_id)
-            })
+            buildings.append(
+                {
+                    "id": building_id,
+                    "system_type": file_system_type,
+                    "organization": parts[-1] if len(parts) > 3 else "unknown",
+                    "brick_model": str(file),
+                    "timeseries_data": self._get_timeseries_path(building_id),
+                }
+            )
 
-        return sorted(buildings, key=lambda x: int(x['id']))
+        return sorted(buildings, key=lambda x: int(x["id"]))
 
     def _get_timeseries_path(self, building_id: str) -> Optional[str]:
         """Get timeseries data path"""
@@ -102,7 +103,7 @@ class TestDataset:
         """
         buildings = self.list_buildings()
         for building in buildings:
-            if building['id'] == str(building_id):
+            if building["id"] == str(building_id):
                 return building
         return None
 
@@ -122,18 +123,18 @@ class TestDataset:
             return self._cache[cache_key]
 
         building = self.get_building(building_id)
-        if not building or not building['brick_model']:
+        if not building or not building["brick_model"]:
             return None
 
         g = Graph()
-        g.parse(building['brick_model'], format='turtle')
+        g.parse(building["brick_model"], format="turtle")
 
         self._cache[cache_key] = g
         return g
 
-    def load_timeseries(self, building_id: str,
-                       parse_dates: bool = True,
-                       set_index: bool = True) -> Optional[pd.DataFrame]:
+    def load_timeseries(
+        self, building_id: str, parse_dates: bool = True, set_index: bool = True
+    ) -> Optional[pd.DataFrame]:
         """
         Load timeseries data for building
 
@@ -151,22 +152,23 @@ class TestDataset:
             return self._cache[cache_key].copy()
 
         building = self.get_building(building_id)
-        if not building or not building['timeseries_data']:
+        if not building or not building["timeseries_data"]:
             return None
 
-        df = pd.read_csv(building['timeseries_data'])
+        df = pd.read_csv(building["timeseries_data"])
 
-        if parse_dates and 'datetime_UTC' in df.columns:
-            df['datetime_UTC'] = pd.to_datetime(df['datetime_UTC'])
+        if parse_dates and "datetime_UTC" in df.columns:
+            df["datetime_UTC"] = pd.to_datetime(df["datetime_UTC"])
 
-        if set_index and 'datetime_UTC' in df.columns:
-            df.set_index('datetime_UTC', inplace=True)
+        if set_index and "datetime_UTC" in df.columns:
+            df.set_index("datetime_UTC", inplace=True)
 
         self._cache[cache_key] = df
         return df.copy()
 
-    def get_sensor_columns(self, building_id: str,
-                          sensor_types: Optional[List[str]] = None) -> Dict[str, str]:
+    def get_sensor_columns(
+        self, building_id: str, sensor_types: Optional[List[str]] = None
+    ) -> Dict[str, str]:
         """
         Extract sensor to CSV column mapping from Brick model
 
@@ -186,7 +188,7 @@ class TestDataset:
         PREFIX ref: <https://brickschema.org/schema/Brick/ref#>
         PREFIX brick: <https://brickschema.org/schema/Brick#>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        
+
         SELECT ?sensor ?column WHERE {
             ?sensor ref:hasExternalReference ?ref .
             ?ref ref:hasTimeseriesId ?column .
@@ -209,20 +211,20 @@ class TestDataset:
             List of qualified buildings
         """
         # Automatically add PREFIX (if not present)
-        if 'PREFIX' not in sparql_query.upper():
+        if "PREFIX" not in sparql_query.upper():
             sparql_query = SPARQL_PREFIXES + sparql_query
 
         qualified_buildings = []
 
         for building in self.list_buildings():
             try:
-                g = self.load_brick_model(building['id'])
+                g = self.load_brick_model(building["id"])
                 if not g:
                     continue
 
                 results = list(g.query(sparql_query))
                 if results:
-                    building['query_results'] = results
+                    building["query_results"] = results
                     qualified_buildings.append(building)
             except Exception as e:
                 print(f"Querying building {building['id']} error occurred: {e}")
@@ -250,7 +252,7 @@ class TestDataset:
             >>> # df contains 'sup' and 'ret' columns
         """
         # Automatically add PREFIX
-        if 'PREFIX' not in sparql_query.upper():
+        if "PREFIX" not in sparql_query.upper():
             sparql_query = SPARQL_PREFIXES + sparql_query
 
         # Load Brick model
@@ -295,10 +297,9 @@ class TestDataset:
 
         return df_extracted
 
-    def sample_buildings(self,
-                        n: int = 5,
-                        system_type: Optional[str] = None,
-                        random_seed: Optional[int] = None) -> List[Dict]:
+    def sample_buildings(
+        self, n: int = 5, system_type: Optional[str] = None, random_seed: Optional[int] = None
+    ) -> List[Dict]:
         """
         Randomly sample n buildings
 
@@ -318,9 +319,9 @@ class TestDataset:
         n = min(n, len(buildings))
         return random.sample(buildings, n)
 
-    def sample_buildings_per_system(self,
-                                    n_per_system: int = 2,
-                                    random_seed: Optional[int] = None) -> Dict[str, List[Dict]]:
+    def sample_buildings_per_system(
+        self, n_per_system: int = 2, random_seed: Optional[int] = None
+    ) -> Dict[str, List[Dict]]:
         """
         Randomly sample n buildings for each system type
 
@@ -339,7 +340,7 @@ class TestDataset:
         # Group by system type
         by_system = {}
         for building in all_buildings:
-            system_type = building['system_type']
+            system_type = building["system_type"]
             if system_type not in by_system:
                 by_system[system_type] = []
             by_system[system_type].append(building)
@@ -363,7 +364,7 @@ class TestDataset:
             List of qualified buildings
         """
         # Build SPARQL query
-        sensor_types_str = ' '.join([f'brick:{st}' for st in sensor_types])
+        sensor_types_str = " ".join([f"brick:{st}" for st in sensor_types])
 
         query = f"""
         SELECT ?sensor WHERE {{
@@ -389,6 +390,7 @@ def get_dataset() -> TestDataset:
 
 # Convenience functions
 
+
 def list_buildings(system_type: Optional[str] = None) -> List[str]:
     """List all buildings"""
     return get_dataset().list_buildings(system_type)
@@ -409,7 +411,9 @@ def load_timeseries(building_id: str, **kwargs) -> Optional[pd.DataFrame]:
     return get_dataset().load_timeseries(building_id, **kwargs)
 
 
-def get_sensor_columns(building_id: str, sensor_types: Optional[List[str]] = None) -> Dict[str, str]:
+def get_sensor_columns(
+    building_id: str, sensor_types: Optional[List[str]] = None
+) -> Dict[str, str]:
     """Get sensor column mapping"""
     return get_dataset().get_sensor_columns(building_id, sensor_types)
 
@@ -428,15 +432,16 @@ def query_with_data(building_id: str, sparql_query: str) -> Optional[pd.DataFram
     return get_dataset().query_with_data(building_id, sparql_query)
 
 
-def sample_buildings(n: int = 5,
-                    system_type: Optional[str] = None,
-                    random_seed: Optional[int] = None) -> List[Dict]:
+def sample_buildings(
+    n: int = 5, system_type: Optional[str] = None, random_seed: Optional[int] = None
+) -> List[Dict]:
     """Randomly sample n buildings"""
     return get_dataset().sample_buildings(n, system_type, random_seed)
 
 
-def sample_per_system(n_per_system: int = 2,
-                     random_seed: Optional[int] = None) -> Dict[str, List[Dict]]:
+def sample_per_system(
+    n_per_system: int = 2, random_seed: Optional[int] = None
+) -> Dict[str, List[Dict]]:
     """Randomly sample n buildings for each system type"""
     return get_dataset().sample_buildings_per_system(n_per_system, random_seed)
 
@@ -448,18 +453,18 @@ def get_buildings_with_sensors(sensor_types: List[str]) -> List[Dict]:
 
 # Example usage
 if __name__ == "__main__":
-    print("="*80)
+    print("=" * 80)
     print("Test data module functionality demonstration")
-    print("="*80)
+    print("=" * 80)
 
     # 1. List buildings
     print("\n1. List all district_hw system buildings:")
-    buildings = list_buildings(system_type='district_hw')
+    buildings = list_buildings(system_type="district_hw")
     print(f"   Found {len(buildings)} buildings")
 
     # 2. Random sampling
     print("\n2. Randomly sample 3 buildings:")
-    sampled = sample_buildings(n=3, system_type='district_hw', random_seed=42)
+    sampled = sample_buildings(n=3, system_type="district_hw", random_seed=42)
     for b in sampled:
         print(f"   - Building {b['id']}: {b['system_type']}")
 
@@ -491,7 +496,7 @@ if __name__ == "__main__":
     # 5. query_with_data functionality (automatically associate data)
     print("\n5. use query_with_data automatically get sensor data:")
     if qualified:
-        building_id = qualified[0]['id']
+        building_id = qualified[0]["id"]
         print(f"   Testing Building {building_id}")
 
         # This query will automatically extract data from sup and ret columns
@@ -512,7 +517,6 @@ if __name__ == "__main__":
         else:
             print(f"   ✗ Unable to extract data")
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("Demonstration complete!")
-    print("="*80)
-
+    print("=" * 80)

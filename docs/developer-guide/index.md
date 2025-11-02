@@ -62,7 +62,7 @@ def qualify(brick_model: Graph) -> Tuple[bool, Dict]:
     # Implementation here
     return True, {"status": "qualified"}
 
-def analyze(brick_model: Graph, 
+def analyze(brick_model: Graph,
            timeseries_data: pd.DataFrame,
            config: Dict) -> Dict:
     """Run analysis on the building"""
@@ -91,7 +91,7 @@ graph TD
     G --> H{Tests Pass?}
     H -->|Yes| I[Deploy App]
     H -->|No| F
-    
+
     style A fill:#e1f5ff
     style I fill:#c8e6c9
 ```
@@ -156,7 +156,7 @@ def qualify(brick_model: Graph) -> Tuple[bool, Dict]:
     """Standard signature for all apps"""
     pass
 
-def analyze(brick_model: Graph, 
+def analyze(brick_model: Graph,
            timeseries_data: pd.DataFrame,
            config: Dict) -> Dict:
     """Standard signature for all apps"""
@@ -306,4 +306,3 @@ Ready to dive in? Choose your path:
 ---
 
 **Let's get started!** Head over to the [Installation Guide](installation.md) →
-

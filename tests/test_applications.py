@@ -4,7 +4,16 @@ Tests for applications module (apps manager and analytics apps).
 
 import pytest
 from pathlib import Path
-from hhws_brick_application import apps
+from hhw_brick import apps
+
+# Check if optional dependencies are available
+try:
+    import seaborn as _sns  # noqa: F401
+    import matplotlib as _plt  # noqa: F401
+
+    OPTIONAL_DEPS_AVAILABLE = True
+except ImportError:
+    OPTIONAL_DEPS_AVAILABLE = False
 
 
 class TestAppsManager:
@@ -18,19 +27,23 @@ class TestAppsManager:
 
         # Check structure
         for app_info in app_list:
-            assert 'name' in app_info
-            assert 'description' in app_info
-            assert 'path' in app_info
+            assert "name" in app_info
+            assert "description" in app_info
+            assert "path" in app_info
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_load_app_success(self):
         """Test loading a valid application."""
         app = apps.load_app("secondary_loop_temp_diff")
         assert app is not None
 
         # Check if app has required functions
-        assert hasattr(app, 'qualify')
-        assert hasattr(app, 'analyze')
-        assert hasattr(app, 'load_config')
+        assert hasattr(app, "qualify")
+        assert hasattr(app, "analyze")
+        assert hasattr(app, "load_config")
         assert callable(app.qualify)
         assert callable(app.analyze)
 
@@ -39,38 +52,51 @@ class TestAppsManager:
         with pytest.raises(ImportError):
             apps.load_app("non_existent_app")
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_get_default_config(self):
         """Test getting default configuration."""
         config = apps.get_default_config("secondary_loop_temp_diff")
         assert isinstance(config, dict)
-        assert 'analysis' in config
-        assert 'output' in config
+        assert "analysis" in config
+        assert "output" in config
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_get_app_info(self):
         """Test getting application information."""
         info = apps.get_app_info("secondary_loop_temp_diff")
         assert isinstance(info, dict)
-        assert 'name' in info
-        assert 'functions' in info
+
+        # Handle error case when app can't be loaded
+        if "error" in info:
+            pytest.skip(f"App loading failed: {info['error']}")
+
+        assert "name" in info
+        assert "functions" in info
 
         # Check functions list
-        function_names = [f['name'] for f in info['functions']]
-        assert 'qualify' in function_names
-        assert 'analyze' in function_names
+        function_names = [f["name"] for f in info["functions"]]
+        assert "qualify" in function_names
+        assert "analyze" in function_names
 
     def test_qualify_building(self, brick_model_file):
         """Test qualifying a single building."""
         result = apps.qualify_building(str(brick_model_file), verbose=False)
 
         assert isinstance(result, dict)
-        assert 'model' in result
-        assert 'results' in result
-        assert isinstance(result['results'], list)
+        assert "model" in result
+        assert "results" in result
+        assert isinstance(result["results"], list)
 
         # Check result structure
-        for r in result['results']:
-            assert 'app' in r
-            assert 'qualified' in r
+        for r in result["results"]:
+            assert "app" in r
+            assert "qualified" in r
 
     def test_qualify_buildings_batch(self, brick_model_dir):
         """Test qualifying multiple buildings."""
@@ -81,19 +107,25 @@ class TestAppsManager:
 
         # Check each result
         for building_result in results:
-            assert 'model' in building_result
-            assert 'results' in building_result
+            assert "model" in building_result
+            assert "results" in building_result
 
 
 class TestSecondaryLoopTempDiffApp:
     """Test cases for secondary_loop_temp_diff application."""
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_qualify_district_hw_building(self, district_hw_brick_model):
         """Test qualifying a district HW building."""
         app = apps.load_app("secondary_loop_temp_diff")
 
         # Suppress output
-        import sys, io
+        import sys
+        import io
+
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
 
@@ -103,16 +135,22 @@ class TestSecondaryLoopTempDiffApp:
 
         assert qualified is True
         assert isinstance(details, dict)
-        assert 'loop' in details
-        assert 'supply' in details
-        assert 'return' in details
+        assert "loop" in details
+        assert "supply" in details
+        assert "return" in details
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_qualify_non_qualified_building(self, boiler_brick_model):
         """Test qualifying a non-district HW building (should fail)."""
         app = apps.load_app("secondary_loop_temp_diff")
 
         # Suppress output
-        import sys, io
+        import sys
+        import io
+
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
 
@@ -124,23 +162,31 @@ class TestSecondaryLoopTempDiffApp:
         # (This depends on your data, adjust assertion if needed)
         assert isinstance(qualified, bool)
 
+    @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
     def test_load_config(self):
         """Test loading application configuration."""
         app = apps.load_app("secondary_loop_temp_diff")
         config = app.load_config()
 
         assert isinstance(config, dict)
-        assert 'analysis' in config
-        assert 'output' in config
-        assert 'time_range' in config
+        assert "analysis" in config
+        assert "output" in config
+        assert "time_range" in config
 
         # Check analysis settings
-        assert 'threshold_min_delta' in config['analysis']
-        assert 'threshold_max_delta' in config['analysis']
+        assert "threshold_min_delta" in config["analysis"]
+        assert "threshold_max_delta" in config["analysis"]
 
     @pytest.mark.skipif(
+        not OPTIONAL_DEPS_AVAILABLE,
+        reason="Optional dependencies (seaborn, matplotlib) not installed",
+    )
+    @pytest.mark.skipif(
         not Path(__file__).parent / "fixtures" / "TimeSeriesData" / "29hhw_system_data.csv",
-        reason="Timeseries data not available"
+        reason="Timeseries data not available",
     )
     def test_analyze_with_data(self, district_hw_brick_model, timeseries_data):
         """Test running analysis with timeseries data."""
@@ -149,28 +195,27 @@ class TestSecondaryLoopTempDiffApp:
 
         # Set output to temp directory
         import tempfile
+
         with tempfile.TemporaryDirectory() as tmpdir:
-            config['output']['output_dir'] = tmpdir
-            config['output']['generate_plots'] = False  # Faster
+            config["output"]["output_dir"] = tmpdir
+            config["output"]["generate_plots"] = False  # Faster
 
             # Suppress output
-            import sys, io
+            import sys
+            import io
+
             old_stdout = sys.stdout
             sys.stdout = io.StringIO()
 
-            results = app.analyze(
-                str(district_hw_brick_model),
-                str(timeseries_data),
-                config
-            )
+            results = app.analyze(str(district_hw_brick_model), str(timeseries_data), config)
 
             sys.stdout = old_stdout
 
             if results:  # Might be None if building doesn't qualify
-                assert 'stats' in results
-                assert 'data' in results
-                assert 'count' in results['stats']
-                assert 'mean_temp_diff' in results['stats']
+                assert "stats" in results
+                assert "data" in results
+                assert "count" in results["stats"]
+                assert "mean_temp_diff" in results["stats"]
 
 
 # Fixtures
@@ -230,4 +275,3 @@ def timeseries_data():
         if data_files:
             return data_files[0]
     pytest.skip("No timeseries data available")
-

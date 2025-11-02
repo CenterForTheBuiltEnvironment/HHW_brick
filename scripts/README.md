@@ -259,4 +259,3 @@ selected_files = select_representative_files(INPUT_DIR, max_per_type=2)
 - See `docs/` for full documentation
 - Brick Schema: https://brickschema.org/
 - REC Ontology: https://w3id.org/rec
-

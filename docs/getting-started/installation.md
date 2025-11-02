@@ -215,4 +215,3 @@ Now that you have the package installed:
 ---
 
 **Installation complete!** Continue to [Quick Start](quick-start.md) →
-

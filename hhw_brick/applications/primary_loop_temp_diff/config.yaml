@@ -33,4 +33,3 @@ time_range:
 
   # End time in YYYY-MM-DD format (null = use all data)
   end_time: null
-

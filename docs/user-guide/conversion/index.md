@@ -22,7 +22,7 @@ graph TD
     F -->|Link| G[Relationships]
     G -->|Generate| H[RDF Graph]
     H -->|Serialize| I[TTL File]
-    
+
     style A fill:#e1f5ff
     style I fill:#c8e6c9
 ```
@@ -426,7 +426,7 @@ logging.basicConfig(
 
 def convert_with_error_handling():
     batch = BatchConverter()
-    
+
     try:
         results = batch.convert_all_buildings(
             metadata_csv="metadata.csv",
@@ -434,17 +434,17 @@ def convert_with_error_handling():
             output_dir="brick_models/",
             show_progress=True
         )
-        
+
         # Log results
         logging.info(f"Converted {results['successful']} buildings")
-        
+
         if results['failed'] > 0:
             logging.warning(f"Failed: {results['failed']}")
             for building in results.get('failed_buildings', []):
                 logging.error(f"  - Building {building}")
-        
+
         return results
-        
+
     except FileNotFoundError as e:
         logging.error(f"Input file not found: {e}")
         return None
@@ -474,4 +474,3 @@ if __name__ == "__main__":
 ---
 
 **Continue to:** [Single Building Conversion](single-building.md) →
-

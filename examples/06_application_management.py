@@ -13,6 +13,7 @@ What you'll learn:
 from pathlib import Path
 from hhw_brick import apps
 
+
 def main():
     print("Example 6: Application Management")
     print("=" * 60)
@@ -28,9 +29,9 @@ def main():
         print(f"    {app_info['description']}")
 
         # Show core functions
-        info = apps.get_app_info(app_info['name'])
-        if info.get('functions'):
-            funcs = ', '.join([f['name'] for f in info['functions']])
+        info = apps.get_app_info(app_info["name"])
+        if info.get("functions"):
+            funcs = ", ".join([f["name"] for f in info["functions"]])
             print(f"    Functions: {funcs}")
         print()
 
@@ -58,16 +59,16 @@ def main():
     building_matrix = {}  # building -> list of qualified apps
 
     for building in batch_results:
-        building_name = Path(building['model']).stem
+        building_name = Path(building["model"]).stem
         building_matrix[building_name] = []
 
-        for r in building['results']:
-            app_name = r['app']
+        for r in building["results"]:
+            app_name = r["app"]
 
             if app_name not in app_matrix:
                 app_matrix[app_name] = []
 
-            if r['qualified']:
+            if r["qualified"]:
                 app_matrix[app_name].append(building_name)
                 building_matrix[building_name].append(app_name)
 
@@ -104,4 +105,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

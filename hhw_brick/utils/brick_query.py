@@ -7,8 +7,7 @@ Provides unified data loading and mapping functionality to simplify App developm
 """
 
 import pandas as pd
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple
 from rdflib import Graph, Namespace
 
 # Brick namespace
@@ -27,8 +26,7 @@ PREFIX unit: <http://qudt.org/vocab/unit/>
 """
 
 
-def load_data(brick_model_path: str,
-              timeseries_data_path: str) -> Tuple[Graph, pd.DataFrame]:
+def load_data(brick_model_path: str, timeseries_data_path: str) -> Tuple[Graph, pd.DataFrame]:
     """
     Load Brick model and timeseries data
 
@@ -41,24 +39,26 @@ def load_data(brick_model_path: str,
     """
     # Load Brick model
     g = Graph()
-    g.parse(brick_model_path, format='turtle')
+    g.parse(brick_model_path, format="turtle")
 
     # Load timeseries data
     df = pd.read_csv(timeseries_data_path)
 
     # Parse time column
-    if 'datetime_UTC' in df.columns:
-        df['datetime_UTC'] = pd.to_datetime(df['datetime_UTC'])
-        df.set_index('datetime_UTC', inplace=True)
+    if "datetime_UTC" in df.columns:
+        df["datetime_UTC"] = pd.to_datetime(df["datetime_UTC"])
+        df.set_index("datetime_UTC", inplace=True)
 
     return g, df
 
 
-def query_sensors(graph: Graph,
-                 sensor_types: List[str],
-                 equipment_type: Optional[str] = None,
-                 connection_property: str = 'hasPart',
-                 custom_query: Optional[str] = None) -> List[Tuple]:
+def query_sensors(
+    graph: Graph,
+    sensor_types: List[str],
+    equipment_type: Optional[str] = None,
+    connection_property: str = "hasPart",
+    custom_query: Optional[str] = None,
+) -> List[Tuple]:
     """
     Generic sensor query function
 
@@ -75,15 +75,15 @@ def query_sensors(graph: Graph,
     # If custom query provided, use it
     if custom_query:
         # Automatically add PREFIX (if not present)
-        if 'PREFIX' not in custom_query.upper():
+        if "PREFIX" not in custom_query.upper():
             custom_query = SPARQL_PREFIXES + custom_query
         return list(graph.query(custom_query))
 
     # Build VALUES clause
-    sensor_types_values = ' '.join([f'brick:{st}' for st in sensor_types])
+    sensor_types_values = " ".join([f"brick:{st}" for st in sensor_types])
 
     # Build query based on connection property
-    if connection_property == 'hasPart':
+    if connection_property == "hasPart":
         connection_pattern = "?equipment brick:hasPart ?sensor"
     else:
         connection_pattern = "?sensor brick:isPointOf ?equipment"
@@ -126,14 +126,14 @@ def get_sensor_column_name(sensor_uri: str) -> str:
         'sup'
     """
     # Extract last part
-    if '#' in sensor_uri:
-        local_name = sensor_uri.split('#')[-1]
+    if "#" in sensor_uri:
+        local_name = sensor_uri.split("#")[-1]
     else:
-        local_name = sensor_uri.split('/')[-1]
+        local_name = sensor_uri.split("/")[-1]
 
     # Extract part after last dot
-    if '.' in local_name:
-        return local_name.split('.')[-1]
+    if "." in local_name:
+        return local_name.split(".")[-1]
 
     return local_name
 
@@ -164,9 +164,9 @@ def get_sensor_column_from_ref(graph: Graph, sensor_uri: str) -> Optional[str]:
     return None
 
 
-def map_sensors_to_columns(graph: Graph,
-                           sensor_uris: List[str],
-                           dataframe: pd.DataFrame) -> Dict[str, str]:
+def map_sensors_to_columns(
+    graph: Graph, sensor_uris: List[str], dataframe: pd.DataFrame
+) -> Dict[str, str]:
     """
     Map sensor URI to DataFrame column names
 
@@ -198,9 +198,11 @@ def map_sensors_to_columns(graph: Graph,
     return mapping
 
 
-def extract_data_columns(dataframe: pd.DataFrame,
-                        column_mapping: Dict[str, str],
-                        rename_map: Optional[Dict[str, str]] = None) -> pd.DataFrame:
+def extract_data_columns(
+    dataframe: pd.DataFrame,
+    column_mapping: Dict[str, str],
+    rename_map: Optional[Dict[str, str]] = None,
+) -> pd.DataFrame:
     """
     Extract specified columns from DataFrame and rename
 
@@ -218,16 +220,15 @@ def extract_data_columns(dataframe: pd.DataFrame,
 
     # Rename
     if rename_map:
-        reverse_mapping = {v: rename_map.get(k, v)
-                          for k, v in column_mapping.items()}
+        reverse_mapping = {v: rename_map.get(k, v) for k, v in column_mapping.items()}
         df_extracted.rename(columns=reverse_mapping, inplace=True)
 
     return df_extracted
 
 
-def filter_time_range(dataframe: pd.DataFrame,
-                     start_time: Optional[str] = None,
-                     end_time: Optional[str] = None) -> pd.DataFrame:
+def filter_time_range(
+    dataframe: pd.DataFrame, start_time: Optional[str] = None, end_time: Optional[str] = None
+) -> pd.DataFrame:
     """
     Filter time range
 
@@ -244,7 +245,7 @@ def filter_time_range(dataframe: pd.DataFrame,
     if start_time:
         start = pd.to_datetime(start_time)
         # Handle timezone
-        if hasattr(df.index, 'tz') and df.index.tz is not None:
+        if hasattr(df.index, "tz") and df.index.tz is not None:
             if start.tz is None:
                 start = start.tz_localize(df.index.tz)
         df = df[df.index >= start]
@@ -252,7 +253,7 @@ def filter_time_range(dataframe: pd.DataFrame,
     if end_time:
         end = pd.to_datetime(end_time)
         # Handle timezone
-        if hasattr(df.index, 'tz') and df.index.tz is not None:
+        if hasattr(df.index, "tz") and df.index.tz is not None:
             if end.tz is None:
                 end = end.tz_localize(df.index.tz)
         df = df[df.index <= end]
@@ -262,7 +263,3 @@ def filter_time_range(dataframe: pd.DataFrame,
 
 # NOTE: App-specific sensor queries should be defined in each app,
 # not in this universal utility module.
-
-
-
-

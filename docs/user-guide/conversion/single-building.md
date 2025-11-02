@@ -342,7 +342,7 @@ building_ids = ["105", "106", "107", "108"]
 
 for building_id in building_ids:
     print(f"Converting building {building_id}...")
-    
+
     try:
         result = converter.convert_to_brick(
             metadata_csv="metadata.csv",
@@ -350,12 +350,12 @@ for building_id in building_ids:
             building_tag=building_id,
             output_path=f"output/building_{building_id}.ttl"
         )
-        
+
         print(f"  ✓ Success: {len(result)} triples")
-        
+
     except Exception as e:
         print(f"  ✗ Failed: {e}")
-    
+
     # Clear graph for next building
     converter.graph = converter.graph.__class__()
 ```
@@ -375,18 +375,18 @@ converter = CSVToBrickConverter()
 for _, building in metadata.iterrows():
     building_id = str(int(building['tag']))
     system = building['system']
-    
+
     # Only convert condensing systems
     if 'condensing' in system.lower():
         print(f"Converting {building_id} ({system})...")
-        
+
         result = converter.convert_to_brick(
             metadata_csv="metadata.csv",
             vars_csv="vars.csv",
             building_tag=building_id,
             output_path=f"condensing/building_{building_id}.ttl"
         )
-        
+
         print(f"  ✓ {len(result)} triples")
 ```
 
@@ -400,24 +400,24 @@ from hhw_brick import CSVToBrickConverter, BrickModelValidator
 
 def convert_and_validate(building_id):
     """Convert a building and validate the result."""
-    
+
     # Convert
     converter = CSVToBrickConverter()
     output_file = f"building_{building_id}.ttl"
-    
+
     result = converter.convert_to_brick(
         metadata_csv="metadata.csv",
         vars_csv="vars.csv",
         building_tag=building_id,
         output_path=output_file
     )
-    
+
     print(f"Converted: {len(result)} triples")
-    
+
     # Validate
     validator = BrickModelValidator()
     is_valid, report = validator.validate_model(output_file)
-    
+
     if is_valid:
         print("✓ Validation passed")
         return True, output_file
@@ -494,10 +494,10 @@ for building_id in ["105", "106", "107"]:
         building_tag=building_id,
         output_path=f"temp_{building_id}.ttl"
     )
-    
+
     # Add to combined graph
     combined += result
-    
+
     print(f"Added building {building_id}: {len(result)} triples")
 
 # Save combined graph
@@ -573,7 +573,7 @@ converter = CSVToBrickConverter()
 
 for building_id in range(105, 200):
     result = converter.convert_to_brick(...)
-    
+
     # Clear for next iteration
     converter.graph = converter.graph.__class__()
 ```
@@ -605,4 +605,3 @@ See [Batch Conversion](batch-conversion.md) for details.
 ---
 
 **Continue to:** [Batch Conversion](batch-conversion.md) →
-

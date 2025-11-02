@@ -83,7 +83,7 @@ graph LR
     HX -->|feeds| SL[Secondary Loop]
     B -->|has| PP[Primary Pump]
     SL -->|has| SP[Secondary Pump]
-    
+
     style B fill:#ff9800
     style HX fill:#2196f3
     style SL fill:#4caf50
@@ -107,7 +107,7 @@ graph LR
     HX -->|feeds| BL[Building<br/>Loop]
     DS -->|has| DM[District<br/>Meter]
     BL -->|has| BP[Building<br/>Pump]
-    
+
     style DS fill:#9c27b0
     style HX fill:#2196f3
     style BL fill:#4caf50
@@ -237,7 +237,7 @@ pattern_2_models = []
 
 for result in results:
     file_name = Path(result['ttl_file_path']).name
-    
+
     if result['matched']:
         pattern_2_models.append(file_name)
     else:
@@ -262,19 +262,19 @@ from hhw_brick.validation import SubgraphPatternValidator
 def validate_system_patterns():
     # Create validator
     validator = SubgraphPatternValidator()
-    
+
     # ===== Single Building Validation =====
     print("Single Building Pattern Validation")
     print("="*60)
-    
+
     building_file = "building_108_district_hw_aa.ttl"
-    
+
     # Check Pattern 2
     result = validator.check_pattern_2_district_system(building_file)
-    
+
     if result['matched']:
         print(f"✓ {building_file} matches Pattern 2 (District System)")
-        
+
         details = result['details']
         print("\nSystem Components:")
         print(f"  ✓ Building: {details['has_building']}")
@@ -282,36 +282,36 @@ def validate_system_patterns():
         print(f"  ✓ Secondary Loop: {details['has_secondary_loop']}")
         print(f"  ✓ Pumps: {details['pump_count']}")
         print(f"  ✓ Weather Station: {details['has_weather_station']}")
-        
+
         print("\nNo Boiler Components (correct for District):")
         print(f"  ✓ No Boiler: {not details['has_boiler']}")
         print(f"  ✓ No Primary Loop: {not details['has_primary_loop']}")
     else:
         print(f"✗ {building_file} does NOT match Pattern 2")
         print(f"  This is likely a Pattern 1 (Boiler System)")
-    
+
     # ===== Batch Validation =====
     print("\n" + "="*60)
     print("Batch Pattern Validation")
     print("="*60)
-    
+
     batch_results = validator.batch_validate_all_buildings(
         ttl_directory="brick_models/",
         max_workers=8
     )
-    
+
     # Analyze results
     total = len(batch_results)
     pattern_2_count = 0
     pattern_1_count = 0
     errors = 0
-    
+
     pattern_2_files = []
     pattern_1_files = []
-    
+
     for result in batch_results:
         file_name = Path(result['ttl_file_path']).name
-        
+
         if result.get('error'):
             errors += 1
         elif result['matched']:
@@ -320,25 +320,25 @@ def validate_system_patterns():
         else:
             pattern_1_count += 1
             pattern_1_files.append(file_name)
-    
+
     # Summary
     print(f"\nPattern Validation Summary:")
     print(f"  Total files: {total}")
     print(f"  Pattern 1 (Boiler Systems): {pattern_1_count}")
     print(f"  Pattern 2 (District Systems): {pattern_2_count}")
     print(f"  Errors: {errors}")
-    
+
     # Show samples
     if pattern_1_files:
         print(f"\nPattern 1 (Boiler) sample:")
         for file in pattern_1_files[:3]:
             print(f"  - {file}")
-    
+
     if pattern_2_files:
         print(f"\nPattern 2 (District) sample:")
         for file in pattern_2_files[:3]:
             print(f"  - {file}")
-    
+
     return batch_results
 
 if __name__ == "__main__":
@@ -354,35 +354,35 @@ Group models by their pattern:
 ```python
 def separate_by_pattern(model_dir):
     """Separate models into Pattern 1 and Pattern 2 directories."""
-    
+
     from pathlib import Path
     import shutil
-    
+
     validator = SubgraphPatternValidator()
-    
+
     # Create output directories
     pattern_1_dir = Path("pattern_1_boiler")
     pattern_2_dir = Path("pattern_2_district")
     pattern_1_dir.mkdir(exist_ok=True)
     pattern_2_dir.mkdir(exist_ok=True)
-    
+
     # Validate all
     results = validator.batch_validate_all_buildings(
         ttl_directory=model_dir,
         max_workers=8
     )
-    
+
     # Copy to appropriate directories
     for result in results:
         src = Path(result['ttl_file_path'])
-        
+
         if result['matched']:
             dst = pattern_2_dir / src.name
         else:
             dst = pattern_1_dir / src.name
-        
+
         shutil.copy(src, dst)
-    
+
     print(f"Pattern 1 (Boiler): {len(list(pattern_1_dir.glob('*.ttl')))} files")
     print(f"Pattern 2 (District): {len(list(pattern_2_dir.glob('*.ttl')))} files")
 
@@ -397,10 +397,10 @@ Only run certain analytics on matching patterns:
 ```python
 def run_pattern_specific_analytics(model_path, data, config):
     """Run analytics based on system pattern."""
-    
+
     validator = SubgraphPatternValidator()
     result = validator.check_pattern_2_district_system(model_path)
-    
+
     if result['matched']:
         # Pattern 2: District System
         print("Running district system analytics...")
@@ -409,7 +409,7 @@ def run_pattern_specific_analytics(model_path, data, config):
         # Pattern 1: Boiler System
         print("Running boiler system analytics...")
         app = apps.load_app("boiler_efficiency")
-    
+
     # Run appropriate analytics
     qualified, details = app.qualify(model_path)
     if qualified:
@@ -427,23 +427,23 @@ Generate detailed pattern validation report:
 ```python
 def generate_pattern_report(model_dir, output_file="pattern_report.csv"):
     """Generate CSV report of pattern validation."""
-    
+
     import pandas as pd
-    
+
     validator = SubgraphPatternValidator()
     results = validator.batch_validate_all_buildings(
         ttl_directory=model_dir,
         max_workers=8
     )
-    
+
     # Create report data
     report_data = []
     for result in results:
         file_name = Path(result['ttl_file_path']).name
         building_id = file_name.split('_')[1]  # Extract from filename
-        
+
         details = result.get('details', {})
-        
+
         report_data.append({
             'building_id': building_id,
             'file_name': file_name,
@@ -455,15 +455,15 @@ def generate_pattern_report(model_dir, output_file="pattern_report.csv"):
             'pump_count': details.get('pump_count', 0),
             'has_weather_station': details.get('has_weather_station', False)
         })
-    
+
     # Create DataFrame and save
     df = pd.DataFrame(report_data)
     df.to_csv(output_file, index=False)
-    
+
     print(f"Pattern report saved to: {output_file}")
     print(f"Total buildings: {len(df)}")
     print(df['pattern'].value_counts())
-    
+
     return df
 
 # Use it
@@ -596,7 +596,7 @@ results = validator.batch_validate_all_buildings("brick_models/")
 for result in results:
     pattern = "District" if result['matched'] else "Boiler"
     file_path = result['ttl_file_path']
-    
+
     # Store in database or metadata file
     save_metadata(file_path, pattern=pattern)
 ```
@@ -612,4 +612,3 @@ for result in results:
 **Validation documentation complete!** 🎉
 
 Continue to [Applications Guide](../applications/index.md) →
-

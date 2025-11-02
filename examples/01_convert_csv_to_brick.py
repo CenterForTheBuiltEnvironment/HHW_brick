@@ -14,6 +14,7 @@ What you'll learn:
 from pathlib import Path
 from hhw_brick import CSVToBrickConverter, BatchConverter
 
+
 def main():
     print("Example 1: CSV to Brick Conversion")
     print("=" * 60)
@@ -21,9 +22,9 @@ def main():
     # Prepare input data
     # The fixtures directory contains sample CSV data
     fixtures = Path(__file__).parent.parent / "tests" / "fixtures"
-    metadata_csv = fixtures / "metadata.csv"          # Building information
+    metadata_csv = fixtures / "metadata.csv"  # Building information
     vars_csv = fixtures / "vars_available_by_building.csv"  # Sensor/point data
-    output_dir = fixtures / "Brick_Model_File"        # Output directory
+    output_dir = fixtures / "Brick_Model_File"  # Output directory
     output_dir.mkdir(exist_ok=True)
 
     # ========================================================================
@@ -43,7 +44,7 @@ def main():
         metadata_csv=str(metadata_csv),
         vars_csv=str(vars_csv),
         building_tag=building_id,
-        output_path=str(output_dir / f"building_{building_id}_district_hw_z.ttl")
+        output_path=str(output_dir / f"building_{building_id}_district_hw_z.ttl"),
     )
 
     print(f"✓ Success!")
@@ -65,8 +66,8 @@ def main():
     results = batch_converter.convert_all_buildings(
         metadata_csv=str(metadata_csv),
         vars_csv=str(vars_csv),
-        output_dir=str(output_dir),   # Only convert this type
-        show_progress=True                   # Show progress bar
+        output_dir=str(output_dir),  # Only convert this type
+        show_progress=True,  # Show progress bar
     )
 
     print(f"\n✓ Success!")
@@ -74,9 +75,9 @@ def main():
     print(f"  - Total RDF triples: {results['total_triples']} statements")
 
     # Show generated files
-    if results.get('successful_files'):
+    if results.get("successful_files"):
         print(f"\n  Generated files:")
-        for file_path in results['successful_files']:
+        for file_path in results["successful_files"]:
             print(f"    - {Path(file_path).name}")
 
     # ========================================================================

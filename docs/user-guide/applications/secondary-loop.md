@@ -23,7 +23,7 @@ graph LR
     A --> M[Metrics]
     A --> P[Plots]
     A --> R[Reports]
-    
+
     style SS fill:#ff9800
     style SR fill:#2196f3
     style TD fill:#4caf50
@@ -63,14 +63,14 @@ qualified, details = app.qualify("building_105.ttl")
 if qualified:
     # Get config
     config = apps.get_default_config("secondary_loop_temp_diff")
-    
+
     # Run analysis
     results = app.analyze(
         brick_model_path="building_105.ttl",
         timeseries_data_path="building_105_data.csv",
         config=config
     )
-    
+
     # View results
     print(f"Mean Temp Diff: {results['summary']['mean_temp_diff']:.2f}°C")
     print(f"Max Temp Diff: {results['summary']['max_temp_diff']:.2f}°C")
@@ -125,7 +125,7 @@ SELECT ?equipment ?supply ?return WHERE {
     # Find secondary hot water loops
     ?equipment rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
     FILTER(CONTAINS(LCASE(STR(?equipment)), "secondary"))
-    
+
     # Find supply temperature sensor
     ?supply rdf:type/rdfs:subClassOf* ?supply_type .
     VALUES ?supply_type {
@@ -133,7 +133,7 @@ SELECT ?equipment ?supply ?return WHERE {
         brick:Leaving_Hot_Water_Temperature_Sensor
         brick:Hot_Water_Supply_Temperature_Sensor
     }
-    
+
     # Find return temperature sensor
     ?return rdf:type/rdfs:subClassOf* ?return_type .
     VALUES ?return_type {
@@ -141,7 +141,7 @@ SELECT ?equipment ?supply ?return WHERE {
         brick:Entering_Hot_Water_Temperature_Sensor
         brick:Hot_Water_Return_Temperature_Sensor
     }
-    
+
     # Both must be associated with the loop
     {
         ?equipment brick:hasPart ?supply .
@@ -208,7 +208,7 @@ graph TD
     E --> F[Compute Statistics]
     F --> G[Generate Plots]
     G --> H[Save Results]
-    
+
     style A fill:#e1f5ff
     style E fill:#fff9c4
     style H fill:#c8e6c9
@@ -373,7 +373,7 @@ if qualified:
         "building_105_data.csv",
         config
     )
-    
+
     # Print summary
     print("Analysis Summary:")
     for key, value in results['summary'].items():
@@ -424,24 +424,24 @@ data_dir = Path("timeseries_data")
 
 for model_file in model_dir.glob("*.ttl"):
     building_id = model_file.stem.split('_')[1]
-    
+
     # Qualify
     qualified, details = app.qualify(str(model_file))
-    
+
     if not qualified:
         continue
-    
+
     # Find data file
     data_file = data_dir / f"{building_id}_data.csv"
-    
+
     if not data_file.exists():
         continue
-    
+
     # Run analysis
     try:
         config['output']['output_dir'] = f"./results/building_{building_id}"
         results = app.analyze(str(model_file), str(data_file), config)
-        
+
         print(f"Building {building_id}:")
         print(f"  Mean temp diff: {results['summary']['mean_temp_diff']:.2f}°C")
     except Exception as e:
@@ -534,4 +534,3 @@ with open('analysis_config.yaml', 'w') as f:
 ---
 
 **Continue to:** [Primary Loop Temperature Difference](primary-loop.md) →
-

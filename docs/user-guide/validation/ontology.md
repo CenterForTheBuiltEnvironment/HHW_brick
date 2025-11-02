@@ -265,7 +265,7 @@ from hhw_brick import BatchConverter, BrickModelValidator
 
 def production_validation():
     """Convert and validate all buildings."""
-    
+
     # Step 1: Batch convert
     print("Converting buildings...")
     batch = BatchConverter()
@@ -275,9 +275,9 @@ def production_validation():
         output_dir="brick_models/",
         show_progress=True
     )
-    
+
     print(f"Converted {conversion_results['successful']} buildings")
-    
+
     # Step 2: Batch validate
     print("\nValidating models...")
     validator = BrickModelValidator(use_local_brick=True)
@@ -285,14 +285,14 @@ def production_validation():
         test_data_dir="brick_models/",
         max_workers=8
     )
-    
+
     # Step 3: Report
     print(f"\nValidation Results:")
     print(f"  Total: {validation_results['total_files']}")
     print(f"  Valid: {validation_results['passed_files']}")
     print(f"  Invalid: {validation_results['failed_files']}")
     print(f"  Accuracy: {validation_results['overall_accuracy']:.1f}%")
-    
+
     # Step 4: Handle failures
     if validation_results['failed_files'] > 0:
         print("\nFailed models:")
@@ -301,7 +301,7 @@ def production_validation():
                 print(f"  ✗ {Path(result['ttl_file_path']).name}")
                 for v in result.get('violations', [])[:3]:  # First 3
                     print(f"      - {v}")
-    
+
     return validation_results
 
 if __name__ == "__main__":
@@ -318,41 +318,41 @@ from pathlib import Path
 
 def validate_new_models(model_dir, cache_file=".validation_cache"):
     """Validate only new/changed models."""
-    
+
     # Load validation cache
     validated = set()
     if os.path.exists(cache_file):
         with open(cache_file, 'r') as f:
             validated = set(line.strip() for line in f)
-    
+
     # Find new models
     all_models = set(str(p) for p in Path(model_dir).glob("*.ttl"))
     new_models = all_models - validated
-    
+
     if not new_models:
         print("No new models to validate")
         return
-    
+
     print(f"Validating {len(new_models)} new models...")
-    
+
     validator = BrickModelValidator(use_local_brick=True)
-    
+
     # Validate new models
     newly_validated = []
     for model_path in new_models:
         result = validator.validate_ontology(model_path)
-        
+
         if result['valid']:
             newly_validated.append(model_path)
             print(f"✓ {Path(model_path).name}")
         else:
             print(f"✗ {Path(model_path).name}")
-    
+
     # Update cache
     with open(cache_file, 'a') as f:
         for model in newly_validated:
             f.write(f"{model}\n")
-    
+
     print(f"\nValidated {len(newly_validated)}/{len(new_models)} new models")
 
 # Use it
@@ -624,4 +624,3 @@ else:
 ---
 
 **Continue to:** [Ground Truth Validation](ground-truth.md) →
-

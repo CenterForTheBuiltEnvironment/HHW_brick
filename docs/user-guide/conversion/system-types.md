@@ -30,7 +30,7 @@ graph TD
     B -->|has point| RP[Return Temp]
     B -->|has point| F[Flow]
     B -->|feeds| P[Pump]
-    
+
     style B fill:#ff9800
     style P fill:#2196f3
 ```
@@ -70,7 +70,7 @@ graph LR
     HX -->|feeds| SL[Secondary<br/>Loop]
     B -->|has| PP[Primary<br/>Pump]
     SL -->|has| SP[Secondary<br/>Pump]
-    
+
     style B fill:#ff9800
     style HX fill:#2196f3
     style SL fill:#4caf50
@@ -163,7 +163,7 @@ graph LR
     HX -->|feeds| BL[Building<br/>Loop]
     DS -->|has| DM[District<br/>Meter]
     BL -->|has| BP[Building<br/>Pump]
-    
+
     style DS fill:#9c27b0
     style HX fill:#2196f3
     style BL fill:#4caf50
@@ -218,7 +218,7 @@ graph LR
     DST[District<br/>Steam] -->|feeds| SC[Steam<br/>Condenser/HX]
     SC -->|feeds| BL[Building<br/>HW Loop]
     SC -->|returns| CR[Condensate<br/>Return]
-    
+
     style DST fill:#9c27b0
     style SC fill:#ff5722
     style BL fill:#4caf50
@@ -474,7 +474,7 @@ for system in system_types:
         system_type=system,
         show_progress=True
     )
-    
+
     print(f"{system}: {results['successful']} buildings")
 ```
 
@@ -487,4 +487,3 @@ for system in system_types:
 ---
 
 **Continue to:** [Sensor Mapping](sensor-mapping.md) →
-

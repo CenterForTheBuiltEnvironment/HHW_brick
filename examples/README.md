@@ -64,5 +64,3 @@ graph = converter.convert_to_brick(
 - **Import errors**: Ensure package is installed (`pip install -e .`)
 - **File not found**: Run from project root
 - **Missing dependencies**: `pip install -r requirements.txt`
-
-

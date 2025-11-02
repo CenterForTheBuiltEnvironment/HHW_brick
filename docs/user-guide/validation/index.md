@@ -205,7 +205,7 @@ graph TD
     H --> A
     G -->|Yes| I[✓ Validated Models]
     I -->|Use in| J[Analytics Apps]
-    
+
     style A fill:#e1f5ff
     style I fill:#c8e6c9
     style E fill:#ffcdd2
@@ -236,7 +236,7 @@ def complete_workflow():
     vars_csv = "vars_available_by_building.csv"
     output_dir = Path("brick_models")
     ground_truth_csv = "ground_truth.csv"
-    
+
     # ===== Step 1: Convert CSV to Brick =====
     print("Step 1: Converting CSV to Brick...")
     batch = BatchConverter()
@@ -247,7 +247,7 @@ def complete_workflow():
         show_progress=True
     )
     print(f"✓ Converted {conversion_results['successful']} buildings")
-    
+
     # ===== Step 2: Generate Ground Truth =====
     print("\nStep 2: Generating ground truth...")
     calculator = GroundTruthCalculator()
@@ -257,43 +257,43 @@ def complete_workflow():
         output_csv=ground_truth_csv
     )
     print(f"✓ Ground truth generated for {len(ground_truth_df)} buildings")
-    
+
     # ===== Step 3: Validate Ontology (Batch) =====
     print("\nStep 3: Validating ontology...")
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_csv,
         use_local_brick=True
     )
-    
+
     ontology_results = validator.batch_validate_ontology(
         test_data_dir=str(output_dir),
         max_workers=8
     )
-    
+
     print(f"✓ Ontology validation:")
     print(f"  - Valid: {ontology_results['passed_files']}/{ontology_results['total_files']}")
     print(f"  - Accuracy: {ontology_results['overall_accuracy']:.1f}%")
-    
+
     # ===== Step 4: Validate Point Counts (Batch) =====
     print("\nStep 4: Validating point counts...")
     point_results = validator.batch_validate_point_count(
         test_data_dir=str(output_dir)
     )
-    
+
     print(f"✓ Point count validation:")
     print(f"  - Matched: {point_results['passed_files']}/{point_results['total_files']}")
     print(f"  - Accuracy: {point_results['overall_accuracy']:.1f}%")
-    
+
     # ===== Step 5: Validate Equipment Counts (Batch) =====
     print("\nStep 5: Validating equipment counts...")
     equipment_results = validator.batch_validate_equipment_count(
         test_data_dir=str(output_dir)
     )
-    
+
     print(f"✓ Equipment count validation:")
     print(f"  - Matched: {equipment_results['passed_files']}/{equipment_results['total_files']}")
     print(f"  - Accuracy: {equipment_results['overall_accuracy']:.1f}%")
-    
+
     # ===== Summary =====
     print("\n" + "="*60)
     print("Validation Summary")
@@ -302,21 +302,21 @@ def complete_workflow():
     print(f"Ontology valid: {ontology_results['passed_files']}")
     print(f"Point counts match: {point_results['passed_files']}")
     print(f"Equipment counts match: {equipment_results['passed_files']}")
-    
+
     # Overall success
     all_valid = (
         ontology_results['passed_files'] == conversion_results['successful'] and
         point_results['passed_files'] == conversion_results['successful'] and
         equipment_results['passed_files'] == conversion_results['successful']
     )
-    
+
     if all_valid:
         print("\n✓ All models validated successfully!")
         print("  Models are ready for analytics applications.")
     else:
         print("\n⚠ Some models have validation issues")
         print("  Review failed models before using in production.")
-    
+
     return {
         'conversion': conversion_results,
         'ontology': ontology_results,
@@ -360,27 +360,27 @@ Before deploying to analytics:
 ```python
 def is_model_ready(model_path, ground_truth_path):
     """Check if model is ready for production use."""
-    
+
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_path,
         use_local_brick=True
     )
-    
+
     # Check ontology
     ont_result = validator.validate_ontology(model_path)
     if not ont_result['valid']:
         return False, "Ontology validation failed"
-    
+
     # Check point counts
     point_result = validator.validate_point_count(model_path)
     if not point_result['success']:
         return False, "Point count mismatch"
-    
+
     # Check equipment counts
     equip_result = validator.validate_equipment_count(model_path)
     if not equip_result['overall_success']:
         return False, "Equipment count mismatch"
-    
+
     return True, "Model ready"
 
 # Use it
@@ -400,31 +400,31 @@ from datetime import datetime
 
 def validate_if_changed(model_path, ground_truth_path, cache_file=".validation_cache"):
     """Only validate if model changed since last check."""
-    
+
     # Get model modification time
     mod_time = os.path.getmtime(model_path)
-    
+
     # Check cache
     if os.path.exists(cache_file):
         with open(cache_file, 'r') as f:
             last_validated = float(f.read().strip())
-        
+
         if mod_time <= last_validated:
             print("Model unchanged, using cached validation result")
             return True
-    
+
     # Validate
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_path
     )
-    
+
     result = validator.validate_ontology(model_path)
-    
+
     # Update cache
     if result['valid']:
         with open(cache_file, 'w') as f:
             f.write(str(datetime.now().timestamp()))
-    
+
     return result['valid']
 ```
 
@@ -537,4 +537,3 @@ Or explore related topics:
 ---
 
 **Continue to:** [Ontology Validation](ontology.md) →
-

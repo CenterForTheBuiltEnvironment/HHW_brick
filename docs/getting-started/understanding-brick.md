@@ -34,7 +34,7 @@ Now software can automatically understand the data!
 
 ## Why Use Brick?
 
-### 1. **Interoperability** 
+### 1. **Interoperability**
 
 Share data between different systems:
 
@@ -43,7 +43,7 @@ graph LR
     A[Building A<br/>Brick Model] -->|Standard Format| C[Analytics Tool]
     B[Building B<br/>Brick Model] -->|Standard Format| C
     C -->|Insights| D[Results]
-    
+
     style A fill:#e1f5ff
     style B fill:#e1f5ff
     style C fill:#fff9c4
@@ -179,7 +179,7 @@ HHWS Application supports these system types:
 graph LR
     B[Boiler] -->|feeds| HX[Heat Exchanger]
     HX -->|feeds| SL[Secondary Loop]
-    
+
     style B fill:#ff9800
     style HX fill:#2196f3
     style SL fill:#4caf50
@@ -202,7 +202,7 @@ Similar to non-condensing but with:
 graph LR
     DS[District Supply] -->|feeds| HX[Heat Exchanger]
     HX -->|feeds| BL[Building Loop]
-    
+
     style DS fill:#9c27b0
     style HX fill:#2196f3
     style BL fill:#4caf50
@@ -311,7 +311,7 @@ def check_for_analysis(model):
         "brick:Hot_Water_Return_Temperature_Sensor",
         "brick:Water_Flow_Sensor"
     ]
-    
+
     for sensor_type in required:
         if not has_sensor(model, sensor_type):
             return False, f"Missing {sensor_type}"
@@ -369,4 +369,3 @@ The `+` means "one or more steps" - it follows the chain!
 ---
 
 **Next:** [Learn about CSV format requirements](csv-format.md) →
-

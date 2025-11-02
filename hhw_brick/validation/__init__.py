@@ -14,4 +14,3 @@ from .subgraph_pattern_validator import SubgraphPatternValidator
 from .ground_truth_calculator import GroundTruthCalculator
 
 __all__ = ["BrickModelValidator", "SubgraphPatternValidator", "GroundTruthCalculator"]
-

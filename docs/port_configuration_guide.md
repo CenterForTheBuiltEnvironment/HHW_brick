@@ -11,7 +11,7 @@ port: 8080  # Application listening port number
 
 #### 1. **Web Interface Access**
 - **Purpose**: Provides browser-based user interface
-- **Features**: 
+- **Features**:
   - CSV data upload and conversion
   - Brick model visualization
   - System status monitoring

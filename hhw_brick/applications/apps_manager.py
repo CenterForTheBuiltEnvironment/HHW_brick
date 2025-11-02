@@ -6,11 +6,11 @@ Provides a simple interface to discover and load analytics apps.
 
 Author: Mingchen Li
 """
-
+import sys
+import io
 import importlib
 from pathlib import Path
-from typing import List, Dict, Optional, Any
-import yaml
+from typing import Dict, List, Any
 
 
 class AppsManager:
@@ -50,17 +50,15 @@ class AppsManager:
 
         # Scan apps directory
         for app_path in self.apps_dir.iterdir():
-            if app_path.is_dir() and not app_path.name.startswith('_'):
+            if app_path.is_dir() and not app_path.name.startswith("_"):
                 # Check if app.py exists
                 app_file = app_path / "app.py"
                 if app_file.exists():
                     # Try to get description from __init__.py or app.py
                     description = self._get_app_description(app_path)
-                    apps.append({
-                        'name': app_path.name,
-                        'description': description,
-                        'path': str(app_path)
-                    })
+                    apps.append(
+                        {"name": app_path.name, "description": description, "path": str(app_path)}
+                    )
 
         return apps
 
@@ -107,24 +105,18 @@ class AppsManager:
         Returns:
             Default configuration dictionary
         """
-        app_path = self.apps_dir / app_name
-
         # Try to load config from app's load_config function
         try:
             app = self.load_app(app_name)
-            if hasattr(app, 'load_config'):
+            if hasattr(app, "load_config"):
                 return app.load_config()
-        except:
+        except (ImportError, AttributeError):
             pass
 
         # Return basic default config
         return {
-            'analysis': {},
-            'output': {
-                'save_results': True,
-                'output_dir': './results',
-                'generate_plots': True
-            }
+            "analysis": {},
+            "output": {"save_results": True, "output_dir": "./results", "generate_plots": True},
         }
 
     def get_app_info(self, app_name: str) -> Dict[str, Any]:
@@ -141,33 +133,32 @@ class AppsManager:
             app = self.load_app(app_name)
 
             info = {
-                'name': app_name,
-                'description': self._get_app_description(self.apps_dir / app_name),
-                'functions': []
+                "name": app_name,
+                "description": self._get_app_description(self.apps_dir / app_name),
+                "functions": [],
             }
 
             # Check if app defines __all__ for core functions
             # Otherwise fallback to common core functions
-            if hasattr(app, '__all__'):
+            if hasattr(app, "__all__"):
                 core_functions = app.__all__
             else:
                 # Default core functions if app doesn't define __all__
-                core_functions = ['qualify', 'analyze', 'load_config']
+                core_functions = ["qualify", "analyze", "load_config"]
 
             # List only core user-facing functions
             for attr_name in core_functions:
                 if hasattr(app, attr_name):
                     attr = getattr(app, attr_name)
                     if callable(attr):
-                        info['functions'].append({
-                            'name': attr_name,
-                            'doc': attr.__doc__ or 'No description'
-                        })
+                        info["functions"].append(
+                            {"name": attr_name, "doc": attr.__doc__ or "No description"}
+                        )
 
             return info
 
         except Exception as e:
-            return {'error': str(e)}
+            return {"error": str(e)}
 
     def _get_app_description(self, app_path: Path) -> str:
         """Extract app description from __init__.py or app.py."""
@@ -175,7 +166,7 @@ class AppsManager:
         init_file = app_path / "__init__.py"
         if init_file.exists():
             try:
-                with open(init_file, 'r', encoding='utf-8') as f:
+                with open(init_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
                     # Look for docstring
                     in_docstring = False
@@ -183,25 +174,25 @@ class AppsManager:
                         if '"""' in line or "'''" in line:
                             if not in_docstring:
                                 in_docstring = True
-                                desc = line.strip().replace('"""', '').replace("'''", '').strip()
+                                desc = line.strip().replace('"""', "").replace("'''", "").strip()
                                 if desc:
                                     return desc
                             else:
-                                return line.strip().replace('"""', '').replace("'''", '').strip()
-            except:
+                                return line.strip().replace('"""', "").replace("'''", "").strip()
+            except (OSError, UnicodeDecodeError):
                 pass
 
         # Try app.py
         app_file = app_path / "app.py"
         if app_file.exists():
             try:
-                with open(app_file, 'r', encoding='utf-8') as f:
+                with open(app_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
                     for line in lines[:20]:
-                        if line.strip() and not line.strip().startswith('#'):
+                        if line.strip() and not line.strip().startswith("#"):
                             if '"""' in line or "'''" in line:
-                                return line.strip().replace('"""', '').replace("'''", '').strip()
-            except:
+                                return line.strip().replace('"""', "").replace("'''", "").strip()
+            except (OSError, UnicodeDecodeError):
                 pass
 
         return "No description available"
@@ -223,20 +214,18 @@ class AppsManager:
                 if r['qualified']:
                     print(f"{r['app']}: Qualified")
         """
-        import sys
-        import io
 
         available_apps = self.list_apps()
         results = []
 
         for app_info in available_apps:
-            app_name = app_info['name']
+            app_name = app_info["name"]
             try:
                 # Load app
                 app = self.load_app(app_name)
 
                 # Check if app has qualify function
-                if hasattr(app, 'qualify'):
+                if hasattr(app, "qualify"):
                     # Suppress output if not verbose
                     if not verbose:
                         old_stdout = sys.stdout
@@ -248,33 +237,27 @@ class AppsManager:
                         if not verbose:
                             sys.stdout = old_stdout
 
-                    results.append({
-                        'app': app_name,
-                        'qualified': qualified,
-                        'details': details if qualified else None
-                    })
+                    results.append(
+                        {
+                            "app": app_name,
+                            "qualified": qualified,
+                            "details": details if qualified else None,
+                        }
+                    )
                 else:
-                    results.append({
-                        'app': app_name,
-                        'qualified': None,
-                        'details': None
-                    })
+                    results.append({"app": app_name, "qualified": None, "details": None})
             except Exception as e:
-                if not verbose and 'old_stdout' in locals():
+                if not verbose and "old_stdout" in locals():
                     sys.stdout = old_stdout  # Restore in case of error
-                results.append({
-                    'app': app_name,
-                    'qualified': False,
-                    'details': None,
-                    'error': str(e)
-                })
+                results.append(
+                    {"app": app_name, "qualified": False, "details": None, "error": str(e)}
+                )
 
-        return {
-            'model': brick_model_path,
-            'results': results
-        }
+        return {"model": brick_model_path, "results": results}
 
-    def qualify_buildings(self, brick_model_dir: str, verbose: bool = False) -> List[Dict[str, Any]]:
+    def qualify_buildings(
+        self, brick_model_dir: str, verbose: bool = False
+    ) -> List[Dict[str, Any]]:
         """
         Check multiple buildings against all available applications.
 
@@ -299,14 +282,16 @@ class AppsManager:
         # Find all TTL files
         if os.path.isdir(brick_model_dir):
             for file in os.listdir(brick_model_dir):
-                if file.endswith('.ttl'):
+                if file.endswith(".ttl"):
                     model_path = os.path.join(brick_model_dir, file)
                     result = self.qualify_building(model_path, verbose=verbose)
                     results.append(result)
 
         return results
+
+
 # Create singleton instance
 apps = AppsManager()
 
 # Export for easy access
-__all__ = ['apps', 'AppsManager']
+__all__ = ["apps", "AppsManager"]

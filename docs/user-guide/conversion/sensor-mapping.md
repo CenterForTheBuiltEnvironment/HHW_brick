@@ -381,7 +381,7 @@ for sensor, config in mapping.items():
         print(f"❌ {sensor}: missing brick_class")
     if 'description' not in config:
         print(f"⚠️  {sensor}: missing description (optional)")
-    
+
     # Check brick_class format
     if not config['brick_class'].startswith('brick:'):
         print(f"⚠️  {sensor}: brick_class should start with 'brick:'")
@@ -611,4 +611,3 @@ Test with sample data before production use.
 **Conversion documentation complete!** 🎉
 
 Continue to [Validation Guide](../validation/index.md) →
-

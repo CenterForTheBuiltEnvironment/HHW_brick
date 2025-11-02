@@ -10,7 +10,7 @@ A Python package for converting heating hot water system data to Brick Schema mo
 
 ## Description
 
-This package provides tools for converting building hot water system data to Brick Schema models and running portable analytics applications. 
+This package provides tools for converting building hot water system data to Brick Schema models and running portable analytics applications.
 
 **Core Contributions**:
 - **CSV-to-Brick Converter**: Automated conversion from tabular BMS data to Brick Schema 1.4 RDF models
@@ -38,7 +38,7 @@ pip install hhw-brick
 - Python 3.8 or higher
 - See `requirements.txt` for dependencies
 
-**Input Data**: 
+**Input Data**:
 For sample input data format, see: https://doi.org/10.5061/dryad.t4b8gtj8n
 
 ### Basic Workflow
@@ -229,4 +229,3 @@ Ground truth values (expected counts) are computed independently from the **inpu
 
 **Version**: 0.1.0  
 **Last Updated**: 2025-01-01
-

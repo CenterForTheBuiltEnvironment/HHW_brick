@@ -8,7 +8,6 @@ Provides CLI commands for CSV to Brick conversion, deployment operations, and mo
 import click
 import logging
 import sys
-from pathlib import Path
 
 from ..conversion.csv_to_brick import CSVToBrickConverter
 from ..conversion.batch_converter import BatchConverter
@@ -22,15 +21,13 @@ def setup_logging(verbose: bool = False):
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
         level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.StreamHandler(sys.stdout)
-        ]
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler(sys.stdout)],
     )
 
 
 @click.group()
-@click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
+@click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
 def cli(verbose):
     """HHW Brick CLI - Convert CSV to Brick, deploy applications, and validate models."""
     setup_logging(verbose)
@@ -58,13 +55,16 @@ def validate():
 # CONVERSION COMMANDS
 # ============================================================================
 
-@convert.command('single')
-@click.argument('metadata_csv', type=click.Path(exists=True))
-@click.argument('vars_csv', type=click.Path(exists=True))
-@click.option('--system-type', '-s', required=True, help='System type (e.g., Condensing, Non-condensing)')
-@click.option('--building-tag', '-b', required=True, help='Building identifier tag')
-@click.option('--output', '-o', type=click.Path(), help='Output TTL file path')
-@click.option('--validate', is_flag=True, help='Validate output Brick model after conversion')
+
+@convert.command("single")
+@click.argument("metadata_csv", type=click.Path(exists=True))
+@click.argument("vars_csv", type=click.Path(exists=True))
+@click.option(
+    "--system-type", "-s", required=True, help="System type (e.g., Condensing, Non-condensing)"
+)
+@click.option("--building-tag", "-b", required=True, help="Building identifier tag")
+@click.option("--output", "-o", type=click.Path(), help="Output TTL file path")
+@click.option("--validate", is_flag=True, help="Validate output Brick model after conversion")
 def convert_single(metadata_csv, vars_csv, system_type, building_tag, output, validate):
     """Convert a single building from CSV to Brick ontology format."""
     try:
@@ -74,18 +74,18 @@ def convert_single(metadata_csv, vars_csv, system_type, building_tag, output, va
         click.echo(f"  System Type: {system_type}")
 
         converter = CSVToBrickConverter()
-        
+
         if output:
             output_path = output
         else:
             output_path = f"building_{building_tag}_{system_type.lower()}.ttl"
-        
+
         converter.convert_to_brick(
             metadata_csv=metadata_csv,
             vars_csv=vars_csv,
             system_type=system_type,
             building_tag=building_tag,
-            output_path=output_path
+            output_path=output_path,
         )
 
         click.echo(f"✅ Conversion completed successfully!")
@@ -95,11 +95,11 @@ def convert_single(metadata_csv, vars_csv, system_type, building_tag, output, va
             click.echo("🔍 Validating converted model...")
             validator = BrickModelValidator()
             result = validator.validate_ontology(output_path)
-            if result['valid']:
+            if result["valid"]:
                 click.echo("✅ Model validation passed")
             else:
                 click.echo("❌ Model validation failed")
-                for error in result.get('errors', [])[:5]:
+                for error in result.get("errors", [])[:5]:
                     click.echo(f"  • {error}")
 
     except Exception as e:
@@ -107,11 +107,13 @@ def convert_single(metadata_csv, vars_csv, system_type, building_tag, output, va
         sys.exit(1)
 
 
-@convert.command('batch')
-@click.argument('metadata_csv', type=click.Path(exists=True))
-@click.argument('vars_csv', type=click.Path(exists=True))
-@click.option('--output-dir', '-o', default='Brick_Models_Output', help='Output directory for TTL files')
-@click.option('--validate', is_flag=True, help='Validate output models after conversion')
+@convert.command("batch")
+@click.argument("metadata_csv", type=click.Path(exists=True))
+@click.argument("vars_csv", type=click.Path(exists=True))
+@click.option(
+    "--output-dir", "-o", default="Brick_Models_Output", help="Output directory for TTL files"
+)
+@click.option("--validate", is_flag=True, help="Validate output models after conversion")
 def convert_batch(metadata_csv, vars_csv, output_dir, validate):
     """Batch convert multiple buildings from CSV to Brick format."""
     try:
@@ -122,9 +124,7 @@ def convert_batch(metadata_csv, vars_csv, output_dir, validate):
 
         batch_converter = BatchConverter()
         results = batch_converter.convert_all_buildings(
-            metadata_csv=metadata_csv,
-            vars_csv=vars_csv,
-            output_dir=output_dir
+            metadata_csv=metadata_csv, vars_csv=vars_csv, output_dir=output_dir
         )
 
         click.echo(f"\n✅ Batch conversion completed!")
@@ -132,10 +132,11 @@ def convert_batch(metadata_csv, vars_csv, output_dir, validate):
         click.echo(f"✅ Successful: {results.get('successful', 0)}")
         click.echo(f"❌ Failed: {results.get('failed', 0)}")
 
-        if validate and results.get('successful', 0) > 0:
+        if validate and results.get("successful", 0) > 0:
             click.echo("\n🔍 Validating converted models...")
-            validator = BrickModelValidator()
-            # Implement batch validation here if needed
+            # Batch validation can be implemented here if needed
+            # validator = BrickModelValidator()
+            pass
 
     except Exception as e:
         click.echo(f"❌ Batch conversion failed: {str(e)}", err=True)
@@ -146,9 +147,10 @@ def convert_batch(metadata_csv, vars_csv, output_dir, validate):
 # VALIDATION COMMANDS
 # ============================================================================
 
-@validate.command('ontology')
-@click.argument('ttl_file', type=click.Path(exists=True))
-@click.option('--output', '-o', help='Output report file path')
+
+@validate.command("ontology")
+@click.argument("ttl_file", type=click.Path(exists=True))
+@click.option("--output", "-o", help="Output report file path")
 def validate_ontology(ttl_file, output):
     """Validate Brick ontology compliance of a model."""
     try:
@@ -158,18 +160,19 @@ def validate_ontology(ttl_file, output):
         validator = BrickModelValidator()
         result = validator.validate_ontology(ttl_file)
 
-        if result['valid']:
+        if result["valid"]:
             click.echo("✅ Model is valid!")
             click.echo(f"📊 Total triples: {result.get('triple_count', 0)}")
         else:
             click.echo("❌ Model validation failed!")
             click.echo("\nErrors:")
-            for error in result.get('errors', []):
+            for error in result.get("errors", []):
                 click.echo(f"  • {error}")
 
         if output:
             import json
-            with open(output, 'w', encoding='utf-8') as f:
+
+            with open(output, "w", encoding="utf-8") as f:
                 json.dump(result, f, indent=2)
             click.echo(f"\n📄 Report saved to: {output}")
 
@@ -178,10 +181,10 @@ def validate_ontology(ttl_file, output):
         sys.exit(1)
 
 
-@validate.command('points')
-@click.argument('building_tag')
-@click.argument('ttl_file', type=click.Path(exists=True))
-@click.option('--output', '-o', help='Output report file path')
+@validate.command("points")
+@click.argument("building_tag")
+@click.argument("ttl_file", type=click.Path(exists=True))
+@click.option("--output", "-o", help="Output report file path")
 def validate_points(building_tag, ttl_file, output):
     """Validate point count for a specific building."""
     try:
@@ -197,20 +200,22 @@ def validate_points(building_tag, ttl_file, output):
         sys.exit(1)
 
 
-@validate.command('subgraph')
-@click.argument('ttl_file', type=click.Path(exists=True))
-@click.option('--pattern', '-p', help='Subgraph pattern to validate')
-@click.option('--output', '-o', help='Output report file path')
+@validate.command("subgraph")
+@click.argument("ttl_file", type=click.Path(exists=True))
+@click.option("--pattern", "-p", help="Subgraph pattern to validate")
+@click.option("--output", "-o", help="Output report file path")
 def validate_subgraph(ttl_file, pattern, output):
     """Validate subgraph patterns in a Brick model."""
     try:
         click.echo(f"🔍 Validating subgraph patterns...")
         click.echo(f"  Model: {ttl_file}")
 
-        validator = SubgraphPatternValidator()
         # TODO: Implement subgraph validation call
-        
-        click.echo("✅ Subgraph validation completed")
+        # from ..validation.subgraph_pattern_validator import SubgraphPatternValidator
+        # validator = SubgraphPatternValidator()
+        # validator.validate(...)
+
+        click.echo("⚠️  Subgraph validation not yet fully implemented")
 
     except Exception as e:
         click.echo(f"❌ Subgraph validation failed: {str(e)}", err=True)
@@ -221,9 +226,10 @@ def validate_subgraph(ttl_file, pattern, output):
 # DEPLOYMENT COMMANDS
 # ============================================================================
 
-@deploy.command('local')
-@click.argument('brick_file', type=click.Path(exists=True))
-@click.option('--port', '-p', default=8080, help='Port for local deployment')
+
+@deploy.command("local")
+@click.argument("brick_file", type=click.Path(exists=True))
+@click.option("--port", "-p", default=8080, help="Port for local deployment")
 def deploy_local(brick_file, port):
     """Deploy Brick model locally."""
     try:
@@ -243,13 +249,14 @@ def deploy_local(brick_file, port):
 # UTILITY COMMANDS
 # ============================================================================
 
-@cli.command('version')
+
+@cli.command("version")
 def version():
     """Show version information."""
     from .. import __version__
+
     click.echo(f"HHW Brick v{__version__}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()
-

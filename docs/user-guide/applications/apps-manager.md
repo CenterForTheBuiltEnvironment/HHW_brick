@@ -269,7 +269,7 @@ for building in batch_results:
     qualified_apps = [
         r['app'] for r in building['results'] if r['qualified']
     ]
-    
+
     if qualified_apps:
         print(f"{building_name}: {', '.join(qualified_apps)}")
     else:
@@ -291,31 +291,31 @@ from pathlib import Path
 
 def build_qualification_matrix(model_dir):
     """Build matrix of buildings vs applications."""
-    
+
     # Batch qualify
     batch_results = apps.qualify_buildings(model_dir)
-    
+
     # Initialize matrices
     app_to_buildings = {}  # app -> [buildings]
     building_to_apps = {}  # building -> [apps]
-    
+
     # Process results
     for building in batch_results:
         building_name = Path(building['model']).stem
         building_to_apps[building_name] = []
-        
+
         for result in building['results']:
             app_name = result['app']
-            
+
             # Initialize app entry
             if app_name not in app_to_buildings:
                 app_to_buildings[app_name] = []
-            
+
             # Record qualification
             if result['qualified']:
                 app_to_buildings[app_name].append(building_name)
                 building_to_apps[building_name].append(app_name)
-    
+
     return {
         'by_app': app_to_buildings,
         'by_building': building_to_apps,
@@ -352,42 +352,42 @@ from hhw_brick import apps
 
 def export_qualification_matrix(model_dir, output_csv):
     """Export qualification results to CSV."""
-    
+
     batch_results = apps.qualify_buildings(model_dir)
-    
+
     # Flatten results for CSV
     rows = []
     for building in batch_results:
         building_name = Path(building['model']).stem
-        
+
         for result in building['results']:
             rows.append({
                 'building': building_name,
                 'application': result['app'],
                 'qualified': result['qualified']
             })
-    
+
     # Create DataFrame
     df = pd.DataFrame(rows)
-    
+
     # Pivot for matrix view
     matrix = df.pivot(
         index='building',
         columns='application',
         values='qualified'
     )
-    
+
     # Save
     matrix.to_csv(output_csv)
     print(f"Saved qualification matrix to: {output_csv}")
-    
+
     # Summary
     print(f"\nSummary:")
     for app in matrix.columns:
         qualified_count = matrix[app].sum()
         total = len(matrix)
         print(f"  {app}: {qualified_count}/{total} buildings")
-    
+
     return matrix
 
 # Use it
@@ -410,33 +410,33 @@ from hhw_brick import apps
 def select_app_for_building(model_path, preferred_apps=None):
     """
     Select best app for a building.
-    
+
     Args:
         model_path: Path to Brick model
         preferred_apps: List of preferred app names (in priority order)
-    
+
     Returns:
         Tuple of (app_module, app_name) or (None, None)
     """
     # Get all available apps
     available = apps.list_apps()
-    
+
     # Set default preference
     if preferred_apps is None:
         preferred_apps = [a['name'] for a in available]
-    
+
     # Try apps in order of preference
     for app_name in preferred_apps:
         try:
             app = apps.load_app(app_name)
             qualified, details = app.qualify(model_path)
-            
+
             if qualified:
                 return app, app_name
         except Exception as e:
             print(f"Error loading {app_name}: {e}")
             continue
-    
+
     return None, None
 
 # Use it
@@ -485,20 +485,20 @@ from pathlib import Path
 
 def create_config_templates(output_dir):
     """Create config templates for all apps."""
-    
+
     output_path = Path(output_dir)
     output_path.mkdir(exist_ok=True)
-    
+
     available = apps.list_apps()
-    
+
     for app_info in available:
         app_name = app_info['name']
         config = apps.get_default_config(app_name)
-        
+
         config_file = output_path / f"{app_name}_config.yaml"
         with open(config_file, 'w') as f:
             yaml.dump(config, f, default_flow_style=False)
-        
+
         print(f"Created: {config_file}")
 
 # Use it
@@ -531,11 +531,11 @@ qualified, details = app.qualify("building_105.ttl")
 
 if not qualified:
     print("Building not qualified")
-    
+
     # Check details for reason
     if 'reason' in details:
         print(f"Reason: {details['reason']}")
-    
+
     if 'missing' in details:
         print(f"Missing: {details['missing']}")
 ```
@@ -613,4 +613,3 @@ except Exception as e:
 ---
 
 **Continue to:** [Secondary Loop Temperature Difference](secondary-loop.md) →
-

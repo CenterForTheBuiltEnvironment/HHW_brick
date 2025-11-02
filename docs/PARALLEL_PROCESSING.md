@@ -82,7 +82,7 @@ import multiprocessing
 
 # Use all available CPU cores
 results = validator.batch_validate_ontology(
-    test_data_dir, 
+    test_data_dir,
     max_workers=multiprocessing.cpu_count()
 )
 ```
@@ -93,4 +93,3 @@ results = validator.batch_validate_ontology(
 2. **Memory**: Each worker loads models independently, so high `max_workers` values may use significant memory
 3. **Optimal Value**: Generally, `CPU count - 1` or `CPU count / 2` works well
 4. **Progress Bar**: All methods show a `tqdm` progress bar during processing
-

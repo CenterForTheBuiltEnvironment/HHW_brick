@@ -345,7 +345,7 @@ def complete_ground_truth_workflow():
     vars_csv = "vars_available_by_building.csv"
     output_dir = Path("brick_models")
     ground_truth_csv = "ground_truth.csv"
-    
+
     # ===== Step 1: Convert CSV to Brick =====
     print("Step 1: Converting CSV to Brick...")
     batch = BatchConverter()
@@ -356,7 +356,7 @@ def complete_ground_truth_workflow():
         show_progress=True
     )
     print(f"✓ Converted {conversion_results['successful']} buildings")
-    
+
     # ===== Step 2: Generate Ground Truth =====
     print("\nStep 2: Generating ground truth...")
     calculator = GroundTruthCalculator()
@@ -366,7 +366,7 @@ def complete_ground_truth_workflow():
         output_csv=ground_truth_csv
     )
     print(f"✓ Ground truth for {len(ground_truth_df)} buildings")
-    
+
     # Show sample
     print("\n  Sample (first 3 buildings):")
     for _, row in ground_truth_df.head(3).iterrows():
@@ -374,33 +374,33 @@ def complete_ground_truth_workflow():
               f"{int(row['point_count'])} points, "
               f"{int(row['boiler_count'])} boilers, "
               f"{int(row['pump_count'])} pumps")
-    
+
     # ===== Step 3: Create Validator =====
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_csv,
         use_local_brick=True
     )
-    
+
     # ===== Step 4: Validate Point Counts =====
     print("\nStep 3: Validating point counts...")
     point_results = validator.batch_validate_point_count(
         test_data_dir=str(output_dir)
     )
-    
+
     print(f"✓ Point count validation:")
     print(f"  - Matched: {point_results['passed_files']}/{point_results['total_files']}")
     print(f"  - Accuracy: {point_results['overall_accuracy']:.1f}%")
-    
+
     # ===== Step 5: Validate Equipment Counts =====
     print("\nStep 4: Validating equipment counts...")
     equipment_results = validator.batch_validate_equipment_count(
         test_data_dir=str(output_dir)
     )
-    
+
     print(f"✓ Equipment count validation:")
     print(f"  - Matched: {equipment_results['passed_files']}/{equipment_results['total_files']}")
     print(f"  - Accuracy: {equipment_results['overall_accuracy']:.1f}%")
-    
+
     # ===== Step 6: Detailed Report for Failures =====
     if point_results['failed_files'] > 0:
         print("\nPoint count mismatches:")
@@ -411,7 +411,7 @@ def complete_ground_truth_workflow():
                 print(f"      Expected: {result['expected_point_count']}")
                 print(f"      Actual: {result['actual_point_count']}")
                 print(f"      Accuracy: {result['accuracy_percentage']:.1f}%")
-    
+
     # ===== Summary =====
     print("\n" + "="*60)
     print("Ground Truth Validation Summary")
@@ -419,19 +419,19 @@ def complete_ground_truth_workflow():
     print(f"Total buildings: {conversion_results['successful']}")
     print(f"Point counts matched: {point_results['passed_files']}")
     print(f"Equipment counts matched: {equipment_results['passed_files']}")
-    
+
     all_valid = (
         point_results['passed_files'] == conversion_results['successful'] and
         equipment_results['passed_files'] == conversion_results['successful']
     )
-    
+
     if all_valid:
         print("\n✓ All models complete and accurate!")
         print("  Ready for production use.")
     else:
         print("\n⚠ Some models have count mismatches")
         print("  Review conversion or source data.")
-    
+
     return {
         'conversion': conversion_results,
         'ground_truth': ground_truth_df,
@@ -512,10 +512,10 @@ for building_id in ["105", "106", "107"]:
         building_tag=building_id,
         output_path=f"building_{building_id}.ttl"
     )
-    
+
     # Validate immediately
     result = validator.validate_point_count(f"building_{building_id}.ttl")
-    
+
     if result['match']:
         print(f"✓ Building {building_id}: Complete")
     else:
@@ -527,18 +527,18 @@ for building_id in ["105", "106", "107"]:
 ```python
 def get_complete_models(model_dir, ground_truth_path):
     """Return list of models with 100% point count match."""
-    
+
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_path
     )
-    
+
     results = validator.batch_validate_point_count(test_data_dir=model_dir)
-    
+
     complete_models = []
     for result in results['individual_results']:
         if result['match']:  # 100% match
             complete_models.append(result['ttl_file_path'])
-    
+
     return complete_models
 
 # Use only complete models
@@ -557,13 +557,13 @@ Accept models above a certain accuracy threshold:
 ```python
 def get_acceptable_models(model_dir, ground_truth_path, threshold=95.0):
     """Return models with accuracy >= threshold."""
-    
+
     validator = BrickModelValidator(
         ground_truth_csv_path=ground_truth_path
     )
-    
+
     results = validator.batch_validate_point_count(test_data_dir=model_dir)
-    
+
     acceptable = []
     for result in results['individual_results']:
         if result['accuracy_percentage'] >= threshold:
@@ -571,7 +571,7 @@ def get_acceptable_models(model_dir, ground_truth_path, threshold=95.0):
                 'path': result['ttl_file_path'],
                 'accuracy': result['accuracy_percentage']
             })
-    
+
     return acceptable
 
 # Use models with 95%+ accuracy
@@ -713,4 +713,3 @@ if result['match']:  # Only accept 100% matches
 ---
 
 **Continue to:** [Subgraph Patterns](subgraph-patterns.md) →
-

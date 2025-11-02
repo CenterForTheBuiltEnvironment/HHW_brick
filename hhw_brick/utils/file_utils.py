@@ -26,9 +26,7 @@ def ensure_dir(path: Union[str, Path]) -> Path:
 
 
 def get_file_list(
-    directory: Union[str, Path],
-    pattern: str = "*",
-    recursive: bool = False
+    directory: Union[str, Path], pattern: str = "*", recursive: bool = False
 ) -> List[Path]:
     """
     Get list of files in a directory
@@ -55,11 +53,7 @@ def get_file_list(
     return [f for f in files if f.is_file()]
 
 
-def copy_file(
-    src: Union[str, Path],
-    dst: Union[str, Path],
-    create_dirs: bool = True
-) -> Path:
+def copy_file(src: Union[str, Path], dst: Union[str, Path], create_dirs: bool = True) -> Path:
     """
     Copy a file from source to destination
 
@@ -85,4 +79,3 @@ def copy_file(
 
     shutil.copy2(src_path, dst_path)
     return dst_path
-

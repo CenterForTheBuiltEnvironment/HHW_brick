@@ -321,4 +321,3 @@ Custom styles in `docs/stylesheets/extra.css`:
 ---
 
 Ready to start filling in content? Pick a page from the "To Be Written" list above!
-

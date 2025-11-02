@@ -72,7 +72,7 @@ Get from raw data to validated models in under 5 minutes:
 ```python
 from hhw_brick import CSVToBrickConverter
 from hhw_brick.validation import (
-    BrickModelValidator, 
+    BrickModelValidator,
     GroundTruthCalculator,
     SubgraphPatternValidator
 )
@@ -122,12 +122,12 @@ if ontology_result['valid'] and pattern_result['valid']:
     # Load and qualify application
     app = apps.load_app("secondary_loop_temp_diff")
     qualified, details = app.qualify("building_105.ttl")
-    
+
     if qualified:
         # Run analysis
         config = apps.get_default_config("secondary_loop_temp_diff")
         results = app.analyze("building_105.ttl", "105_data.csv", config)
-        
+
         # Results are automatically saved to output directory
         print(f"✓ Analysis complete!")
         print(f"✓ Results saved to: {config['output']['output_dir']}")
@@ -286,4 +286,3 @@ Transform your hot water system data into standardized Brick models
 <p style="margin: 0.3rem 0; font-style: italic;">Making building hot water system data standardized and analyzable</p>
 
 </div>
-

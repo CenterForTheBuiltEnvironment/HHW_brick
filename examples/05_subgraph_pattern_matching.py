@@ -141,7 +141,7 @@ Author: Mingchen Li
     print(f"""
   Pattern 1 (Boiler System): Primary Loop + Secondary Loop + Boiler(s)
   Pattern 2 (District System): Secondary Loop only, no Boiler
-  
+
   ✓ Successfully validated {total} buildings:
     - {pattern_1_count} Boiler Systems
     - {pattern_2_count} District Systems
@@ -151,4 +151,3 @@ Author: Mingchen Li
 
 if __name__ == "__main__":
     main()
-

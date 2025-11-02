@@ -49,4 +49,3 @@ exclude .gitignore
 exclude .pypirc.example
 exclude publish.bat
 exclude publish.ps1
-

@@ -21,5 +21,4 @@ Author: Mingchen Li
 
 from .apps_manager import apps, AppsManager
 
-__all__ = ['apps', 'AppsManager']
-
+__all__ = ["apps", "AppsManager"]

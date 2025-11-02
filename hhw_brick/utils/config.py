@@ -37,7 +37,7 @@ class Config:
         Returns:
             Configuration value or default
         """
-        keys = key.split('.')
+        keys = key.split(".")
         value = self._config
 
         for k in keys:
@@ -59,7 +59,7 @@ class Config:
             key: Configuration key (supports dot notation)
             value: Value to set
         """
-        keys = key.split('.')
+        keys = key.split(".")
         config = self._config
 
         for k in keys[:-1]:
@@ -100,13 +100,14 @@ def load_config(config_file: str) -> Config:
 
     suffix = config_path.suffix.lower()
 
-    if suffix == '.json':
-        with open(config_path, 'r', encoding='utf-8') as f:
+    if suffix == ".json":
+        with open(config_path, "r", encoding="utf-8") as f:
             config_dict = json.load(f)
-    elif suffix in ['.yaml', '.yml']:
+    elif suffix in [".yaml", ".yml"]:
         try:
             import yaml
-            with open(config_path, 'r', encoding='utf-8') as f:
+
+            with open(config_path, "r", encoding="utf-8") as f:
                 config_dict = yaml.safe_load(f)
         except ImportError:
             raise ImportError(
@@ -117,4 +118,3 @@ def load_config(config_file: str) -> Config:
         raise ValueError(f"Unsupported configuration file format: {suffix}")
 
     return Config(config_dict)
-

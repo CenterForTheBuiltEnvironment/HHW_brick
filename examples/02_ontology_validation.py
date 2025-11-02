@@ -32,7 +32,7 @@ def main():
 
     # Select one model to validate
     model_file = brick_model_dir / "building_29_district_hw_z.ttl"
-    
+
     if not model_file.exists():
         print(f"\n✗ Error: Model file not found: {model_file}")
         print(f"  Please run Example 1 first to generate Brick models.")
@@ -42,7 +42,7 @@ def main():
 
     # Create validator with local Brick schema
     validator = BrickModelValidator(use_local_brick=True)
-    
+
     # Validate the model
     result = validator.validate_ontology(str(model_file))
 
@@ -63,7 +63,7 @@ def main():
 
     # Find all TTL files in the directory
     ttl_files = list(brick_model_dir.glob("*.ttl"))
-    
+
     if not ttl_files:
         print(f"\n✗ No TTL files found in {brick_model_dir}")
         return
@@ -80,7 +80,7 @@ def main():
 
     # Show summary
     print(f"\n✓ Validation complete!")
-    
+
     total = batch_result.get('total_files', 0)
     passed = batch_result.get('passed_files', 0)
     failed = batch_result.get('failed_files', 0)

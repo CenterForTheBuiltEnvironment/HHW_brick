@@ -41,14 +41,14 @@ qualified, details = app.qualify("building_105.ttl")
 if qualified:
     # Step 3: Load configuration
     config = apps.get_default_config("secondary_loop_temp_diff")
-    
+
     # Step 4: Run analysis
     results = app.analyze(
         brick_model_path="building_105.ttl",
         timeseries_data_path="building_105_data.csv",
         config=config
     )
-    
+
     print(f"Analysis complete: {results['summary']}")
 ```
 
@@ -128,7 +128,7 @@ graph TD
     E -->|apps.get_default_config| F[Run Analysis]
     F -->|app.analyze| G[Generate Results]
     G --> H[Save Outputs]
-    
+
     style A fill:#e1f5ff
     style C fill:#fff9c4
     style G fill:#c8e6c9
@@ -149,76 +149,76 @@ import yaml
 
 def run_application_workflow(building_id, app_name):
     """Complete workflow for running an application."""
-    
+
     # Paths
     model_file = f"brick_models/building_{building_id}.ttl"
     data_file = f"timeseries_data/{building_id}_data.csv"
-    
+
     print(f"Running {app_name} on building {building_id}")
     print("="*60)
-    
+
     # ===== Step 1: Load Application =====
     print("\nStep 1: Load Application")
     app = apps.load_app(app_name)
     print(f"✓ Loaded {app_name}")
-    
+
     # ===== Step 2: Qualify Building =====
     print("\nStep 2: Qualify Building")
     qualified, details = app.qualify(model_file)
-    
+
     if not qualified:
         print(f"✗ Building {building_id} not qualified")
         print(f"  Reason: {details.get('reason', 'Missing required sensors')}")
         return None
-    
+
     print(f"✓ Building {building_id} qualified")
     print(f"  Found sensors:")
     for sensor_type, sensor_uri in details.items():
         if sensor_uri and 'http' in str(sensor_uri):
             sensor_name = str(sensor_uri).split('#')[-1]
             print(f"    - {sensor_type}: {sensor_name}")
-    
+
     # ===== Step 3: Load Configuration =====
     print("\nStep 3: Load Configuration")
     config = apps.get_default_config(app_name)
-    
+
     # Customize config
     config['output']['output_dir'] = f"./results/{app_name}"
     config['output']['generate_plots'] = True
-    
+
     # Save config (optional)
     config_file = f"{app_name}_config.yaml"
     with open(config_file, 'w') as f:
         yaml.dump(config, f)
     print(f"✓ Configuration ready")
     print(f"  Output: {config['output']['output_dir']}")
-    
+
     # ===== Step 4: Run Analysis =====
     print("\nStep 4: Run Analysis")
     print(f"  Model: {model_file}")
     print(f"  Data: {data_file}")
-    
+
     results = app.analyze(
         brick_model_path=model_file,
         timeseries_data_path=data_file,
         config=config
     )
-    
+
     # ===== Display Results =====
     print("\n" + "="*60)
     print("Analysis Results")
     print("="*60)
-    
+
     if 'summary' in results:
         print("\nSummary:")
         for key, value in results['summary'].items():
             print(f"  {key}: {value}")
-    
+
     if 'outputs' in results:
         print("\nGenerated Files:")
         for output in results['outputs']:
             print(f"  ✓ {output}")
-    
+
     return results
 
 # Run it
@@ -245,11 +245,11 @@ batch_results = apps.qualify_buildings("brick_models/")
 for building in batch_results:
     building_name = Path(building['model']).stem
     print(f"\nBuilding: {building_name}")
-    
+
     for result in building['results']:
         app_name = result['app']
         qualified = result['qualified']
-        
+
         status = "✓" if qualified else "✗"
         print(f"  {status} {app_name}")
 ```
@@ -274,13 +274,13 @@ building_matrix = {}  # building -> list of qualified apps
 for building in batch_results:
     building_name = Path(building['model']).stem
     building_matrix[building_name] = []
-    
+
     for r in building['results']:
         app_name = r['app']
-        
+
         if app_name not in app_matrix:
             app_matrix[app_name] = []
-        
+
         if r['qualified']:
             app_matrix[app_name].append(building_name)
             building_matrix[building_name].append(app_name)
@@ -313,14 +313,14 @@ import yaml
 
 def batch_run_application(app_name, model_dir, data_dir, output_dir):
     """Run application on all qualified buildings."""
-    
+
     # Load app
     app = apps.load_app(app_name)
     config = apps.get_default_config(app_name)
-    
+
     # Find all models
     model_files = list(Path(model_dir).glob("*.ttl"))
-    
+
     results_summary = {
         'total': len(model_files),
         'qualified': 0,
@@ -328,26 +328,26 @@ def batch_run_application(app_name, model_dir, data_dir, output_dir):
         'failed': 0,
         'results': []
     }
-    
+
     for model_file in model_files:
         building_id = model_file.stem.split('_')[1]  # Extract ID
-        
+
         # Qualify
         qualified, details = app.qualify(str(model_file))
-        
+
         if not qualified:
             continue
-        
+
         results_summary['qualified'] += 1
-        
+
         # Find corresponding data file
         data_file = Path(data_dir) / f"{building_id}_data.csv"
-        
+
         if not data_file.exists():
             print(f"⚠ Data file not found for building {building_id}")
             results_summary['failed'] += 1
             continue
-        
+
         try:
             # Run analysis
             result = app.analyze(
@@ -355,16 +355,16 @@ def batch_run_application(app_name, model_dir, data_dir, output_dir):
                 timeseries_data_path=str(data_file),
                 config=config
             )
-            
+
             results_summary['analyzed'] += 1
             results_summary['results'].append({
                 'building_id': building_id,
                 'status': 'success',
                 'summary': result.get('summary', {})
             })
-            
+
             print(f"✓ Building {building_id}")
-            
+
         except Exception as e:
             results_summary['failed'] += 1
             results_summary['results'].append({
@@ -372,9 +372,9 @@ def batch_run_application(app_name, model_dir, data_dir, output_dir):
                 'status': 'failed',
                 'error': str(e)
             })
-            
+
             print(f"✗ Building {building_id}: {e}")
-    
+
     # Summary
     print(f"\n{'='*60}")
     print(f"Batch Analysis Summary - {app_name}")
@@ -383,7 +383,7 @@ def batch_run_application(app_name, model_dir, data_dir, output_dir):
     print(f"Qualified: {results_summary['qualified']}")
     print(f"Analyzed: {results_summary['analyzed']}")
     print(f"Failed: {results_summary['failed']}")
-    
+
     return results_summary
 
 # Use it
@@ -409,7 +409,7 @@ __all__ = ['qualify', 'analyze', 'load_config']
 def qualify(brick_model_path: str) -> Tuple[bool, Dict]:
     """
     Check if building has required sensors.
-    
+
     Returns:
         (qualified, details) tuple
         - qualified: True if building can use this app
@@ -417,12 +417,12 @@ def qualify(brick_model_path: str) -> Tuple[bool, Dict]:
     """
     pass
 
-def analyze(brick_model_path: str, 
+def analyze(brick_model_path: str,
            timeseries_data_path: str,
            config: Dict) -> Dict:
     """
     Run analysis on building data.
-    
+
     Returns:
         Dict with analysis results, including:
         - summary: Key metrics
@@ -434,7 +434,7 @@ def analyze(brick_model_path: str,
 def load_config(config_path: str = None) -> Dict:
     """
     Load application configuration.
-    
+
     Returns:
         Configuration dictionary
     """
@@ -455,7 +455,7 @@ qualified, details = app.qualify("building_105.ttl")
 if qualified:
     # Load config
     config = apps.get_default_config("secondary_loop_temp_diff")
-    
+
     # Run
     results = app.analyze(
         "building_105.ttl",
@@ -474,7 +474,7 @@ model_path = "building_105.ttl"
 for app_info in available_apps:
     app = apps.load_app(app_info['name'])
     qualified, details = app.qualify(model_path)
-    
+
     if qualified:
         print(f"✓ Can run: {app_info['name']}")
         # Run it...
@@ -695,4 +695,3 @@ Or explore related topics:
 ---
 
 **Continue to:** [Apps Manager Details](apps-manager.md) →
-

@@ -44,15 +44,15 @@ from rdflib import Namespace
 )
 class HelloWorldApp(BaseApp):
     """My first Brick analytics app!"""
-    
+
     def analyze(self, graph, building_name=None, **kwargs):
         """
         Count and list all buildings.
-        
+
         Args:
             graph: The Brick model (rdflib.Graph)
             building_name: Optional filter (not used in this example)
-            
+
         Returns:
             dict: Contains building count and list
         """
@@ -60,28 +60,28 @@ class HelloWorldApp(BaseApp):
         query = """
         PREFIX brick: <https://brickschema.org/schema/Brick#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        
+
         SELECT ?building ?label
         WHERE {
             ?building a brick:Building .
             OPTIONAL { ?building rdfs:label ?label }
         }
         """
-        
+
         # Step 2: Execute query
         results = graph.query(query)
-        
+
         # Step 3: Process results
         buildings = []
         for row in results:
             building_uri = str(row.building)
             building_label = str(row.label) if row.label else building_uri
-            
+
             buildings.append({
                 'uri': building_uri,
                 'name': building_label
             })
-        
+
         # Step 4: Return structured results
         return {
             'building_count': len(buildings),
@@ -240,7 +240,7 @@ def analyze(self, graph, building_name=None, **kwargs):
         query = f"""
         PREFIX brick: <https://brickschema.org/schema/Brick#>
         PREFIX hhws: <https://example.org/hhws#>
-        
+
         SELECT ?building
         WHERE {{
             ?building a brick:Building .
@@ -256,12 +256,12 @@ def analyze(self, graph, building_name=None, **kwargs):
 ```python
 def analyze(self, graph, building_name=None, **kwargs):
     print(f"Analyzing {len(graph)} triples...")
-    
+
     query = "..."
     results = graph.query(query)
-    
+
     print(f"Found {len(list(results))} buildings")
-    
+
     return {...}
 ```
 
@@ -299,10 +299,10 @@ import pandas as pd
 
 def analyze(self, graph, **kwargs):
     # ... query and process ...
-    
+
     # Create DataFrame
     df = pd.DataFrame(buildings)
-    
+
     return {
         'dataframe': df,  # Auto-converts to CSV
         'summary': {...}
@@ -376,30 +376,30 @@ from hhw_brick.analytics.core.base_app import BaseApp, register_app
 )
 class HelloWorldApp(BaseApp):
     """My first Brick analytics app!"""
-    
+
     def analyze(self, graph, building_name=None, **kwargs):
         """Count and list all buildings."""
-        
+
         query = """
         PREFIX brick: <https://brickschema.org/schema/Brick#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        
+
         SELECT ?building ?label
         WHERE {
             ?building a brick:Building .
             OPTIONAL { ?building rdfs:label ?label }
         }
         """
-        
+
         results = graph.query(query)
-        
+
         buildings = []
         for row in results:
             buildings.append({
                 'uri': str(row.building),
                 'name': str(row.label) if row.label else str(row.building)
             })
-        
+
         return {
             'building_count': len(buildings),
             'buildings': buildings,
@@ -408,4 +408,3 @@ class HelloWorldApp(BaseApp):
 ```
 
 **Happy coding!** 🚀
-

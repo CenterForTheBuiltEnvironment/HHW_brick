@@ -4,11 +4,10 @@ Tests for CSV to Brick conversion module.
 
 import pytest
 import os
-from pathlib import Path
-from rdflib import Graph, Namespace
+from rdflib import Graph
 
-from hhws_brick_application.conversion.csv_to_brick import CSVToBrickConverter
-from hhws_brick_application.conversion.batch_converter import BatchConverter
+from hhw_brick.conversion.csv_to_brick import CSVToBrickConverter
+from hhw_brick.conversion.batch_converter import BatchConverter
 
 
 class TestCSVToBrickConverter:
@@ -27,10 +26,10 @@ class TestCSVToBrickConverter:
         namespaces = dict(converter.graph.namespaces())
 
         # Check key namespaces
-        assert 'brick' in namespaces
-        assert 'hhws' in namespaces
-        assert 'rdf' in namespaces
-        assert 'rdfs' in namespaces
+        assert "brick" in namespaces
+        assert "hhws" in namespaces
+        assert "rdf" in namespaces
+        assert "rdfs" in namespaces
 
     def test_safe_float_convert(self):
         """Test safe float conversion utility."""
@@ -61,7 +60,9 @@ class TestCSVToBrickConverter:
         assert converter._safe_int_convert("NA") is None
         assert converter._safe_int_convert("") is None
 
-    def test_convert_single_building(self, metadata_csv, vars_csv, temp_output_dir, sample_building_tag):
+    def test_convert_single_building(
+        self, metadata_csv, vars_csv, temp_output_dir, sample_building_tag
+    ):
         """Test conversion of a single building to Brick format."""
         converter = CSVToBrickConverter()
         output_path = os.path.join(temp_output_dir, f"building_{sample_building_tag}.ttl")
@@ -72,7 +73,7 @@ class TestCSVToBrickConverter:
             vars_csv=vars_csv,
             system_type="District HW",
             building_tag=sample_building_tag,
-            output_path=output_path
+            output_path=output_path,
         )
 
         # Verify output
@@ -94,7 +95,7 @@ class TestCSVToBrickConverter:
             metadata_csv=metadata_csv,
             vars_csv=vars_csv,
             system_type="District HW",
-            output_path=output_path
+            output_path=output_path,
         )
 
         assert graph is not None
@@ -111,7 +112,7 @@ class TestCSVToBrickConverter:
             metadata_csv=metadata_csv,
             vars_csv=vars_csv,
             system_type="NonExistentSystem",
-            output_path=output_path
+            output_path=output_path,
         )
 
         # Graph might be empty or minimal
@@ -126,7 +127,7 @@ class TestCSVToBrickConverter:
                 metadata_csv="nonexistent_metadata.csv",
                 vars_csv="nonexistent_vars.csv",
                 system_type="District HW",
-                output_path=os.path.join(temp_output_dir, "output.ttl")
+                output_path=os.path.join(temp_output_dir, "output.ttl"),
             )
 
 
@@ -150,7 +151,7 @@ class TestBatchConverter:
             vars_csv=vars_csv,
             output_dir=temp_output_dir,
             system_type="District HW",
-            show_progress=False
+            show_progress=False,
         )
 
         assert results is not None
@@ -166,8 +167,7 @@ class TestBatchConverter:
             vars_csv=vars_csv,
             output_dir=temp_output_dir,
             building_tags=["29"],
-            show_progress=False
+            show_progress=False,
         )
 
         assert results is not None
-

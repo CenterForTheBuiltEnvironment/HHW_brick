@@ -18,4 +18,3 @@ Provides core analytics tools for Brick models.
 # from .core import BrickQueryHelper, TimeseriesLoader
 
 __all__ = []
-

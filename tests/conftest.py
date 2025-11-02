@@ -86,4 +86,3 @@ def ground_truth_csv():
 def mock_ttl_output(temp_output_dir):
     """Return a path for TTL output in temp directory."""
     return os.path.join(temp_output_dir, "test_output.ttl")
-

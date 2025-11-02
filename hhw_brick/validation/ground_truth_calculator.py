@@ -12,10 +12,8 @@ Author: Mingchen Li
 """
 
 import pandas as pd
-import numpy as np
 import logging
-from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -32,10 +30,9 @@ class GroundTruthCalculator:
         """Initialize the ground truth calculator."""
         self.logger = logging.getLogger(__name__)
 
-    def calculate(self,
-                  metadata_csv: str,
-                  vars_csv: str,
-                  output_csv: str = "ground_truth.csv") -> pd.DataFrame:
+    def calculate(
+        self, metadata_csv: str, vars_csv: str, output_csv: str = "ground_truth.csv"
+    ) -> pd.DataFrame:
         """
         Calculate ground truth data for all buildings.
 
@@ -58,15 +55,15 @@ class GroundTruthCalculator:
         self.logger.info(f"Loaded {len(vars_df)} vars records")
 
         # Merge data
-        merged_df = pd.merge(metadata_df, vars_df, on='tag', how='inner')
+        merged_df = pd.merge(metadata_df, vars_df, on="tag", how="inner")
         self.logger.info(f"Merged {len(merged_df)} records")
 
         # Calculate ground truth for each building
         ground_truth_data = []
 
         for idx, row in merged_df.iterrows():
-            tag = str(int(row['tag']))
-            system = str(row['system']).strip()
+            tag = str(int(row["tag"]))
+            system = str(row["system"]).strip()
 
             # 1. Calculate point count
             point_count = self._calculate_point_count(row, vars_df)
@@ -80,14 +77,16 @@ class GroundTruthCalculator:
             # 4. Calculate weather station count
             weather_station_count = self._calculate_weather_station_count(row)
 
-            ground_truth_data.append({
-                'tag': tag,
-                'system': system,
-                'point_count': point_count,
-                'boiler_count': boiler_count,
-                'pump_count': pump_count,
-                'weather_station_count': weather_station_count
-            })
+            ground_truth_data.append(
+                {
+                    "tag": tag,
+                    "system": system,
+                    "point_count": point_count,
+                    "boiler_count": boiler_count,
+                    "pump_count": pump_count,
+                    "weather_station_count": weather_station_count,
+                }
+            )
 
         # Create DataFrame
         ground_truth_df = pd.DataFrame(ground_truth_data)
@@ -105,18 +104,18 @@ class GroundTruthCalculator:
         Counts non-empty values after the 'datetime' column.
         """
         # Get column index for datetime
-        datetime_idx = vars_df.columns.get_loc('datetime')
-        point_columns = vars_df.columns[datetime_idx + 1:]
+        datetime_idx = vars_df.columns.get_loc("datetime")
+        point_columns = vars_df.columns[datetime_idx + 1 :]
 
         # Count non-empty values with value > 0
         point_count = 0
         for col in point_columns:
             val = row[col]
-            if pd.notna(val) and val != '' and str(val).strip().upper() not in ['NA', 'NULL', '']:
+            if pd.notna(val) and val != "" and str(val).strip().upper() not in ["NA", "NULL", ""]:
                 try:
                     if float(val) > 0:
                         point_count += 1
-                except:
+                except (ValueError, TypeError):
                     pass
 
         return point_count
@@ -128,50 +127,50 @@ class GroundTruthCalculator:
         For 'Boiler' system type, at least 1 boiler is guaranteed.
         """
         # Check if district system
-        if 'district' in system.lower():
+        if "district" in system.lower():
             return 0
 
         # For boiler systems, use b_number and fire/sup/ret columns
         boiler_count = 0
-        b_number = row['b_number']
+        b_number = row["b_number"]
 
         try:
-            if pd.notna(b_number) and str(b_number).strip().upper() not in ['NA', 'NULL', '']:
+            if pd.notna(b_number) and str(b_number).strip().upper() not in ["NA", "NULL", ""]:
                 boiler_count = int(float(b_number))
-        except:
+        except (ValueError, TypeError):
             boiler_count = 0
 
         # Check fire columns (fire1, fire2, fire3, fire4)
         fire_count = 0
         for i in range(1, 5):
-            col_name = f'fire{i}'
+            col_name = f"fire{i}"
             if col_name in row.index and pd.notna(row[col_name]):
                 try:
                     if float(row[col_name]) > 0:
                         fire_count = max(fire_count, i)
-                except:
+                except (ValueError, TypeError):
                     pass
 
         # Check sup columns (sup1, sup2, sup3, sup4)
         sup_count = 0
         for i in range(1, 5):
-            col_name = f'sup{i}'
+            col_name = f"sup{i}"
             if col_name in row.index and pd.notna(row[col_name]):
                 try:
                     if float(row[col_name]) > 0:
                         sup_count = max(sup_count, i)
-                except:
+                except (ValueError, TypeError):
                     pass
 
         # Check ret columns (ret1, ret2, ret3, ret4)
         ret_count = 0
         for i in range(1, 5):
-            col_name = f'ret{i}'
+            col_name = f"ret{i}"
             if col_name in row.index and pd.notna(row[col_name]):
                 try:
                     if float(row[col_name]) > 0:
                         ret_count = max(ret_count, i)
-                except:
+                except (ValueError, TypeError):
                     pass
 
         # Take maximum
@@ -181,8 +180,9 @@ class GroundTruthCalculator:
         # ensure at least 1 boiler if count is still 0
         # These systems must have at least one boiler by definition
         system_lower = system.lower()
-        has_boiler_system = any(keyword in system_lower for keyword in
-                                ['boiler', 'condensing', 'non-condensing'])
+        has_boiler_system = any(
+            keyword in system_lower for keyword in ["boiler", "condensing", "non-condensing"]
+        )
 
         if has_boiler_system and boiler_count == 0:
             boiler_count = 1
@@ -204,8 +204,8 @@ class GroundTruthCalculator:
 
         # Check pmpN_spd and pmpN_vfd
         for i in range(1, 5):
-            spd_col = f'pmp{i}_spd'
-            vfd_col = f'pmp{i}_vfd'
+            spd_col = f"pmp{i}_spd"
+            vfd_col = f"pmp{i}_vfd"
 
             has_spd = spd_col in row.index and pd.notna(row[spd_col])
             has_vfd = vfd_col in row.index and pd.notna(row[vfd_col])
@@ -216,19 +216,19 @@ class GroundTruthCalculator:
                         vars_pump_count = max(vars_pump_count, i)
                     if has_vfd and float(row[vfd_col]) > 0:
                         vars_pump_count = max(vars_pump_count, i)
-                except:
+                except (ValueError, TypeError):
                     pass
 
         # Check pmp_spd (single pump speed)
-        if 'pmp_spd' in row.index and pd.notna(row['pmp_spd']):
+        if "pmp_spd" in row.index and pd.notna(row["pmp_spd"]):
             try:
-                if float(row['pmp_spd']) > 0:
+                if float(row["pmp_spd"]) > 0:
                     vars_pump_count = max(vars_pump_count, 1)
-            except:
+            except (ValueError, TypeError):
                 pass
 
         # Determine final pump count based on system type
-        if 'district' in system.lower():
+        if "district" in system.lower():
             # District system: 1 loop, use detected count or default 1
             pump_count = max(1, vars_pump_count)
         else:
@@ -246,11 +246,11 @@ class GroundTruthCalculator:
         """
         Calculate weather station count from oper column.
         """
-        if 'oper' in row.index and pd.notna(row['oper']):
+        if "oper" in row.index and pd.notna(row["oper"]):
             try:
-                if float(row['oper']) > 0:
+                if float(row["oper"]) > 0:
                     return 1
-            except:
+            except (ValueError, TypeError):
                 pass
         return 0
 
@@ -265,29 +265,28 @@ class GroundTruthCalculator:
             Dict with statistics
         """
         stats = {
-            'total_buildings': len(ground_truth_df),
-            'point_count': {
-                'min': int(ground_truth_df['point_count'].min()),
-                'max': int(ground_truth_df['point_count'].max()),
-                'mean': float(ground_truth_df['point_count'].mean())
+            "total_buildings": len(ground_truth_df),
+            "point_count": {
+                "min": int(ground_truth_df["point_count"].min()),
+                "max": int(ground_truth_df["point_count"].max()),
+                "mean": float(ground_truth_df["point_count"].mean()),
             },
-            'boiler_count': {
-                '0': int((ground_truth_df['boiler_count'] == 0).sum()),
-                '1': int((ground_truth_df['boiler_count'] == 1).sum()),
-                '2': int((ground_truth_df['boiler_count'] == 2).sum()),
-                '3+': int((ground_truth_df['boiler_count'] >= 3).sum())
+            "boiler_count": {
+                "0": int((ground_truth_df["boiler_count"] == 0).sum()),
+                "1": int((ground_truth_df["boiler_count"] == 1).sum()),
+                "2": int((ground_truth_df["boiler_count"] == 2).sum()),
+                "3+": int((ground_truth_df["boiler_count"] >= 3).sum()),
             },
-            'pump_count': {
-                '0': int((ground_truth_df['pump_count'] == 0).sum()),
-                '1': int((ground_truth_df['pump_count'] == 1).sum()),
-                '2': int((ground_truth_df['pump_count'] == 2).sum()),
-                '3+': int((ground_truth_df['pump_count'] >= 3).sum())
+            "pump_count": {
+                "0": int((ground_truth_df["pump_count"] == 0).sum()),
+                "1": int((ground_truth_df["pump_count"] == 1).sum()),
+                "2": int((ground_truth_df["pump_count"] == 2).sum()),
+                "3+": int((ground_truth_df["pump_count"] >= 3).sum()),
             },
-            'weather_station': {
-                'with': int((ground_truth_df['weather_station_count'] > 0).sum()),
-                'without': int((ground_truth_df['weather_station_count'] == 0).sum())
-            }
+            "weather_station": {
+                "with": int((ground_truth_df["weather_station_count"] > 0).sum()),
+                "without": int((ground_truth_df["weather_station_count"] == 0).sum()),
+            },
         }
 
         return stats
-

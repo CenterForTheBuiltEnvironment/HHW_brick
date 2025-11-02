@@ -33,14 +33,14 @@ import yaml
 
 def complete_workflow(building_id):
     """Complete workflow from CSV to analysis results."""
-    
+
     # ===== Step 1: Convert CSV to Brick =====
     print("Step 1: Convert CSV to Brick")
     print("="*60)
-    
+
     converter = CSVToBrickConverter()
     model_file = f"building_{building_id}.ttl"
-    
+
     converter.convert_to_brick(
         metadata_csv="metadata.csv",
         vars_csv="vars.csv",
@@ -48,70 +48,70 @@ def complete_workflow(building_id):
         output_path=model_file
     )
     print(f"✓ Created Brick model: {model_file}\n")
-    
+
     # ===== Step 2: Validate Model =====
     print("Step 2: Validate Model")
     print("="*60)
-    
+
     validator = BrickModelValidator(use_local_brick=True)
     is_valid = validator.validate_ontology(model_file)['valid']
-    
+
     if not is_valid:
         print("✗ Model validation failed\n")
         return None
-    
+
     print(f"✓ Model is valid\n")
-    
+
     # ===== Step 3: Discover Available Apps =====
     print("Step 3: Discover Available Apps")
     print("="*60)
-    
+
     available_apps = apps.list_apps()
     print(f"Found {len(available_apps)} applications:")
     for app_info in available_apps:
         print(f"  • {app_info['name']}")
     print()
-    
+
     # ===== Step 4: Qualify Building =====
     print("Step 4: Qualify Building")
     print("="*60)
-    
+
     result = apps.qualify_building(model_file, verbose=False)
-    
+
     qualified_apps = [
         r['app'] for r in result['results'] if r['qualified']
     ]
-    
+
     if not qualified_apps:
         print(f"✗ Building {building_id} not qualified for any apps\n")
         return None
-    
+
     print(f"✓ Qualified for: {', '.join(qualified_apps)}\n")
-    
+
     # ===== Step 5: Run Analysis =====
     print("Step 5: Run Analysis")
     print("="*60)
-    
+
     app_name = qualified_apps[0]  # Use first qualified app
     app = apps.load_app(app_name)
-    
+
     # Load config
     config = apps.get_default_config(app_name)
     config['output']['output_dir'] = f"./results/building_{building_id}"
-    
+
     # Run analysis
     data_file = f"{building_id}_data.csv"
     results = app.analyze(model_file, data_file, config)
-    
+
     print(f"✓ Analysis complete: {app_name}")
     print(f"\nSummary:")
     for key, value in results['summary'].items():
         print(f"  {key}: {value}")
-    
+
     print(f"\nOutputs:")
     for output in results['outputs']:
         print(f"  - {output}")
-    
+
     return results
 
 # Run it
@@ -194,14 +194,14 @@ qualified, details = app.qualify("building_105.ttl")
 if qualified:
     # Get config
     config = apps.get_default_config("primary_loop_temp_diff")
-    
+
     # Run
     results = app.analyze(
         "building_105.ttl",
         "105_data.csv",
         config
     )
-    
+
     print(f"Primary loop temp diff: {results['summary']['mean_temp_diff']:.2f}°C")
 ```
 
@@ -231,48 +231,48 @@ from hhw_brick import apps
 
 def batch_run_app(app_name, model_dir, data_dir, output_base):
     """Run app on all qualified buildings."""
-    
+
     # Load app
     app = apps.load_app(app_name)
     base_config = apps.get_default_config(app_name)
-    
+
     # Find models
     model_files = list(Path(model_dir).glob("*.ttl"))
-    
+
     results_summary = []
-    
+
     for model_file in model_files:
         building_id = model_file.stem.split('_')[1]
-        
+
         # Qualify
         qualified, details = app.qualify(str(model_file))
         if not qualified:
             print(f"⊘ Building {building_id}: Not qualified")
             continue
-        
+
         # Find data
         data_file = Path(data_dir) / f"{building_id}_data.csv"
         if not data_file.exists():
             print(f"⊘ Building {building_id}: Data file not found")
             continue
-        
+
         # Configure
         config = base_config.copy()
         config['output']['output_dir'] = f"{output_base}/building_{building_id}"
-        
+
         # Run
         try:
             results = app.analyze(str(model_file), str(data_file), config)
-            
+
             results_summary.append({
                 'building_id': building_id,
                 'status': 'success',
                 'mean_temp_diff': results['summary']['mean_temp_diff'],
                 'data_points': results['summary']['data_points']
             })
-            
+
             print(f"✓ Building {building_id}: {results['summary']['mean_temp_diff']:.2f}°C")
-            
+
         except Exception as e:
             results_summary.append({
                 'building_id': building_id,
@@ -280,23 +280,23 @@ def batch_run_app(app_name, model_dir, data_dir, output_base):
                 'error': str(e)
             })
             print(f"✗ Building {building_id}: {e}")
-    
+
     # Summary
     print(f"\n{'='*60}")
     print(f"Batch Analysis Summary - {app_name}")
     print(f"{'='*60}")
-    
+
     successful = [r for r in results_summary if r['status'] == 'success']
     failed = [r for r in results_summary if r['status'] == 'failed']
-    
+
     print(f"Total: {len(model_files)}")
     print(f"Analyzed: {len(successful)}")
     print(f"Failed: {len(failed)}")
-    
+
     if successful:
         avg_temp_diff = sum(r['mean_temp_diff'] for r in successful) / len(successful)
         print(f"\nAverage temp diff: {avg_temp_diff:.2f}°C")
-    
+
     return results_summary
 
 # Use it
@@ -320,7 +320,7 @@ from hhw_brick import apps
 def analyze_one_building(args):
     """Analyze one building (for parallel processing)."""
     model_file, data_file, app_name, config = args
-    
+
     try:
         app = apps.load_app(app_name)
         results = app.analyze(str(model_file), str(data_file), config)
@@ -338,33 +338,33 @@ def analyze_one_building(args):
 
 def parallel_batch_run(app_name, model_dir, data_dir, max_workers=4):
     """Run app in parallel."""
-    
+
     from pathlib import Path
-    
+
     app = apps.load_app(app_name)
     config = apps.get_default_config(app_name)
-    
+
     # Prepare tasks
     tasks = []
     for model_file in Path(model_dir).glob("*.ttl"):
         building_id = model_file.stem.split('_')[1]
-        
+
         # Qualify
         qualified, _ = app.qualify(str(model_file))
         if not qualified:
             continue
-        
+
         # Find data
         data_file = Path(data_dir) / f"{building_id}_data.csv"
         if not data_file.exists():
             continue
-        
+
         # Configure
         bldg_config = config.copy()
         bldg_config['output']['output_dir'] = f"./results/building_{building_id}"
-        
+
         tasks.append((model_file, data_file, app_name, bldg_config))
-    
+
     # Execute in parallel
     results = []
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
@@ -372,14 +372,14 @@ def parallel_batch_run(app_name, model_dir, data_dir, max_workers=4):
             executor.submit(analyze_one_building, task): task[0]
             for task in tasks
         }
-        
+
         for future in as_completed(futures):
             result = future.result()
             results.append(result)
-            
+
             status = "✓" if result['status'] == 'success' else "✗"
             print(f"{status} {result['building']}")
-    
+
     return results
 
 # Use it
@@ -402,7 +402,7 @@ analysis:
   # Analysis-specific parameters
   threshold_min_delta: 0.5
   threshold_max_delta: 10.0
-  
+
 output:
   # Output settings
   save_results: true
@@ -410,7 +410,7 @@ output:
   export_format: csv
   generate_plots: true
   plot_format: png
-  
+
 time_range:
   # Optional time filtering
   start_time: "2024-01-01 00:00:00"
@@ -439,14 +439,14 @@ Generate configs for different scenarios
 
 def create_seasonal_configs(base_config, year=2024):
     """Create configs for seasonal analysis."""
-    
+
     seasons = {
         'winter': ('01-01', '03-31'),
         'spring': ('04-01', '06-30'),
         'summer': ('07-01', '09-30'),
         'fall': ('10-01', '12-31')
     }
-    
+
     configs = {}
     for season, (start, end) in seasons.items():
         config = base_config.copy()
@@ -454,7 +454,7 @@ def create_seasonal_configs(base_config, year=2024):
         config['time_range']['end_time'] = f"{year}-{end} 23:59:59"
         config['output']['output_dir'] = f"./results/{season}_{year}"
         configs[season] = config
-    
+
     return configs
 
 # Use it
@@ -479,13 +479,13 @@ from datetime import datetime
 
 def save_analysis_results(results, building_id, app_name, output_dir):
     """Save results with metadata."""
-    
+
     from pathlib import Path
     import pandas as pd
-    
+
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
-    
+
     # Save summary as JSON
     summary_file = output_path / f"{building_id}_{app_name}_summary.json"
     summary_data = {
@@ -496,13 +496,13 @@ def save_analysis_results(results, building_id, app_name, output_dir):
     }
     with open(summary_file, 'w') as f:
         json.dump(summary_data, f, indent=2)
-    
+
     # Save detailed data as CSV
     if 'data' in results:
         data_file = output_path / f"{building_id}_{app_name}_data.csv"
         df = pd.DataFrame(results['data'])
         df.to_csv(data_file, index=False)
-    
+
     print(f"Saved results to: {output_dir}")
 
 # Use it
@@ -520,12 +520,12 @@ import pandas as pd
 
 def aggregate_building_results(results_dir):
     """Aggregate results from multiple analyses."""
-    
+
     from pathlib import Path
     import json
-    
+
     summary_files = Path(results_dir).rglob("*_summary.json")
-    
+
     all_results = []
     for file in summary_files:
         with open(file, 'r') as f:
@@ -535,20 +535,20 @@ def aggregate_building_results(results_dir):
                 'app': data['app_name'],
                 **data['summary']
             })
-    
+
     # Create DataFrame
     df = pd.DataFrame(all_results)
-    
+
     # Calculate statistics
     print("Aggregated Results:")
     print(f"  Total buildings: {len(df)}")
     print(f"  Average temp diff: {df['mean_temp_diff'].mean():.2f}°C")
     print(f"  Min temp diff: {df['mean_temp_diff'].min():.2f}°C")
     print(f"  Max temp diff: {df['mean_temp_diff'].max():.2f}°C")
-    
+
     # Save aggregate
     df.to_csv(Path(results_dir) / "aggregate_results.csv", index=False)
-    
+
     return df
 
 # Use it
@@ -571,41 +571,41 @@ logger = logging.getLogger(__name__)
 
 def safe_run_app(model_path, data_path, app_name, config):
     """Run app with comprehensive error handling."""
-    
+
     from hhw_brick import apps
-    
+
     try:
         # Load app
         app = apps.load_app(app_name)
         logger.info(f"Loaded app: {app_name}")
-        
+
     except ImportError as e:
         logger.error(f"App not found: {app_name}")
         return None
-    
+
     try:
         # Qualify
         qualified, details = app.qualify(model_path)
-        
+
         if not qualified:
             logger.warning(f"Building not qualified for {app_name}")
             return None
-        
+
         logger.info(f"Building qualified")
-        
+
     except FileNotFoundError:
         logger.error(f"Model file not found: {model_path}")
         return None
     except Exception as e:
         logger.error(f"Qualification failed: {e}")
         return None
-    
+
     try:
         # Analyze
         results = app.analyze(model_path, data_path, config)
         logger.info(f"Analysis complete")
         return results
-        
+
     except FileNotFoundError:
         logger.error(f"Data file not found: {data_path}")
         return None
@@ -694,4 +694,3 @@ for building in buildings:
 **Applications documentation complete!** 🎉
 
 Ready to analyze your building data! Start with [Apps Manager](apps-manager.md) or [Secondary Loop](secondary-loop.md).
-

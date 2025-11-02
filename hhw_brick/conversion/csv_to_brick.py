@@ -21,6 +21,7 @@ class CSVToBrickConverter:
     Converts CSV data to Brick ontology format for HHWS applications.
     Supports different system types with hierarchical equipment naming.
     """
+
     def __init__(self):
         """Initialize the CSV to Brick converter."""
         self.logger = logging.getLogger(__name__)
@@ -39,7 +40,9 @@ class CSVToBrickConverter:
 
         # Bind namespaces
         self.graph.bind("brick", self.brick, override=True, replace=True)
-        self.graph.bind("hhws", self.hhws, override=True, replace=True)  # Add replace=True to ensure correct prefix
+        self.graph.bind(
+            "hhws", self.hhws, override=True, replace=True
+        )  # Add replace=True to ensure correct prefix
         self.graph.bind("rec", self.rec, override=True, replace=True)  # Bind REC namespace
         self.graph.bind("unit", self.unit, override=True, replace=True)
         self.graph.bind("owl", self.owl, override=True, replace=True)
@@ -56,7 +59,7 @@ class CSVToBrickConverter:
         # Handle string values that might contain spaces or 'NA'
         if isinstance(value, str):
             value = value.strip()
-            if value.upper() == 'NA' or value == '' or value.upper() == 'NULL':
+            if value.upper() == "NA" or value == "" or value.upper() == "NULL":
                 return None
 
         try:
@@ -73,7 +76,7 @@ class CSVToBrickConverter:
         # Handle string values that might contain spaces or 'NA'
         if isinstance(value, str):
             value = value.strip()
-            if value.upper() == 'NA' or value == '' or value.upper() == 'NULL':
+            if value.upper() == "NA" or value == "" or value.upper() == "NULL":
                 return None
 
         try:
@@ -82,13 +85,15 @@ class CSVToBrickConverter:
             self.logger.warning(f"Could not convert '{value}' to int, returning None")
             return None
 
-    def convert_to_brick(self,
-                        metadata_csv: str,
-                        vars_csv: str,
-                        system_type: Optional[str] = None,
-                        building_tag: Optional[str] = None,
-                        sensor_mapping: Optional[str] = None,
-                        output_path: str = "output.ttl") -> Graph:
+    def convert_to_brick(
+        self,
+        metadata_csv: str,
+        vars_csv: str,
+        system_type: Optional[str] = None,
+        building_tag: Optional[str] = None,
+        sensor_mapping: Optional[str] = None,
+        output_path: str = "output.ttl",
+    ) -> Graph:
         """
         Convert CSV data to Brick format for specified system type.
 
@@ -118,8 +123,8 @@ class CSVToBrickConverter:
 
             # Filter for specific building tag if provided
             if building_tag:
-                metadata_df = metadata_df[metadata_df['tag'].astype(str) == str(building_tag)]
-                vars_df = vars_df[vars_df['tag'].astype(str) == str(building_tag)]
+                metadata_df = metadata_df[metadata_df["tag"].astype(str) == str(building_tag)]
+                vars_df = vars_df[vars_df["tag"].astype(str) == str(building_tag)]
                 self.logger.info(f"Filtering for building tag: {building_tag}")
 
             if metadata_df.empty:
@@ -127,7 +132,7 @@ class CSVToBrickConverter:
 
             # Auto-detect system type if not provided (useful for single building)
             if system_type is None and len(metadata_df) == 1:
-                system_type = str(metadata_df.iloc[0].get('system', '')).strip()
+                system_type = str(metadata_df.iloc[0].get("system", "")).strip()
                 self.logger.info(f"Auto-detected system type: {system_type}")
             elif system_type is None:
                 # For multiple buildings without system_type, process all
@@ -141,23 +146,35 @@ class CSVToBrickConverter:
 
             # Process buildings
             for _, building_row in metadata_df.iterrows():
-                tag = str(int(building_row['tag']))
-                building_system_type = str(building_row.get('system', '')).strip()
+                tag = str(int(building_row["tag"]))
+                building_system_type = str(building_row.get("system", "")).strip()
 
                 # Check if system type matches (empty system_type matches all)
                 if not system_type or self._matches_system_type(building_system_type, system_type):
-                    self.logger.info(f"Processing building {tag} with system type: {building_system_type}")
+                    self.logger.info(
+                        f"Processing building {tag} with system type: {building_system_type}"
+                    )
 
                     # Find corresponding vars data
-                    building_vars = vars_df[vars_df['tag'] == int(tag)]
+                    building_vars = vars_df[vars_df["tag"] == int(tag)]
                     if not building_vars.empty:
                         # Route to appropriate system creation method
-                        if system_type.lower() in ['boiler', 'condensing', 'non-condensing']:
-                            self._create_boiler_system(tag, building_row, building_vars.iloc[0], mappings, building_system_type.lower())
-                        elif system_type.lower() == 'district hw':
-                            self._create_district_hw_system(tag, building_row, building_vars.iloc[0], mappings)
-                        elif system_type.lower() == 'district steam':
-                            self._create_district_steam_system(tag, building_row, building_vars.iloc[0], mappings)
+                        if system_type.lower() in ["boiler", "condensing", "non-condensing"]:
+                            self._create_boiler_system(
+                                tag,
+                                building_row,
+                                building_vars.iloc[0],
+                                mappings,
+                                building_system_type.lower(),
+                            )
+                        elif system_type.lower() == "district hw":
+                            self._create_district_hw_system(
+                                tag, building_row, building_vars.iloc[0], mappings
+                            )
+                        elif system_type.lower() == "district steam":
+                            self._create_district_steam_system(
+                                tag, building_row, building_vars.iloc[0], mappings
+                            )
                     else:
                         self.logger.warning(f"No vars data found for building {tag}")
                 else:
@@ -170,12 +187,14 @@ class CSVToBrickConverter:
 
             # Output and save validation warnings
             if self.validation_warnings:
-                self.logger.warning(f"\n⚠️  Found {len(self.validation_warnings)} issues that need manual verification:")
+                self.logger.warning(
+                    f"\n⚠️  Found {len(self.validation_warnings)} issues that need manual verification:"
+                )
                 for i, warning in enumerate(self.validation_warnings, 1):
                     self.logger.warning(f"  {i}. {warning}")
 
                 # Save warnings to file
-                warnings_file = output_path.replace('.ttl', '_validation_warnings.txt')
+                warnings_file = output_path.replace(".ttl", "_validation_warnings.txt")
                 self._save_validation_warnings(warnings_file)
                 self.logger.info(f"📋 Validation warnings saved to: {warnings_file}")
             else:
@@ -198,29 +217,37 @@ class CSVToBrickConverter:
         self.graph.add((firing_rate_sensor, RDF.type, self.owl.Class))
         self.graph.add((firing_rate_sensor, RDFS.subClassOf, self.brick.Point))
         self.graph.add((firing_rate_sensor, RDFS.label, Literal("Firing Rate Sensor")))
-        self.graph.add((firing_rate_sensor, RDFS.comment,
-                       Literal("A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity.")))
+        self.graph.add(
+            (
+                firing_rate_sensor,
+                RDFS.comment,
+                Literal(
+                    "A sensor that measures the firing rate of a boiler or similar combustion equipment, typically expressed as a percentage of maximum capacity."
+                ),
+            )
+        )
 
     def _matches_system_type(self, building_system: str, target_type: str) -> bool:
         """Check if building system matches target system type."""
         target = target_type.lower().strip()
         building = building_system.lower().strip()
 
-        if target == 'boiler':
-            return building in ['boiler', 'condensing', 'non-condensing']
-        elif target == 'condensing':
-            return building == 'condensing'
-        elif target == 'non-condensing':
-            return building == 'non-condensing'
-        elif target == 'district hw':
-            return building == 'district hw'
-        elif target == 'district steam':
-            return building == 'district steam'
+        if target == "boiler":
+            return building in ["boiler", "condensing", "non-condensing"]
+        elif target == "condensing":
+            return building == "condensing"
+        elif target == "non-condensing":
+            return building == "non-condensing"
+        elif target == "district hw":
+            return building == "district hw"
+        elif target == "district steam":
+            return building == "district steam"
         else:
             return building == target
 
-    def _analyze_equipment_count(self, vars_data: pd.Series, metadata: pd.Series,
-                                 building_tag: str, system_type: str) -> Dict[str, List[int]]:
+    def _analyze_equipment_count(
+        self, vars_data: pd.Series, metadata: pd.Series, building_tag: str, system_type: str
+    ) -> Dict[str, List[int]]:
         """
         Analyze equipment count and numbering based on b_number in metadata and vars availability data
 
@@ -233,25 +260,22 @@ class CSVToBrickConverter:
         Returns:
             Dict containing available number lists for each equipment type
         """
-        equipment_count = {
-            'boilers': [],
-            'pumps': []
-        }
+        equipment_count = {"boilers": [], "pumps": []}
 
         # Get b_number from metadata
-        b_number = self._safe_int_convert(metadata.get('b_number'))
+        b_number = self._safe_int_convert(metadata.get("b_number"))
 
         # Infer boiler count from sensor data (through sup1-4, ret1-4, fire1-4, etc. sensors)
         max_boiler_from_sensors = 0
         for i in range(1, 10):  # Check boiler 1-9 (extended range to support more boilers)
-            boiler_sensors = [f'sup{i}', f'ret{i}', f'fire{i}']
+            boiler_sensors = [f"sup{i}", f"ret{i}", f"fire{i}"]
             # If any boiler-specific sensor is available, update the maximum number
             if any(vars_data.get(sensor, 0) == 1 for sensor in boiler_sensors):
                 max_boiler_from_sensors = max(max_boiler_from_sensors, i)
 
         # Determine if it's a boiler system type
-        is_boiler_system = system_type.lower() in ['boiler', 'condensing', 'non-condensing']
-        is_district_system = system_type.lower() in ['district hw', 'district steam']
+        is_boiler_system = system_type.lower() in ["boiler", "condensing", "non-condensing"]
+        is_district_system = system_type.lower() in ["district hw", "district steam"]
 
         # Determine final boiler count
         if is_boiler_system:
@@ -265,7 +289,9 @@ class CSVToBrickConverter:
                     )
             elif b_number == 0:
                 # b_number is 0 but it's a boiler system - need to log warning
-                warning_msg = f"Building {building_tag}: Boiler system type ({system_type}) but b_number=0"
+                warning_msg = (
+                    f"Building {building_tag}: Boiler system type ({system_type}) but b_number=0"
+                )
                 if max_boiler_from_sensors > 0:
                     warning_msg += f", sensor data shows {max_boiler_from_sensors} boilers, using sensor-inferred value"
                     final_boiler_count = max_boiler_from_sensors
@@ -279,13 +305,17 @@ class CSVToBrickConverter:
                 final_boiler_count = max_boiler_from_sensors
                 if final_boiler_count == 0:
                     # Check if there are unnumbered boiler sensors
-                    boiler_related_sensors = ['sup', 'ret', 'fire', 'supp', 'retp']
+                    boiler_related_sensors = ["sup", "ret", "fire", "supp", "retp"]
                     if any(vars_data.get(sensor, 0) == 1 for sensor in boiler_related_sensors):
                         final_boiler_count = 1
-                        self.logger.info(f"Building {building_tag}: Detected unnumbered boiler-related sensors, inferring single boiler exists")
+                        self.logger.info(
+                            f"Building {building_tag}: Detected unnumbered boiler-related sensors, inferring single boiler exists"
+                        )
 
             # Generate boiler number list
-            equipment_count['boilers'] = list(range(1, final_boiler_count + 1)) if final_boiler_count > 0 else []
+            equipment_count["boilers"] = (
+                list(range(1, final_boiler_count + 1)) if final_boiler_count > 0 else []
+            )
 
         elif is_district_system:
             # For District systems, there should be no boilers
@@ -297,31 +327,34 @@ class CSVToBrickConverter:
                 self.logger.warning(warning_msg)
                 self.validation_warnings.append(warning_msg)
             # District systems don't model boilers
-            equipment_count['boilers'] = []
+            equipment_count["boilers"] = []
 
         # Check pump count (inferred through pmp1_pwr, pmp1_spd, pmp1_vfd, etc. sensors)
         max_pump_from_sensors = 0
         for i in range(1, 10):  # Check pump 1-9
-            pump_sensors = [f'pmp{i}_pwr', f'pmp{i}_spd', f'pmp{i}_vfd']
+            pump_sensors = [f"pmp{i}_pwr", f"pmp{i}_spd", f"pmp{i}_vfd"]
             # If any pump-specific sensor is available, update the maximum number
             if any(vars_data.get(sensor, 0) == 1 for sensor in pump_sensors):
                 max_pump_from_sensors = max(max_pump_from_sensors, i)
 
         # Check if there's a generic pump sensor (pmp_spd, without numbering)
-        has_generic_pump_sensor = vars_data.get('pmp_spd', 0) == 1
+        has_generic_pump_sensor = vars_data.get("pmp_spd", 0) == 1
 
         # Decide final pump count: take the maximum of generic pump sensor implied count (1) and numbered pump sensors
         if max_pump_from_sensors > 0:
             # Has numbered pump sensors, generate all pumps from 1 to max
-            equipment_count['pumps'] = list(range(1, max_pump_from_sensors + 1))
+            equipment_count["pumps"] = list(range(1, max_pump_from_sensors + 1))
             if has_generic_pump_sensor:
-                self.logger.info(f"Building {building_tag}: Detected generic pump sensor (pmp_spd) and {max_pump_from_sensors} numbered pump sensors, "
-                               f"generating {max_pump_from_sensors} pumps, pmp_spd will be connected to all pumps")
+                self.logger.info(
+                    f"Building {building_tag}: Detected generic pump sensor (pmp_spd) and {max_pump_from_sensors} numbered pump sensors, "
+                    f"generating {max_pump_from_sensors} pumps, pmp_spd will be connected to all pumps"
+                )
         elif has_generic_pump_sensor:
             # Only generic pump sensor, default to 1 pump
-            equipment_count['pumps'] = [1]
-            self.logger.info(f"Building {building_tag}: Only detected generic pump sensor (pmp_spd), inferring single pump exists (pump1)")
-
+            equipment_count["pumps"] = [1]
+            self.logger.info(
+                f"Building {building_tag}: Only detected generic pump sensor (pmp_spd), inferring single pump exists (pump1)"
+            )
 
         self.logger.info(
             f"Building {building_tag} equipment count inference result: "
@@ -329,12 +362,20 @@ class CSVToBrickConverter:
         )
         return equipment_count
 
-    def _create_boiler_system(self, building_tag: str, metadata: pd.Series,
-                            vars_data: pd.Series, mappings: Dict, system_type: str) -> None:
+    def _create_boiler_system(
+        self,
+        building_tag: str,
+        metadata: pd.Series,
+        vars_data: pd.Series,
+        mappings: Dict,
+        system_type: str,
+    ) -> None:
         """Create Boiler system with Primary and Secondary loop structure."""
 
         # Analyze equipment count
-        equipment_count = self._analyze_equipment_count(vars_data, metadata, building_tag, system_type)
+        equipment_count = self._analyze_equipment_count(
+            vars_data, metadata, building_tag, system_type
+        )
 
         # Create building entity with hierarchical naming
         building_uri = self._create_building(building_tag, metadata)
@@ -342,91 +383,141 @@ class CSVToBrickConverter:
         # Create Hot Water System
         system_uri = self.hhws[f"building{building_tag}.hws"]
         self.graph.add((system_uri, RDF.type, self.brick.Hot_Water_System))
-        self.graph.add((system_uri, RDFS.label,
-                      Literal(f"Hot Water System - Building {building_tag}")))
+        self.graph.add(
+            (system_uri, RDFS.label, Literal(f"Hot Water System - Building {building_tag}"))
+        )
         self.graph.add((building_uri, self.rec.isLocationOf, system_uri))
 
         # Create Primary Loop (Hot_Water_Loop)
         primary_loop_uri = self.hhws[f"building{building_tag}.hws.primary_loop"]
         self.graph.add((primary_loop_uri, RDF.type, self.brick.Hot_Water_Loop))
-        self.graph.add((primary_loop_uri, RDFS.label,
-                      Literal(f"Primary Hot Water Loop - Building {building_tag}")))
+        self.graph.add(
+            (
+                primary_loop_uri,
+                RDFS.label,
+                Literal(f"Primary Hot Water Loop - Building {building_tag}"),
+            )
+        )
         self.graph.add((system_uri, self.brick.hasPart, primary_loop_uri))
 
         # Create Secondary Loop (Hot_Water_Loop)
         secondary_loop_uri = self.hhws[f"building{building_tag}.hws.secondary_loop"]
         self.graph.add((secondary_loop_uri, RDF.type, self.brick.Hot_Water_Loop))
-        self.graph.add((secondary_loop_uri, RDFS.label,
-                      Literal(f"Secondary Hot Water Loop - Building {building_tag}")))
+        self.graph.add(
+            (
+                secondary_loop_uri,
+                RDFS.label,
+                Literal(f"Secondary Hot Water Loop - Building {building_tag}"),
+            )
+        )
         self.graph.add((system_uri, self.brick.hasPart, secondary_loop_uri))
 
         # Create multiple boilers in Primary Loop
         boiler_uris = {}
-        for boiler_num in equipment_count['boilers']:
+        for boiler_num in equipment_count["boilers"]:
             boiler_uri = self.hhws[f"building{building_tag}.boiler{boiler_num}"]
             boiler_uris[boiler_num] = boiler_uri
 
             # Determine boiler Brick class based on system type
-            if system_type == 'condensing':
+            if system_type == "condensing":
                 boiler_class = self.brick.Condensing_Natural_Gas_Boiler
-                boiler_label = f"Condensing Natural Gas Boiler {boiler_num} - Building {building_tag}"
-            elif system_type == 'non-condensing':
+                boiler_label = (
+                    f"Condensing Natural Gas Boiler {boiler_num} - Building {building_tag}"
+                )
+            elif system_type == "non-condensing":
                 boiler_class = self.brick.Noncondensing_Natural_Gas_Boiler
-                boiler_label = f"Non-condensing Natural Gas Boiler {boiler_num} - Building {building_tag}"
+                boiler_label = (
+                    f"Non-condensing Natural Gas Boiler {boiler_num} - Building {building_tag}"
+                )
             else:  # 'boiler' or default
                 boiler_class = self.brick.Natural_Gas_Boiler
                 boiler_label = f"Natural Gas Boiler {boiler_num} - Building {building_tag}"
 
             self.graph.add((boiler_uri, RDF.type, boiler_class))
             self.graph.add((boiler_uri, RDFS.label, Literal(boiler_label)))
-             # Boiler is part of Primary Loop
+            # Boiler is part of Primary Loop
             self.graph.add((primary_loop_uri, self.brick.hasPart, boiler_uri))
 
             # Add boiler properties
-            if not pd.isna(metadata.get('b_manufacturer')):
-                self.graph.add((boiler_uri, self.hhws.hasManufacturer,
-                              Literal(str(metadata['b_manufacturer']))))
+            if not pd.isna(metadata.get("b_manufacturer")):
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasManufacturer,
+                        Literal(str(metadata["b_manufacturer"])),
+                    )
+                )
 
-            if not pd.isna(metadata.get('b_model')):
-                self.graph.add((boiler_uri, self.hhws.hasModel,
-                              Literal(str(metadata['b_model']))))
+            if not pd.isna(metadata.get("b_model")):
+                self.graph.add((boiler_uri, self.hhws.hasModel, Literal(str(metadata["b_model"]))))
 
             # Add boiler technical specifications - use safe conversion
-            b_input = self._safe_float_convert(metadata.get('b_input'))
+            b_input = self._safe_float_convert(metadata.get("b_input"))
             if b_input is not None:
-                self.graph.add((boiler_uri, self.hhws.hasNominalInputPower,
-                              Literal(b_input, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasNominalInputPower,
+                        Literal(b_input, datatype=XSD.float),
+                    )
+                )
 
-            b_output = self._safe_float_convert(metadata.get('b_output'))
+            b_output = self._safe_float_convert(metadata.get("b_output"))
             if b_output is not None:
-                self.graph.add((boiler_uri, self.hhws.hasNominalOutputPower,
-                              Literal(b_output, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasNominalOutputPower,
+                        Literal(b_output, datatype=XSD.float),
+                    )
+                )
 
-            b_efficiency = self._safe_float_convert(metadata.get('b_efficiency'))
+            b_efficiency = self._safe_float_convert(metadata.get("b_efficiency"))
             if b_efficiency is not None:
-                self.graph.add((boiler_uri, self.hhws.hasNominalEfficiency,
-                              Literal(b_efficiency, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasNominalEfficiency,
+                        Literal(b_efficiency, datatype=XSD.float),
+                    )
+                )
 
-            b_min_turndown = self._safe_float_convert(metadata.get('b_min_turndown'))
+            b_min_turndown = self._safe_float_convert(metadata.get("b_min_turndown"))
             if b_min_turndown is not None:
-                self.graph.add((boiler_uri, self.hhws.hasMinimumTurndown,
-                              Literal(b_min_turndown, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasMinimumTurndown,
+                        Literal(b_min_turndown, datatype=XSD.float),
+                    )
+                )
 
-            b_min_flow = self._safe_float_convert(metadata.get('b_min_flow'))
+            b_min_flow = self._safe_float_convert(metadata.get("b_min_flow"))
             if b_min_flow is not None:
-                self.graph.add((boiler_uri, self.hhws.hasMinimumFlowRequirement,
-                              Literal(b_min_flow, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasMinimumFlowRequirement,
+                        Literal(b_min_flow, datatype=XSD.float),
+                    )
+                )
 
-            b_redundancy = self._safe_float_convert(metadata.get('b_redundancy'))
+            b_redundancy = self._safe_float_convert(metadata.get("b_redundancy"))
             if b_redundancy is not None:
-                self.graph.add((boiler_uri, self.hhws.hasRedundancyLevel,
-                              Literal(b_redundancy, datatype=XSD.float)))
+                self.graph.add(
+                    (
+                        boiler_uri,
+                        self.hhws.hasRedundancyLevel,
+                        Literal(b_redundancy, datatype=XSD.float),
+                    )
+                )
 
         # Add system-level boiler information - use safe conversion
-        b_number = self._safe_int_convert(metadata.get('b_number'))
+        b_number = self._safe_int_convert(metadata.get("b_number"))
         if b_number is not None:
-            self.graph.add((system_uri, self.hhws.hasBoilerCount,
-                          Literal(b_number, datatype=XSD.integer)))
+            self.graph.add(
+                (system_uri, self.hhws.hasBoilerCount, Literal(b_number, datatype=XSD.integer))
+            )
 
         # Create pumps in Primary Loop (always only 1 pump in primary loop)
         # Primary loop pump has no sensor points, it's just structural
@@ -440,12 +531,11 @@ class CSVToBrickConverter:
         # Pump placed in Primary Loop
         self.graph.add((primary_loop_uri, self.brick.hasPart, pump_uri))
 
-
         # Create pumps in Secondary Loop
         # Pump variables (pmp1_spd, pmp2_spd, etc.) represent secondary loop pumps
         # If no pump variables, still create at least 1 pump
         secondary_pump_uris = {}
-        pump_list = equipment_count['pumps'] if equipment_count['pumps'] else [1]
+        pump_list = equipment_count["pumps"] if equipment_count["pumps"] else [1]
 
         for pump_num in pump_list:
             pump_uri = self.hhws[f"building{building_tag}.secondary_pump{pump_num}"]
@@ -463,30 +553,32 @@ class CSVToBrickConverter:
             for pump_uri in primary_pump_uris.values():
                 self.graph.add((boiler_uri, self.brick.feeds, pump_uri))
 
-
         # Primary_Loop → Secondary_Loop
         self.graph.add((primary_loop_uri, self.brick.feeds, secondary_loop_uri))
 
         # Create sensor points
         equipment_uris = {
-            'hot_water_system': system_uri,
-            'primary_loop': primary_loop_uri,
-            'secondary_loop': secondary_loop_uri,
-            'boiler_uris': boiler_uris,
-            'primary_pump_uris': primary_pump_uris,
-            'secondary_pump_uris': secondary_pump_uris,
-            'pump_uris': secondary_pump_uris,  # Default pump sensors connect to secondary pumps
-            'equipment_count': equipment_count
+            "hot_water_system": system_uri,
+            "primary_loop": primary_loop_uri,
+            "secondary_loop": secondary_loop_uri,
+            "boiler_uris": boiler_uris,
+            "primary_pump_uris": primary_pump_uris,
+            "secondary_pump_uris": secondary_pump_uris,
+            "pump_uris": secondary_pump_uris,  # Default pump sensors connect to secondary pumps
+            "equipment_count": equipment_count,
         }
 
         self._create_sensor_points(building_tag, vars_data, mappings, equipment_uris)
 
-    def _create_district_hw_system(self, building_tag: str, metadata: pd.Series,
-                                  vars_data: pd.Series, mappings: Dict) -> None:
+    def _create_district_hw_system(
+        self, building_tag: str, metadata: pd.Series, vars_data: pd.Series, mappings: Dict
+    ) -> None:
         """Create District Hot Water system with only Secondary loop (no boiler, no primary loop in building)."""
 
         # District HW systems have no boiler or primary loop in the building, only secondary loop with pumps and heat exchangers
-        equipment_count = self._analyze_equipment_count(vars_data, metadata, building_tag, 'district hw')
+        equipment_count = self._analyze_equipment_count(
+            vars_data, metadata, building_tag, "district hw"
+        )
 
         # Create building entity
         building_uri = self._create_building(building_tag, metadata)
@@ -494,19 +586,25 @@ class CSVToBrickConverter:
         # Create Hot Water System (no boiler in building for District HW)
         system_uri = self.hhws[f"building{building_tag}.hws"]
         self.graph.add((system_uri, RDF.type, self.brick.Hot_Water_System))
-        self.graph.add((system_uri, RDFS.label,
-                      Literal(f"District Hot Water System - Building {building_tag}")))
+        self.graph.add(
+            (
+                system_uri,
+                RDFS.label,
+                Literal(f"District Hot Water System - Building {building_tag}"),
+            )
+        )
         self.graph.add((building_uri, self.rec.isLocationOf, system_uri))
 
         # Create only Secondary Loop (no Primary Loop for District systems)
         secondary_loop_uri = self.hhws[f"building{building_tag}.hws.secondary_loop"]
         self.graph.add((secondary_loop_uri, RDF.type, self.brick.Hot_Water_Loop))
-        self.graph.add((secondary_loop_uri, RDFS.label,
-                      Literal(f"Hot Water Loop - Building {building_tag}")))
+        self.graph.add(
+            (secondary_loop_uri, RDFS.label, Literal(f"Hot Water Loop - Building {building_tag}"))
+        )
         self.graph.add((system_uri, self.brick.hasPart, secondary_loop_uri))
 
         # Ensure at least one pump exists
-        pump_list = equipment_count['pumps'] if equipment_count['pumps'] else [1]
+        pump_list = equipment_count["pumps"] if equipment_count["pumps"] else [1]
 
         # Create pumps in Secondary Loop
         pump_uris = {}
@@ -521,20 +619,23 @@ class CSVToBrickConverter:
 
         # Create sensor points
         equipment_uris = {
-            'hot_water_system': system_uri,
-            'secondary_loop': secondary_loop_uri,
-            'boiler_uris': {},  # No boilers in District HW
-            'pump_uris': pump_uris,
-            'equipment_count': equipment_count
+            "hot_water_system": system_uri,
+            "secondary_loop": secondary_loop_uri,
+            "boiler_uris": {},  # No boilers in District HW
+            "pump_uris": pump_uris,
+            "equipment_count": equipment_count,
         }
 
         self._create_sensor_points(building_tag, vars_data, mappings, equipment_uris)
 
-    def _create_district_steam_system(self, building_tag: str, metadata: pd.Series,
-                                     vars_data: pd.Series, mappings: Dict) -> None:
+    def _create_district_steam_system(
+        self, building_tag: str, metadata: pd.Series, vars_data: pd.Series, mappings: Dict
+    ) -> None:
         """Create District Steam system with only Secondary loop (no boiler, no primary loop in building, steam to HW heat exchanger)."""
 
-        equipment_count = self._analyze_equipment_count(vars_data, metadata, building_tag, 'district steam')
+        equipment_count = self._analyze_equipment_count(
+            vars_data, metadata, building_tag, "district steam"
+        )
 
         # Create building entity
         building_uri = self._create_building(building_tag, metadata)
@@ -542,19 +643,25 @@ class CSVToBrickConverter:
         # Create Hot Water System (no boiler in building for District Steam)
         system_uri = self.hhws[f"building{building_tag}.hws"]
         self.graph.add((system_uri, RDF.type, self.brick.Hot_Water_System))
-        self.graph.add((system_uri, RDFS.label,
-                      Literal(f"District Steam to Hot Water System - Building {building_tag}")))
+        self.graph.add(
+            (
+                system_uri,
+                RDFS.label,
+                Literal(f"District Steam to Hot Water System - Building {building_tag}"),
+            )
+        )
         self.graph.add((building_uri, self.rec.isLocationOf, system_uri))
 
         # Create only Secondary Loop (no Primary Loop for District systems)
         secondary_loop_uri = self.hhws[f"building{building_tag}.hws.secondary_loop"]
         self.graph.add((secondary_loop_uri, RDF.type, self.brick.Hot_Water_Loop))
-        self.graph.add((secondary_loop_uri, RDFS.label,
-                      Literal(f"Hot Water Loop - Building {building_tag}")))
+        self.graph.add(
+            (secondary_loop_uri, RDFS.label, Literal(f"Hot Water Loop - Building {building_tag}"))
+        )
         self.graph.add((system_uri, self.brick.hasPart, secondary_loop_uri))
 
         # Ensure at least one pump exists
-        pump_list = equipment_count['pumps'] if equipment_count['pumps'] else [1]
+        pump_list = equipment_count["pumps"] if equipment_count["pumps"] else [1]
 
         # Create pumps in Secondary Loop
         pump_uris = {}
@@ -569,17 +676,22 @@ class CSVToBrickConverter:
 
         # Create sensor points
         equipment_uris = {
-            'hot_water_system': system_uri,
-            'secondary_loop': secondary_loop_uri,
-            'boiler_uris': {},  # No boilers in District Steam
-            'pump_uris': pump_uris,
-            'equipment_count': equipment_count
+            "hot_water_system": system_uri,
+            "secondary_loop": secondary_loop_uri,
+            "boiler_uris": {},  # No boilers in District Steam
+            "pump_uris": pump_uris,
+            "equipment_count": equipment_count,
         }
 
         self._create_sensor_points(building_tag, vars_data, mappings, equipment_uris)
 
-    def _create_sensor_points(self, building_tag: str, vars_data: pd.Series,
-                            mappings: Dict, equipment_uris: Dict[str, URIRef]) -> None:
+    def _create_sensor_points(
+        self,
+        building_tag: str,
+        vars_data: pd.Series,
+        mappings: Dict,
+        equipment_uris: Dict[str, URIRef],
+    ) -> None:
         """Create sensor points based on vars availability data with proper hierarchical naming."""
 
         # Skip first 3 columns (tag, org, datetime)
@@ -591,20 +703,22 @@ class CSVToBrickConverter:
             if vars_data[sensor_name] == 1:
                 sensor_info = mappings.get(sensor_name)
                 if sensor_info:
-                    self._create_individual_sensor(building_tag, sensor_name,
-                                                 sensor_info, equipment_uris)
+                    self._create_individual_sensor(
+                        building_tag, sensor_name, sensor_info, equipment_uris
+                    )
                     sensors_created += 1
                 else:
                     self.logger.warning(f"No mapping found for sensor: {sensor_name}")
 
         self.logger.info(f"Created {sensors_created} sensor points for building {building_tag}")
 
-    def _create_individual_sensor(self, building_tag: str, sensor_name: str,
-                                sensor_info: Dict, equipment_uris: Dict[str, Any]) -> None:
+    def _create_individual_sensor(
+        self, building_tag: str, sensor_name: str, sensor_info: Dict, equipment_uris: Dict[str, Any]
+    ) -> None:
         """Create individual sensor point with proper hierarchical naming based on equipment and device number."""
 
         # Determine equipment from mapping - mapping file is the source of truth
-        equipment_type = sensor_info.get('equipment', 'hot_water_system')
+        equipment_type = sensor_info.get("equipment", "hot_water_system")
 
         # Parse sensor number (e.g., sup1, ret1, pmp1_pwr, etc.)
         device_number = None
@@ -612,61 +726,80 @@ class CSVToBrickConverter:
 
         # Extract device number
         import re
-        if equipment_type == 'boiler':
+
+        if equipment_type == "boiler":
             # Match boiler-related sensor numbers (sup1, ret1, fire1, etc.)
-            match = re.search(r'(sup|ret|fire)(\d+)', sensor_name)
+            match = re.search(r"(sup|ret|fire)(\d+)", sensor_name)
             if match:
                 device_number = int(match.group(2))
-                base_sensor_name = match.group(1) + match.group(2)
-        elif equipment_type == 'pump':
+        elif equipment_type == "pump":
             # Match pump-related sensor numbers (pmp1_pwr, pmp2_spd, etc.)
-            match = re.search(r'pmp(\d+)_', sensor_name)
+            match = re.search(r"pmp(\d+)_", sensor_name)
             if match:
                 device_number = int(match.group(1))
             else:
                 # Generic pump sensor (pmp_spd, etc.) - connect to all pumps
-                available_pumps = list(equipment_uris.get('pump_uris', {}).keys())
+                available_pumps = list(equipment_uris.get("pump_uris", {}).keys())
                 if len(available_pumps) > 0:
                     # If there are multiple pumps, connect generic sensor to all pumps
-                    device_number = 'all'  # Special marker indicating connection to all pumps
-                    self.logger.info(f"Generic pump sensor {sensor_name} will connect to all {len(available_pumps)} pumps")
+                    device_number = "all"  # Special marker indicating connection to all pumps
+                    self.logger.info(
+                        f"Generic pump sensor {sensor_name} will connect to all {len(available_pumps)} pumps"
+                    )
                 else:
-                    self.logger.warning(f"No pumps found for sensor {sensor_name}, will assign to secondary loop")
-                    equipment_type = 'secondary_loop'
+                    self.logger.warning(
+                        f"No pumps found for sensor {sensor_name}, will assign to secondary loop"
+                    )
+                    equipment_type = "secondary_loop"
 
         # Create hierarchical sensor URI based on equipment and device number
-        if equipment_type == 'boiler' and device_number is not None:
+        if equipment_type == "boiler" and device_number is not None:
             # Ensure boiler with this number exists
-            if device_number in equipment_uris['boiler_uris']:
-                sensor_uri = self.hhws[f"building{building_tag}.boiler{device_number}.{sensor_name}"]
-                target_equipment_uri = equipment_uris['boiler_uris'][device_number]
+            if device_number in equipment_uris["boiler_uris"]:
+                sensor_uri = self.hhws[
+                    f"building{building_tag}.boiler{device_number}.{sensor_name}"
+                ]
+                target_equipment_uri = equipment_uris["boiler_uris"][device_number]
             else:
-                self.logger.warning(f"Boiler {device_number} not found for sensor {sensor_name}, assigning to secondary loop")
+                self.logger.warning(
+                    f"Boiler {device_number} not found for sensor {sensor_name}, assigning to secondary loop"
+                )
                 sensor_uri = self.hhws[f"building{building_tag}.hws.secondary_loop.{sensor_name}"]
-                target_equipment_uri = equipment_uris.get('secondary_loop', equipment_uris['hot_water_system'])
+                target_equipment_uri = equipment_uris.get(
+                    "secondary_loop", equipment_uris["hot_water_system"]
+                )
 
-        elif equipment_type == 'pump' and device_number is not None:
+        elif equipment_type == "pump" and device_number is not None:
             # If generic pump sensor needs to connect to all pumps
-            if device_number == 'all':
+            if device_number == "all":
                 # Create sensor instance for each pump
                 pump_sensor_uris = []
-                for pump_num in equipment_uris.get('pump_uris', {}).keys():
-                    pump_sensor_uri = self.hhws[f"building{building_tag}.secondary_pump{pump_num}.{sensor_name}"]
+                for pump_num in equipment_uris.get("pump_uris", {}).keys():
+                    pump_sensor_uri = self.hhws[
+                        f"building{building_tag}.secondary_pump{pump_num}.{sensor_name}"
+                    ]
                     pump_sensor_uris.append(pump_sensor_uri)
-                    target_pump_uri = equipment_uris['pump_uris'][pump_num]
+                    target_pump_uri = equipment_uris["pump_uris"][pump_num]
 
                     # Get Brick class
-                    brick_class_name = sensor_info['brick_class'].replace('brick:', '')
+                    brick_class_name = sensor_info["brick_class"].replace("brick:", "")
                     brick_class = getattr(self.brick, brick_class_name, self.brick.Point)
 
                     # Add sensor to graph
                     self.graph.add((pump_sensor_uri, RDF.type, brick_class))
-                    self.graph.add((pump_sensor_uri, RDFS.label,
-                                  Literal(f"{sensor_info['description']} - Pump {pump_num} - Building {building_tag}")))
+                    self.graph.add(
+                        (
+                            pump_sensor_uri,
+                            RDFS.label,
+                            Literal(
+                                f"{sensor_info['description']} - Pump {pump_num} - Building {building_tag}"
+                            ),
+                        )
+                    )
 
                     # Add unit information
-                    if sensor_info.get('unit'):
-                        unit_uri = self.unit[sensor_info['unit']]
+                    if sensor_info.get("unit"):
+                        unit_uri = self.unit[sensor_info["unit"]]
                         self.graph.add((pump_sensor_uri, self.brick.hasUnit, unit_uri))
 
                     # Add TimeseriesReference
@@ -679,35 +812,46 @@ class CSVToBrickConverter:
                 # This indicates they are the same physical command/sensor
                 if len(pump_sensor_uris) > 1:
                     for i in range(len(pump_sensor_uris) - 1):
-                        self.graph.add((pump_sensor_uris[i], self.owl.sameAs, pump_sensor_uris[i + 1]))
-                    self.logger.info(f"Added owl:sameAs relationships for {len(pump_sensor_uris)} instances of {sensor_name}")
+                        self.graph.add(
+                            (pump_sensor_uris[i], self.owl.sameAs, pump_sensor_uris[i + 1])
+                        )
+                    self.logger.info(
+                        f"Added owl:sameAs relationships for {len(pump_sensor_uris)} instances of {sensor_name}"
+                    )
 
-                self.logger.info(f"Created {len(equipment_uris.get('pump_uris', {}))} instances of {sensor_name} for all pumps")
+                self.logger.info(
+                    f"Created {len(equipment_uris.get('pump_uris', {}))} instances of {sensor_name} for all pumps"
+                )
                 return  # Processing complete, return directly
 
             # Ensure pump with this number exists
-            if device_number in equipment_uris['pump_uris']:
-                sensor_uri = self.hhws[f"building{building_tag}.secondary_pump{device_number}.{sensor_name}"]
-                target_equipment_uri = equipment_uris['pump_uris'][device_number]
+            if device_number in equipment_uris["pump_uris"]:
+                sensor_uri = self.hhws[
+                    f"building{building_tag}.secondary_pump{device_number}.{sensor_name}"
+                ]
+                target_equipment_uri = equipment_uris["pump_uris"][device_number]
             else:
-                self.logger.warning(f"Pump {device_number} not found for sensor {sensor_name}, assigning to secondary loop")
+                self.logger.warning(
+                    f"Pump {device_number} not found for sensor {sensor_name}, assigning to secondary loop"
+                )
                 sensor_uri = self.hhws[f"building{building_tag}.hws.secondary_loop.{sensor_name}"]
-                target_equipment_uri = equipment_uris.get('secondary_loop', equipment_uris['hot_water_system'])
+                target_equipment_uri = equipment_uris.get(
+                    "secondary_loop", equipment_uris["hot_water_system"]
+                )
 
-
-        elif equipment_type == 'primary_loop':
+        elif equipment_type == "primary_loop":
             # Sensor assigned to Primary Loop
             sensor_uri = self.hhws[f"building{building_tag}.hws.primary_loop.{sensor_name}"]
-            target_equipment_uri = equipment_uris['primary_loop']
+            target_equipment_uri = equipment_uris["primary_loop"]
 
-        elif equipment_type == 'secondary_loop':
+        elif equipment_type == "secondary_loop":
             # Sensor assigned to Secondary Loop
             sensor_uri = self.hhws[f"building{building_tag}.hws.secondary_loop.{sensor_name}"]
-            target_equipment_uri = equipment_uris['secondary_loop']
+            target_equipment_uri = equipment_uris["secondary_loop"]
 
-        elif equipment_type == 'weather_station':
+        elif equipment_type == "weather_station":
             # Create weather station if it doesn't exist yet
-            if 'weather_station' not in equipment_uris:
+            if "weather_station" not in equipment_uris:
                 # Get building metadata to create weather station
                 building_uri = self.hhws[f"building{building_tag}"]
                 weather_station_uri = self.hhws[f"building{building_tag}.weather_station"]
@@ -715,44 +859,54 @@ class CSVToBrickConverter:
                 # Add weather station to graph if not already present
                 if (weather_station_uri, RDF.type, self.brick.Weather_Station) not in self.graph:
                     self.graph.add((weather_station_uri, RDF.type, self.brick.Weather_Station))
-                    self.graph.add((weather_station_uri, RDFS.label,
-                                  Literal(f"Weather Station - Building {building_tag}")))
+                    self.graph.add(
+                        (
+                            weather_station_uri,
+                            RDFS.label,
+                            Literal(f"Weather Station - Building {building_tag}"),
+                        )
+                    )
                     # Weather station previously added as hasPart of building; change to isLocationOf
                     # self.graph.add((building_uri, self.brick.hasPart, weather_station_uri))  # old
                     self.graph.add((building_uri, self.rec.isLocationOf, weather_station_uri))
 
-                equipment_uris['weather_station'] = weather_station_uri
+                equipment_uris["weather_station"] = weather_station_uri
 
             sensor_uri = self.hhws[f"building{building_tag}.weather_station.{sensor_name}"]
-            target_equipment_uri = equipment_uris['weather_station']
+            target_equipment_uri = equipment_uris["weather_station"]
 
-        elif equipment_type == 'hot_water_system':
+        elif equipment_type == "hot_water_system":
             # Sensor assigned to Hot Water System (e.g., system-level commands and status like enab, oper)
             sensor_uri = self.hhws[f"building{building_tag}.hws.{sensor_name}"]
-            target_equipment_uri = equipment_uris['hot_water_system']
+            target_equipment_uri = equipment_uris["hot_water_system"]
 
         else:  # unknown equipment type
             # For unknown types, if secondary_loop exists, default to assigning to secondary_loop
-            if equipment_uris.get('secondary_loop'):
+            if equipment_uris.get("secondary_loop"):
                 sensor_uri = self.hhws[f"building{building_tag}.hws.secondary_loop.{sensor_name}"]
-                target_equipment_uri = equipment_uris['secondary_loop']
+                target_equipment_uri = equipment_uris["secondary_loop"]
             else:
                 sensor_uri = self.hhws[f"building{building_tag}.hws.{sensor_name}"]
-                target_equipment_uri = equipment_uris['hot_water_system']
-                target_equipment_uri = equipment_uris['hot_water_system']
+                target_equipment_uri = equipment_uris["hot_water_system"]
+                target_equipment_uri = equipment_uris["hot_water_system"]
 
         # Get Brick class
-        brick_class_name = sensor_info['brick_class'].replace('brick:', '')
+        brick_class_name = sensor_info["brick_class"].replace("brick:", "")
         brick_class = getattr(self.brick, brick_class_name, self.brick.Point)
 
         # Add sensor to graph
         self.graph.add((sensor_uri, RDF.type, brick_class))
-        self.graph.add((sensor_uri, RDFS.label,
-                      Literal(f"{sensor_info['description']} - Building {building_tag}")))
+        self.graph.add(
+            (
+                sensor_uri,
+                RDFS.label,
+                Literal(f"{sensor_info['description']} - Building {building_tag}"),
+            )
+        )
 
         # Add unit information
-        if sensor_info.get('unit'):
-            unit_uri = self.unit[sensor_info['unit']]
+        if sensor_info.get("unit"):
+            unit_uri = self.unit[sensor_info["unit"]]
             self.graph.add((sensor_uri, self.brick.hasUnit, unit_uri))
 
         # Add TimeseriesReference for sensor data
@@ -761,15 +915,16 @@ class CSVToBrickConverter:
         # Link to appropriate equipment with correct relationship
         # Equipment (boiler, pump, weather_station) uses hasPoint for sensors
         # Systems and Loops (hot_water_system, primary_loop, secondary_loop) use hasPart for sensors
-        if target_equipment_uri in [equipment_uris['hot_water_system'],
-                                     equipment_uris.get('primary_loop'),
-                                     equipment_uris.get('secondary_loop')]:
+        if target_equipment_uri in [
+            equipment_uris["hot_water_system"],
+            equipment_uris.get("primary_loop"),
+            equipment_uris.get("secondary_loop"),
+        ]:
             # System and Loops use hasPart for sensors
             self.graph.add((target_equipment_uri, self.brick.hasPart, sensor_uri))
         else:
             # Equipment (boiler, pump, weather_station) uses hasPoint for sensors
             self.graph.add((target_equipment_uri, self.brick.hasPoint, sensor_uri))
-
 
     def get_graph(self) -> Graph:
         """Return the RDF graph."""
@@ -798,64 +953,98 @@ class CSVToBrickConverter:
 
         # Add all metadata properties - use safe conversion for numeric fields
         # Basic building properties
-        area = self._safe_float_convert(metadata.get('area'))
+        area = self._safe_float_convert(metadata.get("area"))
         if area is not None:
-            self.graph.add((building_uri, self.hhws.hasArea,
-                          Literal(area, datatype=XSD.float)))
+            self.graph.add((building_uri, self.hhws.hasArea, Literal(area, datatype=XSD.float)))
 
-        if not pd.isna(metadata.get('bldg_type')):
-            self.graph.add((building_uri, self.hhws.hasBuildingType,
-                          Literal(str(metadata['bldg_type']))))
+        if not pd.isna(metadata.get("bldg_type")):
+            self.graph.add(
+                (building_uri, self.hhws.hasBuildingType, Literal(str(metadata["bldg_type"])))
+            )
 
-        if not pd.isna(metadata.get('bldg_type_hl')):
-            self.graph.add((building_uri, self.hhws.hasHighLevelBuildingType,
-                          Literal(str(metadata['bldg_type_hl']))))
+        if not pd.isna(metadata.get("bldg_type_hl")):
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasHighLevelBuildingType,
+                    Literal(str(metadata["bldg_type_hl"])),
+                )
+            )
 
         # Construction and time properties - use safe conversion
-        year = self._safe_int_convert(metadata.get('year'))
+        year = self._safe_int_convert(metadata.get("year"))
         if year is not None:
-            self.graph.add((building_uri, self.hhws.hasConstructionYear,
-                          Literal(year, datatype=XSD.integer)))
+            self.graph.add(
+                (building_uri, self.hhws.hasConstructionYear, Literal(year, datatype=XSD.integer))
+            )
 
-        decade = self._safe_int_convert(metadata.get('decade'))
+        decade = self._safe_int_convert(metadata.get("decade"))
         if decade is not None:
-            self.graph.add((building_uri, self.hhws.hasConstructionDecade,
-                          Literal(decade, datatype=XSD.integer)))
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasConstructionDecade,
+                    Literal(decade, datatype=XSD.integer),
+                )
+            )
 
         # Climate and environmental properties
-        if not pd.isna(metadata.get('climate')):
-            self.graph.add((building_uri, self.hhws.hasClimateZone,
-                          Literal(str(metadata['climate']))))
+        if not pd.isna(metadata.get("climate")):
+            self.graph.add(
+                (building_uri, self.hhws.hasClimateZone, Literal(str(metadata["climate"])))
+            )
 
-        t_hdd = self._safe_float_convert(metadata.get('t_hdd'))
+        t_hdd = self._safe_float_convert(metadata.get("t_hdd"))
         if t_hdd is not None:
-            self.graph.add((building_uri, self.hhws.hasHeatingDesignTemperature,
-                          Literal(t_hdd, datatype=XSD.float)))
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasHeatingDesignTemperature,
+                    Literal(t_hdd, datatype=XSD.float),
+                )
+            )
 
         # System properties
-        if not pd.isna(metadata.get('system')):
-            self.graph.add((building_uri, self.hhws.hasSystemType,
-                          Literal(str(metadata['system']))))
+        if not pd.isna(metadata.get("system")):
+            self.graph.add(
+                (building_uri, self.hhws.hasSystemType, Literal(str(metadata["system"])))
+            )
 
-        if not pd.isna(metadata.get('system_hl')):
-            self.graph.add((building_uri, self.hhws.hasHighLevelSystemType,
-                          Literal(str(metadata['system_hl']))))
+        if not pd.isna(metadata.get("system_hl")):
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasHighLevelSystemType,
+                    Literal(str(metadata["system_hl"])),
+                )
+            )
 
         # Design parameters - use safe conversion
-        design_supply = self._safe_float_convert(metadata.get('design_supply'))
+        design_supply = self._safe_float_convert(metadata.get("design_supply"))
         if design_supply is not None:
-            self.graph.add((building_uri, self.hhws.hasDesignSupplyTemperature,
-                          Literal(design_supply, datatype=XSD.float)))
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasDesignSupplyTemperature,
+                    Literal(design_supply, datatype=XSD.float),
+                )
+            )
 
-        design_return = self._safe_float_convert(metadata.get('design_return'))
+        design_return = self._safe_float_convert(metadata.get("design_return"))
         if design_return is not None:
-            self.graph.add((building_uri, self.hhws.hasDesignReturnTemperature,
-                          Literal(design_return, datatype=XSD.float)))
+            self.graph.add(
+                (
+                    building_uri,
+                    self.hhws.hasDesignReturnTemperature,
+                    Literal(design_return, datatype=XSD.float),
+                )
+            )
 
         # Organization property
-        if not pd.isna(metadata.get('org')):
-            self.graph.add((building_uri, self.hhws.belongsToOrganization,
-                          Literal(str(metadata['org']))))
+        if not pd.isna(metadata.get("org")):
+            self.graph.add(
+                (building_uri, self.hhws.belongsToOrganization, Literal(str(metadata["org"])))
+            )
 
         # Note: Weather Station will be created dynamically in sensor creation
         # if weather sensors are available (handled in _create_individual_sensor)
@@ -868,19 +1057,30 @@ class CSVToBrickConverter:
 
         # Add weather station to graph
         self.graph.add((weather_station_uri, RDF.type, self.brick.Weather_Station))
-        self.graph.add((weather_station_uri, RDFS.label,
-                      Literal(f"Weather Station - Building {building_tag}")))
+        self.graph.add(
+            (weather_station_uri, RDFS.label, Literal(f"Weather Station - Building {building_tag}"))
+        )
 
         # Add climate zone information to weather station
-        if not pd.isna(metadata.get('climate')):
-            self.graph.add((weather_station_uri, self.hhws.locatedInClimateZone,
-                          Literal(str(metadata['climate']))))
+        if not pd.isna(metadata.get("climate")):
+            self.graph.add(
+                (
+                    weather_station_uri,
+                    self.hhws.locatedInClimateZone,
+                    Literal(str(metadata["climate"])),
+                )
+            )
 
         # Add heating design temperature as a property of the weather station - use safe conversion
-        t_hdd = self._safe_float_convert(metadata.get('t_hdd'))
+        t_hdd = self._safe_float_convert(metadata.get("t_hdd"))
         if t_hdd is not None:
-            self.graph.add((weather_station_uri, self.hhws.hasHeatingDesignTemperature,
-                          Literal(t_hdd, datatype=XSD.float)))
+            self.graph.add(
+                (
+                    weather_station_uri,
+                    self.hhws.hasHeatingDesignTemperature,
+                    Literal(t_hdd, datatype=XSD.float),
+                )
+            )
 
         return weather_station_uri
 
@@ -892,7 +1092,7 @@ class CSVToBrickConverter:
     def _load_sensor_mappings(self, mapping_file_path: str) -> Dict:
         """Load sensor to Brick mappings from YAML file."""
         try:
-            with open(mapping_file_path, 'r', encoding='utf-8') as f:
+            with open(mapping_file_path, "r", encoding="utf-8") as f:
                 mappings = yaml.safe_load(f)
             self.logger.info(f"Loaded {len(mappings)} sensor mappings from {mapping_file_path}")
             return mappings
@@ -908,15 +1108,15 @@ class CSVToBrickConverter:
 
         # Define and bind all prefixes - use # for namespace prefixes (not both / and #)
         prefixes = {
-            'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-            'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-            'owl': 'http://www.w3.org/2002/07/owl#',
-            'brick': 'https://brickschema.org/schema/Brick#',
-            'rec': 'https://w3id.org/rec#',  # RealEstateCore for Building and location relationships
-            'unit': 'http://qudt.org/vocab/unit/',
-            'xsd': 'http://www.w3.org/2001/XMLSchema#',
-            'ref': 'https://brickschema.org/schema/Brick/ref#',
-            'hhws': 'https://hhws.example.org#'  # Use # instead of /#
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "brick": "https://brickschema.org/schema/Brick#",
+            "rec": "https://w3id.org/rec#",  # RealEstateCore for Building and location relationships
+            "unit": "http://qudt.org/vocab/unit/",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "ref": "https://brickschema.org/schema/Brick/ref#",
+            "hhws": "https://hhws.example.org#",  # Use # instead of /#
         }
 
         for prefix, namespace in prefixes.items():
@@ -936,14 +1136,14 @@ class CSVToBrickConverter:
             complete_graph.add(triple)
 
         # Serialize the complete graph
-        ttl_content = complete_graph.serialize(format='turtle')
+        ttl_content = complete_graph.serialize(format="turtle")
 
         # Filter out any unwanted auto-generated ontology declarations
         filtered_content = self._filter_unwanted_declarations(ttl_content)
 
         # Write to file
         try:
-            with open(output_path, 'w', encoding='utf-8') as f:
+            with open(output_path, "w", encoding="utf-8") as f:
                 f.write(filtered_content)
         except IOError as e:
             self.logger.error(f"Failed to write to {output_path}: {e}")
@@ -951,18 +1151,20 @@ class CSVToBrickConverter:
 
     def _filter_unwanted_declarations(self, content: str) -> str:
         """Filter out unwanted auto-generated ontology declarations."""
-        lines = content.split('\n')
+        lines = content.split("\n")
         filtered_lines = []
 
         for line in lines:
             # Skip unwanted ontology declarations with urn: prefixes
-            if (line.strip().startswith('<urn:') or
-                (line.strip().startswith('owl:imports') and 'urn:' in line) or
-                (line.strip().startswith('a owl:Ontology') and '<urn:' in line)):
+            if (
+                line.strip().startswith("<urn:")
+                or (line.strip().startswith("owl:imports") and "urn:" in line)
+                or (line.strip().startswith("a owl:Ontology") and "<urn:" in line)
+            ):
                 continue
             filtered_lines.append(line)
 
-        return '\n'.join(filtered_lines)
+        return "\n".join(filtered_lines)
 
     # Remove the old methods that are no longer needed
     def _get_filtered_graph_content(self) -> str:
@@ -973,11 +1175,14 @@ class CSVToBrickConverter:
         """Deprecated method - functionality moved to _serialize_with_ontology"""
         pass
 
-    def _add_timeseries_reference(self, sensor_uri: URIRef, building_tag: str, sensor_name: str) -> None:
+    def _add_timeseries_reference(
+        self, sensor_uri: URIRef, building_tag: str, sensor_name: str
+    ) -> None:
         """Add TimeseriesReference to sensor for linking to CSV data."""
 
         # Use a more direct approach to create blank node
         from rdflib import BNode
+
         timeseries_ref = BNode()
 
         # Add the timeseries reference structure
@@ -993,12 +1198,15 @@ class CSVToBrickConverter:
         """Save validation warnings to a text file for manual review."""
         try:
             from datetime import datetime
-            with open(warnings_file, 'w', encoding='utf-8') as f:
+
+            with open(warnings_file, "w", encoding="utf-8") as f:
                 f.write("=" * 80 + "\n")
                 f.write("Brick Model Generation - Validation Warnings Report\n")
                 f.write(f"Generated time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write("=" * 80 + "\n\n")
-                f.write(f"Total found {len(self.validation_warnings)} issues requiring manual review:\n\n")
+                f.write(
+                    f"Total found {len(self.validation_warnings)} issues requiring manual review:\n\n"
+                )
 
                 for i, warning in enumerate(self.validation_warnings, 1):
                     f.write(f"{i}. {warning}\n")
@@ -1010,4 +1218,3 @@ class CSVToBrickConverter:
             self.logger.info(f"Validation warnings successfully saved to: {warnings_file}")
         except Exception as e:
             self.logger.error(f"Failed to save validation warnings: {e}")
-

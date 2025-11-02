@@ -75,7 +75,7 @@ Optimize your workflows for production use.
 graph LR
     A[First App] -->|Build on| B[Data Pipeline]
     B -->|Optimize| C[Performance]
-    
+
     style A fill:#c8e6c9
     style B fill:#fff9c4
     style C fill:#f8bbd0
@@ -308,4 +308,3 @@ except Exception as e:
 ---
 
 **Ready to try?** Start with [CSV Conversion](basic/csv-conversion.md) →
-

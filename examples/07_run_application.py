@@ -14,6 +14,7 @@ from pathlib import Path
 from hhw_brick import apps
 import yaml
 
+
 def main():
     print("Example 7: Run Application")
     print("=" * 60)
@@ -50,8 +51,8 @@ def main():
 
     # Check qualification result
     qualified = False
-    for r in result['results']:
-        if r['app'] == app_name and r['qualified']:
+    for r in result["results"]:
+        if r["app"] == app_name and r["qualified"]:
             qualified = True
             print(f"✓ Building {building_number} qualified")
             print(f"  Required sensors found:")
@@ -76,13 +77,13 @@ def main():
 
     # Save config template for users to edit
     config_file = fixtures / f"{app_name}_config.yaml"
-    with open(config_file, 'w') as f:
+    with open(config_file, "w") as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
     print(f"✓ Config template saved: {config_file.name}")
 
     # Customize configuration (or edit the YAML file directly)
-    config['output']['output_dir'] = str(fixtures / "analysis_output")
-    config['output']['generate_plots'] = True
+    config["output"]["output_dir"] = str(fixtures / "analysis_output")
+    config["output"]["generate_plots"] = True
     print(f"✓ Output directory: {config['output']['output_dir']}")
 
     # ========================================================================
@@ -98,6 +99,7 @@ def main():
 
     # Run analysis with suppressed verbose output
     import sys, io
+
     old_stdout = sys.stdout
     sys.stdout = io.StringIO()
     results = app.analyze(str(model_file), str(data_file), config)
@@ -105,18 +107,18 @@ def main():
 
     # Display analysis results
     if results:
-        stats = results['stats']
+        stats = results["stats"]
         print(f"\n✓ Analysis complete!")
         print(f"  Data points: {stats['count']:,}")
         print(f"  Mean ΔT: {stats['mean_temp_diff']:.2f}°C")
         print(f"  Range: [{stats['min_temp_diff']:.2f}, {stats['max_temp_diff']:.2f}]°C")
 
         # Show generated files
-        output_dir = Path(config['output']['output_dir'])
+        output_dir = Path(config["output"]["output_dir"])
         files = list(output_dir.glob("*"))
         print(f"\n✓ Generated {len(files)} file(s):")
         for f in sorted(files):
-            icon = "📊" if f.suffix == '.png' else "📄"
+            icon = "📊" if f.suffix == ".png" else "📄"
             print(f"    {icon} {f.name}")
 
     # ========================================================================
@@ -133,4 +135,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
