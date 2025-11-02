@@ -7,6 +7,7 @@ import os
 import pandas as pd
 from pathlib import Path
 import urllib.error
+import functools
 
 from hhw_brick.validation.validator import BrickModelValidator
 from hhw_brick.validation.subgraph_pattern_validator import SubgraphPatternValidator
@@ -17,6 +18,7 @@ from hhw_brick.conversion.csv_to_brick import CSVToBrickConverter
 def skip_if_network_error(func):
     """Decorator to skip tests that fail due to network issues."""
 
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
