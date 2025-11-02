@@ -136,8 +136,6 @@ def main():
     print(f"\n{'='*60}")
     print("Summary")
     print(f"{'='*60}")
-
-Author: Mingchen Li
     print(f"""
   Pattern 1 (Boiler System): Primary Loop + Secondary Loop + Boiler(s)
   Pattern 2 (District System): Secondary Loop only, no Boiler

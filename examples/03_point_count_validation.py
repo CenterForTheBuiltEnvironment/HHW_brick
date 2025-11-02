@@ -148,8 +148,6 @@ def main():
     print(f"\n{'='*60}")
     print("Summary")
     print(f"{'='*60}")
-
-Author: Mingchen Li
     print(f"""
   ✓ Generated ground truth from CSV data
   ✓ Validated {total} Brick models using parallel processing

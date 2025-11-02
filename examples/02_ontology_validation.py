@@ -98,8 +98,6 @@ def main():
     print(f"\n{'='*60}")
     print("Summary")
     print(f"{'='*60}")
-
-Author: Mingchen Li
     print(f"""
   ✓ Validated {total} Brick models using parallel processing
   ✓ All models checked against Brick schema

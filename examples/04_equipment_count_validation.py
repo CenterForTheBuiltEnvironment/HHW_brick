@@ -162,8 +162,6 @@ def main():
     print(f"\n{'='*60}")
     print("Summary")
     print(f"{'='*60}")
-
-Author: Mingchen Li
     print(f"""
   ✓ Validated equipment in {total} Brick models using parallel processing
   ✓ Checked boilers, pumps, and weather stations
