@@ -1,0 +1,2941 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Heating Hot Water System Brick Ontology Application - Complete Documentation">
+      
+      
+        <meta name="author" content="Mingchen Li">
+      
+      
+        <link rel="canonical" href="https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/system-types/">
+      
+      
+        <link rel="prev" href="../batch-conversion/">
+      
+      
+        <link rel="next" href="../sensor-mapping/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>System Types - HHW Brick Application</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-types" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="HHW Brick Application" class="md-header__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 2c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h1v2H6v2h3c1.11 0 2-.89 2-2v-2h2v2c0 1.11.89 2 2 2h3v-2h-3v-2h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm4 2.97a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m-2 9.53h4V16h-4z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HHW Brick Application
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Types
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hhw-brick
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  FAQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="HHW Brick Application" class="md-nav__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 2c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h1v2H6v2h3c1.11 0 2-.89 2-2v-2h2v2c0 1.11.89 2 2 2h3v-2h-3v-2h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm4 2.97a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m-2 9.53h4V16h-4z"/></svg>
+
+    </a>
+    HHW Brick Application
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hhw-brick
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/understanding-brick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Understanding Brick
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/csv-format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSV Data Format
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    User Guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    CSV to Brick Conversion
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CSV to Brick Conversion
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../single-building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Single Building
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../batch-conversion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Batch Conversion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    System Types
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Types
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-system-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported System Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-type-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Details
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Type Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-boiler-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Boiler Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Boiler Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-non-condensing-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Non-condensing Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Non-condensing Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-boilers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Boilers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-condensing-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Condensing Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Condensing Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Differences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-district-hot-water-district-hw" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. District Hot Water (District HW)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. District Hot Water (District HW)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-boilers" class="md-nav__link">
+    <span class="md-ellipsis">
+      No Boilers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-district-steam" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. District Steam
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. District Steam">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-type-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Selection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Type Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Specification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equipment-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Numbering
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Equipment Numbering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boiler-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boiler Numbering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensor-based-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor-Based Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pump-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pump Numbering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#point-mappings-by-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Point Mappings by System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Point Mappings by System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-points-all-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Points (All Systems)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boiler-specific-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boiler-Specific Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secondary-loop-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secondary Loop Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#district-specific-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      District-Specific Points
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-and-warnings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation and Warnings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation and Warnings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-type-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Mismatch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-equipment-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing Equipment Count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistent-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inconsistent Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-system-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Choosing the Right System Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Choosing the Right System Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use Each Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-by-system-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples by System Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples by System Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convert-all-non-condensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convert All Non-condensing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-district-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convert District Systems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#separate-by-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Separate by Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensor-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Mapping
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../validation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Model Validation
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Model Validation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../validation/ontology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ontology Validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../validation/ground-truth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ground Truth Comparison
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../validation/subgraph-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Subgraph Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../applications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Analytics Applications
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Analytics Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../applications/apps-manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Apps Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../applications/secondary-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Secondary Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../applications/running-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Apps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-system-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported System Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-type-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Details
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Type Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-boiler-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Boiler Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Boiler Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-non-condensing-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Non-condensing Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Non-condensing Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-boilers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Boilers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-condensing-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Condensing Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Condensing Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Differences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-district-hot-water-district-hw" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. District Hot Water (District HW)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. District Hot Water (District HW)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-boilers" class="md-nav__link">
+    <span class="md-ellipsis">
+      No Boilers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-district-steam" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. District Steam
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. District Steam">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#equipment-hierarchy_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#created-equipment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created Equipment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-example_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-type-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Selection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Type Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Specification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equipment-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Equipment Numbering
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Equipment Numbering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boiler-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boiler Numbering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensor-based-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor-Based Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pump-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pump Numbering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#point-mappings-by-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Point Mappings by System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Point Mappings by System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-points-all-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Points (All Systems)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boiler-specific-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boiler-Specific Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secondary-loop-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secondary Loop Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#district-specific-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      District-Specific Points
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-and-warnings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation and Warnings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation and Warnings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-type-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Type Mismatch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-equipment-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing Equipment Count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistent-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inconsistent Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-system-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Choosing the Right System Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Choosing the Right System Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use Each Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-by-system-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples by System Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples by System Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convert-all-non-condensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convert All Non-condensing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-district-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convert District Systems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#separate-by-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Separate by Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="system-types">System Types<a class="headerlink" href="#system-types" title="Permanent link">&para;</a></h1>
+<p>Understanding the different HVAC system types supported by HHW Brick Application.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>HHW Brick Application supports <strong>five main system types</strong> for heating hot water systems. Each system type has different equipment configurations and Brick class mappings.</p>
+<h2 id="supported-system-types">Supported System Types<a class="headerlink" href="#supported-system-types" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>System Type</th>
+<th>Description</th>
+<th>Common Use</th>
+<th>Equipment Created</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Boiler</strong></td>
+<td>Generic boiler system</td>
+<td>Legacy/generic buildings</td>
+<td>Boiler, pumps</td>
+</tr>
+<tr>
+<td><strong>Non-condensing</strong></td>
+<td>Non-condensing boiler with heat exchanger</td>
+<td>Older buildings</td>
+<td>Boiler, HX, primary/secondary loops</td>
+</tr>
+<tr>
+<td><strong>Condensing</strong></td>
+<td>High-efficiency condensing boiler</td>
+<td>Modern buildings</td>
+<td>Condensing boiler, HX, loops</td>
+</tr>
+<tr>
+<td><strong>District HW</strong></td>
+<td>District hot water connection</td>
+<td>Campus settings</td>
+<td>District connection, HX, building loop</td>
+</tr>
+<tr>
+<td><strong>District Steam</strong></td>
+<td>District steam connection</td>
+<td>Dense urban areas</td>
+<td>Steam connection, HX, building loop</td>
+</tr>
+</tbody>
+</table>
+<h2 id="system-type-details">System Type Details<a class="headerlink" href="#system-type-details" title="Permanent link">&para;</a></h2>
+<h3 id="1-boiler-systems">1. Boiler Systems<a class="headerlink" href="#1-boiler-systems" title="Permanent link">&para;</a></h3>
+<p>Generic boiler system without specific efficiency classification.</p>
+<h4 id="equipment-hierarchy">Equipment Hierarchy<a class="headerlink" href="#equipment-hierarchy" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph TD
+    B[Boiler] --&gt;|has point| SP[Supply Temp]
+    B --&gt;|has point| RP[Return Temp]
+    B --&gt;|has point| F[Flow]
+    B --&gt;|feeds| P[Pump]
+
+    style B fill:#ff9800
+    style P fill:#2196f3</code></pre>
+<h4 id="created-equipment">Created Equipment<a class="headerlink" href="#created-equipment" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Boiler</strong> (<code>brick:Boiler</code>)</li>
+<li>Supply temperature sensor</li>
+<li>Return temperature sensor</li>
+<li>
+<p>Flow sensor (if available)</p>
+</li>
+<li>
+<p><strong>Pumps</strong> (<code>brick:Water_Pump</code>)</p>
+</li>
+<li>Primary pumps</li>
+<li>Variable frequency drives (if available)</li>
+</ul>
+<h4 id="csv-example">CSV Example<a class="headerlink" href="#csv-example" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># metadata.csv
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tag,system,org
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>105,Boiler,Organization A
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a># vars_available_by_building.csv
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>tag,hw_supply_temp,hw_return_temp,hw_flow
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>105,1,1,1
+</span></code></pre></div>
+<h3 id="2-non-condensing-systems">2. Non-condensing Systems<a class="headerlink" href="#2-non-condensing-systems" title="Permanent link">&para;</a></h3>
+<p>Non-condensing boiler with heat exchanger separating primary and secondary loops.</p>
+<h4 id="equipment-hierarchy_1">Equipment Hierarchy<a class="headerlink" href="#equipment-hierarchy_1" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph LR
+    B[Boiler&lt;br/&gt;Primary] --&gt;|feeds| HX[Heat&lt;br/&gt;Exchanger]
+    HX --&gt;|feeds| SL[Secondary&lt;br/&gt;Loop]
+    B --&gt;|has| PP[Primary&lt;br/&gt;Pump]
+    SL --&gt;|has| SP[Secondary&lt;br/&gt;Pump]
+
+    style B fill:#ff9800
+    style HX fill:#2196f3
+    style SL fill:#4caf50</code></pre>
+<h4 id="created-equipment_1">Created Equipment<a class="headerlink" href="#created-equipment_1" title="Permanent link">&para;</a></h4>
+<p><strong>Primary Side:</strong>
+- <strong>Boiler</strong> (<code>brick:Boiler</code>)
+  - HW supply temperature
+  - HW return temperature<br />
+  - Flow rate
+  - Firing rate (if available)</p>
+<ul>
+<li><strong>Primary Pumps</strong> (<code>brick:Water_Pump</code>)</li>
+<li>Pump power</li>
+<li>Pump speed</li>
+<li>VFD status</li>
+</ul>
+<p><strong>Heat Transfer:</strong>
+- <strong>Heat Exchanger</strong> (<code>brick:Heat_Exchanger</code>)
+  - Primary/secondary interface</p>
+<p><strong>Secondary Side:</strong>
+- <strong>Secondary Loop Equipment</strong>
+  - Supply/return temperatures
+  - Flow rate
+  - Pumps with VFDs</p>
+<h4 id="csv-example_1">CSV Example<a class="headerlink" href="#csv-example_1" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># metadata.csv
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tag,system,org,b_number
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>105,Non-condensing,Org A,2
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a># vars_available_by_building.csv
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>tag,hw_supply_temp,hw_return_temp,hw_flow,secondary_supply_temp,secondary_return_temp,secondary_flow,sup1,ret1,sup2,ret2
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>105,1,1,1,1,1,1,1,1,1,1
+</span></code></pre></div>
+<h4 id="multiple-boilers">Multiple Boilers<a class="headerlink" href="#multiple-boilers" title="Permanent link">&para;</a></h4>
+<p>The system can model multiple boilers:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Building with 3 boilers</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># metadata.csv: b_number=3</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Creates: Boiler_Primary_1, Boiler_Primary_2, Boiler_Primary_3</span>
+</span></code></pre></div>
+<h3 id="3-condensing-systems">3. Condensing Systems<a class="headerlink" href="#3-condensing-systems" title="Permanent link">&para;</a></h3>
+<p>High-efficiency condensing boiler systems with same topology as non-condensing.</p>
+<h4 id="key-differences">Key Differences<a class="headerlink" href="#key-differences" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Non-condensing</th>
+<th>Condensing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boiler Type</td>
+<td><code>brick:Boiler</code></td>
+<td><code>brick:Condensing_Boiler</code></td>
+</tr>
+<tr>
+<td>Efficiency</td>
+<td>~80-85%</td>
+<td>~90-98%</td>
+</tr>
+<tr>
+<td>Exhaust Temp</td>
+<td>High (&gt;140°C)</td>
+<td>Low (&lt;60°C)</td>
+</tr>
+<tr>
+<td>Return Temp</td>
+<td>&gt;60°C</td>
+<td>Can be &lt;60°C</td>
+</tr>
+</tbody>
+</table>
+<h4 id="equipment-hierarchy_2">Equipment Hierarchy<a class="headerlink" href="#equipment-hierarchy_2" title="Permanent link">&para;</a></h4>
+<p>Same as non-condensing, but uses <code>brick:Condensing_Boiler</code> class.</p>
+<h4 id="csv-example_2">CSV Example<a class="headerlink" href="#csv-example_2" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># metadata.csv
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tag,system,org
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>106,Condensing,Org A
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a># vars_available_by_building.csv (same format as non-condensing)
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>tag,hw_supply_temp,hw_return_temp,hw_flow
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>106,1,1,1
+</span></code></pre></div>
+<h3 id="4-district-hot-water-district-hw">4. District Hot Water (District HW)<a class="headerlink" href="#4-district-hot-water-district-hw" title="Permanent link">&para;</a></h3>
+<p>Building connected to a campus-wide hot water distribution system.</p>
+<h4 id="equipment-hierarchy_3">Equipment Hierarchy<a class="headerlink" href="#equipment-hierarchy_3" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph LR
+    DS[District&lt;br/&gt;Supply] --&gt;|feeds| HX[Heat&lt;br/&gt;Exchanger]
+    HX --&gt;|feeds| BL[Building&lt;br/&gt;Loop]
+    DS --&gt;|has| DM[District&lt;br/&gt;Meter]
+    BL --&gt;|has| BP[Building&lt;br/&gt;Pump]
+
+    style DS fill:#9c27b0
+    style HX fill:#2196f3
+    style BL fill:#4caf50</code></pre>
+<h4 id="created-equipment_2">Created Equipment<a class="headerlink" href="#created-equipment_2" title="Permanent link">&para;</a></h4>
+<p><strong>District Side:</strong>
+- <strong>District Connection</strong> (<code>brick:District_Hot_Water_System</code>)
+  - Supply temperature
+  - Return temperature
+  - Flow meter
+  - Energy meter</p>
+<p><strong>Building Side:</strong>
+- <strong>Heat Exchanger</strong> (<code>brick:Heat_Exchanger</code>)
+- <strong>Building Loop</strong>
+  - Secondary supply/return temperatures
+  - Building circulation pumps
+  - Control valves</p>
+<h4 id="csv-example_3">CSV Example<a class="headerlink" href="#csv-example_3" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># metadata.csv
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>tag,system,org
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>108,District HW,Org B
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a># vars_available_by_building.csv
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>tag,hw_supply_temp,hw_return_temp,hw_flow,secondary_supply_temp,secondary_return_temp
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>108,1,1,1,1,1
+</span></code></pre></div>
+<h4 id="no-boilers">No Boilers<a class="headerlink" href="#no-boilers" title="Permanent link">&para;</a></h4>
+<p>District systems do <strong>not</strong> create boiler entities, even if boiler-related data exists:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># If b_number &gt; 0 in District HW system:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># ⚠ Warning logged: &quot;District system but found boiler data&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># ✓ No boilers created (correct behavior)</span>
+</span></code></pre></div>
+<h3 id="5-district-steam">5. District Steam<a class="headerlink" href="#5-district-steam" title="Permanent link">&para;</a></h3>
+<p>Building connected to campus steam distribution.</p>
+<h4 id="equipment-hierarchy_4">Equipment Hierarchy<a class="headerlink" href="#equipment-hierarchy_4" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph LR
+    DST[District&lt;br/&gt;Steam] --&gt;|feeds| SC[Steam&lt;br/&gt;Condenser/HX]
+    SC --&gt;|feeds| BL[Building&lt;br/&gt;HW Loop]
+    SC --&gt;|returns| CR[Condensate&lt;br/&gt;Return]
+
+    style DST fill:#9c27b0
+    style SC fill:#ff5722
+    style BL fill:#4caf50</code></pre>
+<h4 id="created-equipment_3">Created Equipment<a class="headerlink" href="#created-equipment_3" title="Permanent link">&para;</a></h4>
+<p><strong>Steam Side:</strong>
+- <strong>District Steam Connection</strong> (<code>brick:District_Steam_System</code>)
+  - Steam pressure
+  - Steam temperature
+  - Condensate return temperature</p>
+<p><strong>Conversion:</strong>
+- <strong>Steam-to-Water Heat Exchanger</strong>
+  - Steam condensing
+  - Hot water generation</p>
+<p><strong>Building Side:</strong>
+- <strong>Hot Water Loop</strong>
+  - Supply/return temperatures
+  - Pumps and controls</p>
+<h4 id="csv-example_4">CSV Example<a class="headerlink" href="#csv-example_4" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># metadata.csv
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>tag,system,org
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>109,District Steam,Org B
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a># vars_available_by_building.csv
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>tag,steam_pressure,condensate_temp,hw_supply_temp,hw_return_temp
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>109,1,1,1,1
+</span></code></pre></div>
+<h2 id="system-type-selection">System Type Selection<a class="headerlink" href="#system-type-selection" title="Permanent link">&para;</a></h2>
+<h3 id="auto-detection">Auto-Detection<a class="headerlink" href="#auto-detection" title="Permanent link">&para;</a></h3>
+<p>If you don't specify <code>system_type</code>, it's auto-detected from metadata:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">converter</span> <span class="o">=</span> <span class="n">CSVToBrickConverter</span><span class="p">()</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert_to_brick</span><span class="p">(</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">building_tag</span><span class="o">=</span><span class="s2">&quot;105&quot;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="c1"># system_type not specified - auto-detected</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="manual-specification">Manual Specification<a class="headerlink" href="#manual-specification" title="Permanent link">&para;</a></h3>
+<p>You can override the metadata:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert_to_brick</span><span class="p">(</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">building_tag</span><span class="o">=</span><span class="s2">&quot;105&quot;</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">system_type</span><span class="o">=</span><span class="s2">&quot;Condensing&quot;</span>  <span class="c1"># Force this type</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="filtering">Filtering<a class="headerlink" href="#filtering" title="Permanent link">&para;</a></h3>
+<p>Convert only specific system types:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Convert only condensing systems</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert_to_brick</span><span class="p">(</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">system_type</span><span class="o">=</span><span class="s2">&quot;Condensing&quot;</span>  <span class="c1"># Filter</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="equipment-numbering">Equipment Numbering<a class="headerlink" href="#equipment-numbering" title="Permanent link">&para;</a></h2>
+<h3 id="boiler-numbering">Boiler Numbering<a class="headerlink" href="#boiler-numbering" title="Permanent link">&para;</a></h3>
+<p>Boilers are numbered based on <code>b_number</code> in metadata and sensor patterns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># metadata.csv: b_number=3</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># Creates:</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">#   Boiler_Primary_1</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">#   Boiler_Primary_2</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1">#   Boiler_Primary_3</span>
+</span></code></pre></div>
+<h3 id="sensor-based-detection">Sensor-Based Detection<a class="headerlink" href="#sensor-based-detection" title="Permanent link">&para;</a></h3>
+<p>If <code>b_number</code> is missing, the converter infers from sensors:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a># vars_available_by_building.csv
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>tag,sup1,ret1,fire1,sup2,ret2,fire2,sup3,ret3,fire3
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>105,1,1,1,1,1,1,1,1,1
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a># Detects 3 boilers from sup1-3, ret1-3, fire1-3
+</span></code></pre></div>
+<h3 id="pump-numbering">Pump Numbering<a class="headerlink" href="#pump-numbering" title="Permanent link">&para;</a></h3>
+<p>Similar logic for pumps:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># vars_available_by_building.csv
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>tag,pmp1_pwr,pmp1_spd,pmp2_pwr,pmp2_spd
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>105,1,1,1,1
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a># Detects 2 pumps
+</span></code></pre></div>
+<h2 id="point-mappings-by-system">Point Mappings by System<a class="headerlink" href="#point-mappings-by-system" title="Permanent link">&para;</a></h2>
+<h3 id="common-points-all-systems">Common Points (All Systems)<a class="headerlink" href="#common-points-all-systems" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>CSV Column</th>
+<th>Brick Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hw_supply_temp</code></td>
+<td><code>Hot_Water_Supply_Temperature_Sensor</code></td>
+</tr>
+<tr>
+<td><code>hw_return_temp</code></td>
+<td><code>Hot_Water_Return_Temperature_Sensor</code></td>
+</tr>
+<tr>
+<td><code>hw_flow</code></td>
+<td><code>Water_Flow_Sensor</code></td>
+</tr>
+<tr>
+<td><code>outdoor_temp</code></td>
+<td><code>Outside_Air_Temperature_Sensor</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="boiler-specific-points">Boiler-Specific Points<a class="headerlink" href="#boiler-specific-points" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>CSV Column</th>
+<th>Brick Class</th>
+<th>Systems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fire1</code>, <code>fire2</code>, ...</td>
+<td><code>Firing_Rate_Sensor</code></td>
+<td>Boiler, Non-condensing, Condensing</td>
+</tr>
+<tr>
+<td><code>sup1</code>, <code>sup2</code>, ...</td>
+<td><code>Hot_Water_Supply_Temperature_Sensor</code></td>
+<td>Boiler, Non-condensing, Condensing</td>
+</tr>
+<tr>
+<td><code>ret1</code>, <code>ret2</code>, ...</td>
+<td><code>Hot_Water_Return_Temperature_Sensor</code></td>
+<td>Boiler, Non-condensing, Condensing</td>
+</tr>
+</tbody>
+</table>
+<h3 id="secondary-loop-points">Secondary Loop Points<a class="headerlink" href="#secondary-loop-points" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>CSV Column</th>
+<th>Brick Class</th>
+<th>Systems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>secondary_supply_temp</code></td>
+<td><code>Hot_Water_Supply_Temperature_Sensor</code></td>
+<td>Non-condensing, Condensing, District</td>
+</tr>
+<tr>
+<td><code>secondary_return_temp</code></td>
+<td><code>Hot_Water_Return_Temperature_Sensor</code></td>
+<td>Non-condensing, Condensing, District</td>
+</tr>
+<tr>
+<td><code>secondary_flow</code></td>
+<td><code>Water_Flow_Sensor</code></td>
+<td>Non-condensing, Condensing, District</td>
+</tr>
+</tbody>
+</table>
+<h3 id="district-specific-points">District-Specific Points<a class="headerlink" href="#district-specific-points" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>CSV Column</th>
+<th>Brick Class</th>
+<th>Systems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>steam_pressure</code></td>
+<td><code>Steam_Pressure_Sensor</code></td>
+<td>District Steam</td>
+</tr>
+<tr>
+<td><code>condensate_temp</code></td>
+<td><code>Condensate_Temperature_Sensor</code></td>
+<td>District Steam</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation-and-warnings">Validation and Warnings<a class="headerlink" href="#validation-and-warnings" title="Permanent link">&para;</a></h2>
+<h3 id="system-type-mismatch">System Type Mismatch<a class="headerlink" href="#system-type-mismatch" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Building marked as &quot;District HW&quot; but has boiler data</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># ⚠ Warning: &quot;District system but found boiler data&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># ✓ Boilers not created (correct)</span>
+</span></code></pre></div>
+<h3 id="missing-equipment-count">Missing Equipment Count<a class="headerlink" href="#missing-equipment-count" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Boiler system but b_number=0</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># ⚠ Warning: &quot;Boiler system but b_number=0&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># ✓ Falls back to sensor detection</span>
+</span></code></pre></div>
+<h3 id="inconsistent-data">Inconsistent Data<a class="headerlink" href="#inconsistent-data" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># b_number=2 but sensors show 3 boilers</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># ⚠ Warning: &quot;b_number=2 but sensors show 3, using max&quot;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># ✓ Creates 3 boilers</span>
+</span></code></pre></div>
+<h2 id="choosing-the-right-system-type">Choosing the Right System Type<a class="headerlink" href="#choosing-the-right-system-type" title="Permanent link">&para;</a></h2>
+<h3 id="when-to-use-each-type">When to Use Each Type<a class="headerlink" href="#when-to-use-each-type" title="Permanent link">&para;</a></h3>
+<p><strong>Boiler:</strong>
+- Generic/legacy systems
+- Simple heating setups
+- When specific efficiency unknown</p>
+<p><strong>Non-condensing:</strong>
+- Older buildings (pre-2000)
+- Systems with return temp &gt;60°C
+- Standard efficiency boilers</p>
+<p><strong>Condensing:</strong>
+- Modern buildings (post-2000)
+- High-efficiency systems
+- Return temp can be &lt;60°C</p>
+<p><strong>District HW:</strong>
+- Campus settings
+- Centralized hot water
+- No on-site boilers</p>
+<p><strong>District Steam:</strong>
+- Dense urban areas
+- Legacy campus systems
+- Steam-to-hot-water conversion</p>
+<h2 id="examples-by-system-type">Examples by System Type<a class="headerlink" href="#examples-by-system-type" title="Permanent link">&para;</a></h2>
+<h3 id="convert-all-non-condensing">Convert All Non-condensing<a class="headerlink" href="#convert-all-non-condensing" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchConverter</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">batch</span> <span class="o">=</span> <span class="n">BatchConverter</span><span class="p">()</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">results</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">convert_all_buildings</span><span class="p">(</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;non_condensing_models/&quot;</span><span class="p">,</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="n">system_type</span><span class="o">=</span><span class="s2">&quot;Non-condensing&quot;</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="convert-district-systems">Convert District Systems<a class="headerlink" href="#convert-district-systems" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># District HW</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">results_hw</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">convert_all_buildings</span><span class="p">(</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;district_hw/&quot;</span><span class="p">,</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="n">system_type</span><span class="o">=</span><span class="s2">&quot;District HW&quot;</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">)</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1"># District Steam</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="n">results_steam</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">convert_all_buildings</span><span class="p">(</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;district_steam/&quot;</span><span class="p">,</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    <span class="n">system_type</span><span class="o">=</span><span class="s2">&quot;District Steam&quot;</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="separate-by-type">Separate by Type<a class="headerlink" href="#separate-by-type" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">system_types</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="s2">&quot;Non-condensing&quot;</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="s2">&quot;Condensing&quot;</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="s2">&quot;District HW&quot;</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">]</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">system_types</span><span class="p">:</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">convert_all_buildings</span><span class="p">(</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>        <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>        <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="n">output_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;models/</span><span class="si">{</span><span class="n">system</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>        <span class="n">system_type</span><span class="o">=</span><span class="n">system</span><span class="p">,</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>        <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    <span class="p">)</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;successful&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> buildings&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../sensor-mapping/">Sensor Mapping</a></strong> - Customize sensor mappings</li>
+<li><strong><a href="../../validation/">Validation</a></strong> - Validate system models</li>
+<li><strong><a href="../../examples/conversion/single-building.md">Examples</a></strong> - Working examples</li>
+</ul>
+<hr />
+<p><strong>Continue to:</strong> <a href="../sensor-mapping/">Sensor Mapping</a> →</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Mingchen Li
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/hhw-brick/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
