@@ -1,10 +1,19 @@
+<div align="center">
+
+<img src="docs/Figures/HHWS LOGO.png" alt="HHW Brick Logo" width="400"/>
+
 # HHW Brick: Heating Hot Water System Brick Schema Toolkit
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![Brick Schema](https://img.shields.io/badge/Brick-1.4-green)](https://brickschema.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://centerforthebuiltenvironment.github.io/HHW_brick/)
 
-A Python package for converting heating hot water system data to Brick Schema models with comprehensive validation and portable analytics.
+**A Python package for converting heating hot water system data to Brick Schema models with comprehensive validation and portable analytics.**
+
+[📚 Documentation](https://centerforthebuiltenvironment.github.io/HHW_brick/) | [🚀 Getting Started](#installation) | [💡 Examples](examples/) | [🐛 Issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
+
+</div>
 
 ---
 
@@ -53,6 +62,20 @@ The `-e` flag installs the package in editable mode, so changes to the source co
 
 **Input Data**:
 For sample input data format, see: https://doi.org/10.5061/dryad.t4b8gtj8n
+
+---
+
+### 📚 Documentation
+
+**📖 [View Full Documentation →](https://centerforthebuiltenvironment.github.io/HHW_brick/)**
+
+For comprehensive guides, tutorials, and API reference, please visit our documentation site:
+- [Getting Started Guide](https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/quickstart/)
+- [User Guide](https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/)
+- [API Reference](https://centerforthebuiltenvironment.github.io/HHW_brick/api-reference/conversion/)
+- [Examples & Tutorials](https://centerforthebuiltenvironment.github.io/HHW_brick/examples/)
+
+---
 
 ### Basic Workflow
 
