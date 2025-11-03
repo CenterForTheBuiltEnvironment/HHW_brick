@@ -137,9 +137,11 @@ nav:
   - Getting Started:
     - getting-started/index.md
     - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quick-start.md
     - Understanding Brick: getting-started/understanding-brick.md
     - CSV Data Format: getting-started/csv-format.md
+    - Quick Start: getting-started/quick-start.md
+
+  - Examples: examples/index.md
 
   - User Guide:
     - CSV to Brick Conversion:
@@ -159,7 +161,6 @@ nav:
       - Secondary Loop: user-guide/applications/secondary-loop.md
       - Running Apps: user-guide/applications/running-apps.md
 
-  - Examples: examples/index.md
   - FAQ: faq.md
   - Changelog: changelog.md
   - License: license.md
