@@ -1,115 +1,203 @@
 # Examples
 
-Practical code examples for using HHW Brick Application.
+Ready-to-run code examples demonstrating HHW Brick's core features.
 
-## Overview
+---
 
-This section contains working code examples demonstrating how to use the HHW Brick Application package. All examples use test data from `tests/fixtures/` to ensure they work out of the box.
+## Philosophy
 
-## Available Examples
+These examples are designed to be:
 
-### Getting Started
+- ✅ **Complete** - Run as-is with included test data
+- ✅ **Progressive** - Build from simple to advanced
+- ✅ **Practical** - Real-world use cases
+- ✅ **Educational** - Learn by doing
 
-- **Installation and Setup** - [Quick Start Guide](../getting-started/quick-start.md)
-- **First Conversion** - Convert your first building to Brick format
+---
 
-### Conversion Examples
+## Examples Overview
 
-- **[Single Building Conversion](../user-guide/conversion/single-building.md#examples)** - Convert one building at a time
-- **[Batch Conversion](../user-guide/conversion/batch-conversion.md#examples)** - Convert multiple buildings at once
-- **[Custom Sensor Mapping](../user-guide/conversion/sensor-mapping.md#examples)** - Customize sensor mappings
+### 🔄 Conversion (Examples 1)
 
-### Validation Examples
+**[01 - Convert CSV to Brick](01-convert-csv-to-brick.md)**  
+Convert building data from CSV to Brick Schema models. Includes single building and batch conversion.
 
-- **[Ontology Validation](../user-guide/validation/ontology.md#examples)** - Validate Brick schema compliance
-- **[Ground Truth Validation](../user-guide/validation/ground-truth.md#examples)** - Check point and equipment counts
-- **[Pattern Validation](../user-guide/validation/subgraph-patterns.md#examples)** - Verify system topology
+**What you'll learn**: Basic conversion workflow, batch processing
 
-### Application Examples
+---
 
-- **[Apps Manager](../user-guide/applications/apps-manager.md#examples)** - Discover and manage apps
-- **[Secondary Loop Analysis](../user-guide/applications/secondary-loop.md#examples)** - Temperature difference analysis
-- **[Running Apps](../user-guide/applications/running-apps.md#examples)** - Complete application workflow
+### ✅ Validation (Examples 2-4)
 
-## Example Code Repository
+**[02 - Ontology Validation](02-ontology-validation.md)**  
+Validate Brick models against the Brick Schema ontology.
 
-The package includes complete example scripts in the `examples/` directory:
+**What you'll learn**: Model validation, SHACL compliance checking
 
-```
-examples/
-├── 01_convert_csv_to_brick.py
-├── 02_ontology_validation.py
-├── 03_point_count_validation.py
-├── 04_equipment_count_validation.py
-├── 05_subgraph_pattern_matching.py
-├── 06_application_management.py
-├── 07_run_application.py
-├── 08_batch_run_application.py
-└── README.md
-```
+**[03 - Point Count Validation](03-point-count-validation.md)**  
+Verify that all sensors from CSV were converted correctly.
 
-### Running Examples
+**What you'll learn**: Data integrity checks, sensor counting
 
-All examples can be run directly from the package installation:
+**[04 - Equipment Count Validation](04-equipment-count-validation.md)**  
+Validate equipment (boilers, pumps, weather stations) in models.
+
+**What you'll learn**: Equipment verification, system completeness
+
+---
+
+### 🔍 Advanced Validation (Example 5)
+
+**[05 - Subgraph Pattern Matching](05-subgraph-pattern-matching.md)**  
+Use SPARQL patterns to validate system topology and structure.
+
+**What you'll learn**: SPARQL queries, structural validation, pattern matching
+
+---
+
+### 📊 Portable Analytics (Examples 6-8)
+
+**[06 - Application Management](06-application-management.md)**  
+Discover, load, and inspect available analytics applications.
+
+**What you'll learn**: App discovery, configuration, requirements
+
+**[07 - Run Application](07-run-application.md)**  
+Execute portable analytics on a single building.
+
+**What you'll learn**: Building qualification, running analysis, interpreting results
+
+**[08 - Batch Run Application](08-batch-run-application.md)**  
+Run analytics across multiple buildings in parallel.
+
+**What you'll learn**: Batch processing, parallel execution, aggregated results
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+Install HHW Brick in editable mode:
 
 ```bash
-cd path/to/hhw-brick
-python examples/01_convert_csv_to_brick.py
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+pip install -e .
 ```
 
-## Common Workflows
+### Run Examples
 
-### Complete End-to-End Workflow
+All examples use test data from `tests/fixtures/`:
+
+```bash
+# Run any example
+python examples/01_convert_csv_to_brick.py
+python examples/02_ontology_validation.py
+# ... etc
+```
+
+### Test Data Included
+
+- ✅ `metadata.csv` - 10 buildings, 5 system types
+- ✅ `vars_available_by_building.csv` - Sensor availability
+- ✅ `TimeSeriesData/` - Sample timeseries for analytics
+- ✅ Pre-generated Brick models in `Brick_Model_File/`
+
+---
+
+## Example Workflow
+
+```mermaid
+graph LR
+    A[01: Convert<br/>CSV to Brick] --> B[02: Validate<br/>Ontology]
+    B --> C[03-04: Validate<br/>Points & Equipment]
+    C --> D[05: Validate<br/>Structure]
+    D --> E[06: Discover<br/>Apps]
+    E --> F[07: Run<br/>Single Building]
+    F --> G[08: Batch<br/>Run All]
+
+    style A fill:#e3f2fd
+    style B fill:#fff9c4
+    style C fill:#fff9c4
+    style D fill:#fff9c4
+    style E fill:#c8e6c9
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+```
+
+---
+
+## Learning Path
+
+### Beginner (Start Here)
+
+1. **[Example 01](01-convert-csv-to-brick.md)** - Learn basic conversion
+2. **[Example 02](02-ontology-validation.md)** - Validate your models
+3. **[Example 07](07-run-application.md)** - Run your first analysis
+
+### Intermediate
+
+4. **[Example 03](03-point-count-validation.md)** - Verify data completeness
+5. **[Example 06](06-application-management.md)** - Explore available apps
+6. **[Example 08](08-batch-run-application.md)** - Scale to multiple buildings
+
+### Advanced
+
+7. **[Example 05](05-subgraph-pattern-matching.md)** - Advanced SPARQL validation
+8. **[Example 04](04-equipment-count-validation.md)** - Deep equipment checks
+
+---
+
+## Common Patterns
+
+### Convert → Validate → Analyze
+
+Most workflows follow this pattern:
 
 ```python
-"""
-Complete workflow: Convert → Validate → Analyze
-"""
-from hhw_brick import (
-    CSVToBrickConverter,
-    BrickModelValidator,
-    apps
-)
+from hhw_brick import CSVToBrickConverter, BrickModelValidator, apps
 
-# Step 1: Convert
+# 1. Convert
 converter = CSVToBrickConverter()
-converter.convert_to_brick(
+model = converter.convert_to_brick(
     metadata_csv="metadata.csv",
     vars_csv="vars.csv",
     building_tag="105",
     output_path="building_105.ttl"
 )
 
-# Step 2: Validate
-validator = BrickModelValidator(use_local_brick=True)
-is_valid = validator.validate_ontology("building_105.ttl")['valid']
+# 2. Validate
+validator = BrickModelValidator()
+report = validator.validate_ontology("building_105.ttl")
+print(f"Valid: {report['valid']}")
 
-if is_valid:
-    # Step 3: Analyze
-    app = apps.load_app("secondary_loop_temp_diff")
-    qualified, details = app.qualify("building_105.ttl")
-
-    if qualified:
-        config = apps.get_default_config("secondary_loop_temp_diff")
-        results = app.analyze(
-            "building_105.ttl",
-            "105_data.csv",
-            config
-        )
-        print(f"Analysis complete: {results['summary']}")
+# 3. Analyze
+app = apps.load_app("secondary_loop_temp_diff")
+qualified, details = app.qualify("building_105.ttl")
+if qualified:
+    results = app.analyze(
+        brick_model_path="building_105.ttl",
+        timeseries_path="timeseries.csv"
+    )
 ```
 
-## Interactive Tutorials
+---
 
-For step-by-step learning, see:
+## Tips for Using Examples
 
-- [Quick Start Tutorial](../getting-started/quick-start.md)
-- [Conversion Guide](../user-guide/conversion/index.md)
-- [Validation Guide](../user-guide/validation/index.md)
-- [Applications Guide](../user-guide/applications/index.md)
+1. **Run in order** - Examples build on each other
+2. **Read the code** - Each example has detailed comments
+3. **Modify and experiment** - Try different buildings or parameters
+4. **Check output** - Look at generated files to understand results
 
-## Need Help?
+---
 
-- Check the [FAQ](../faq.md) for common questions
-- Browse the [User Guide](../user-guide/conversion/index.md) for detailed documentation
-- Visit the [GitHub repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick) for issues and discussions
+## Next Steps
+
+- 📖 [User Guide](../user-guide/conversion/) - Detailed documentation
+- 🚀 [Quick Start](../getting-started/quick-start.md) - Step-by-step tutorial
+- 📊 [CSV Format](../getting-started/csv-format.md) - Data preparation guide
+
+---
+
+**Ready?** → Start with [Example 01: Convert CSV to Brick](01-convert-csv-to-brick.md)
