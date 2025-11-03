@@ -1673,17 +1673,21 @@
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>127,M,26000,Other,2020,Condensing,2,60,37.8
 </span></code></pre></div>
 <h3 id="column-descriptions">Column Descriptions<a class="headerlink" href="#column-descriptions" title="Permanent link">&para;</a></h3>
-<p><strong>Required:</strong>
-- <code>tag</code> - Building ID (integer, unique)
-- <code>system</code> - System type (see below)
-- <code>org</code> - Organization name</p>
-<p><strong>Optional but useful:</strong>
-- <code>area</code> - Building area (sq ft)
-- <code>bldg_type</code> - Building type (Office, Lab, etc.)
-- <code>year</code> - Year built
-- <code>b_number</code> - Number of boilers
-- <code>design_supply</code> - Design supply temperature (°C)
-- <code>design_return</code> - Design return temperature (°C)</p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>tag</code> - Building ID (integer, unique)</li>
+<li><code>system</code> - System type (see below)</li>
+<li><code>org</code> - Organization name</li>
+</ul>
+<p><strong>Optional but useful:</strong></p>
+<ul>
+<li><code>area</code> - Building area (sq ft)</li>
+<li><code>bldg_type</code> - Building type (Office, Lab, etc.)</li>
+<li><code>year</code> - Year built</li>
+<li><code>b_number</code> - Number of boilers</li>
+<li><code>design_supply</code> - Design supply temperature (°C)</li>
+<li><code>design_return</code> - Design return temperature (°C)</li>
+</ul>
 <h3 id="system-types">System Types<a class="headerlink" href="#system-types" title="Permanent link">&para;</a></h3>
 <p>Must be one of these 5 types (case-insensitive):</p>
 <table>
@@ -1735,22 +1739,22 @@
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>105,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </span></code></pre></div>
 <h3 id="common-sensor-columns">Common Sensor Columns<a class="headerlink" href="#common-sensor-columns" title="Permanent link">&para;</a></h3>
-<p><strong>Temperature:</strong>
+<p><strong>Temperature:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sup, ret          # Primary supply/return
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sup1-4, ret1-4    # Individual boiler temps
-</span></code></pre></div></p>
-<p><strong>Pumps:</strong>
+</span></code></pre></div>
+<p><strong>Pumps:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pmp1_pwr, pmp1_spd, pmp1_vfd    # Pump 1
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pmp2_pwr, pmp2_spd, pmp2_vfd    # Pump 2
-</span></code></pre></div></p>
-<p><strong>Other:</strong>
+</span></code></pre></div>
+<p><strong>Other:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hw          # Hot water sensor
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow        # Flow rate
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>dp          # Differential pressure
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>fire1-4     # Boiler firing rates
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>t_out       # Outdoor temperature
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>enab        # Enable signal
-</span></code></pre></div></p>
+</span></code></pre></div>
 <p><strong>You can have 5 columns or 50 columns</strong> - the converter automatically handles all available sensors!</p>
 <hr />
 <h2 id="quick-validation">Quick Validation<a class="headerlink" href="#quick-validation" title="Permanent link">&para;</a></h2>
