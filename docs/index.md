@@ -103,7 +103,7 @@ print(f"✓ Point count match: {point_result['match']}")
 
 # 2d. Validate equipment counts  
 equip_result = validator.validate_equipment_count("building_105.ttl")
-print(f"✓ Equipment counts match: {equip_result['all_match']}")
+print(f"✓ Equipment match: {equip_result.get('overall_success', False)}")
 
 # Step 3: Run analytics application
 app = apps.load_app("secondary_loop_temp_diff")
@@ -111,11 +111,24 @@ app = apps.load_app("secondary_loop_temp_diff")
 # Check if building qualifies
 qualified = app.qualify("building_105.ttl")
 if qualified:
+    # Get and save default config template
+    import yaml
+    config = apps.get_default_config("secondary_loop_temp_diff")
+
+    # Save config template for easy editing
+    with open("app_config.yaml", "w") as f:
+        yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+    print("✓ Config template saved: app_config.yaml")
+
+    # Customize config (or edit the YAML file directly)
+    config["output"]["output_dir"] = "results/"
+    config["output"]["generate_plots"] = True
+
     # Run analysis
     results = app.analyze(
-        brick_model="building_105.ttl",
-        timeseries_data="tests/fixtures/Time_Series_File/105hhw_system_data.csv",
-        output_dir="results/"
+        "building_105.ttl",
+        "tests/fixtures/TimeSeriesData/105hhw_system_data.csv",
+        config
     )
     print(f"✓ Analysis complete! Results in: results/")
 ```
