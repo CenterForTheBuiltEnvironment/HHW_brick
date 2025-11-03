@@ -221,10 +221,10 @@ pip uninstall hhw-brick
 
 Now that you have the package installed:
 
-- **[Quick Start](quick-start.md)** - Convert your first building
-- **[Understanding Brick](understanding-brick.md)** - Learn about Brick ontology
-- **[CSV Format](csv-format.md)** - Prepare your data files
+1. **[Understanding Brick](understanding-brick.md)** - Learn about Brick Schema ontology
+2. **[CSV Format](csv-format.md)** - Prepare your data files
+3. **[Quick Start](quick-start.md)** - Convert your first building (complete workflow)
 
 ---
 
-**Installation complete!** Continue to [Quick Start](quick-start.md) →
+**Installation complete!** Continue to [Understanding Brick](understanding-brick.md) →
