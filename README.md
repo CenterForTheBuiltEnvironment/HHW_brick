@@ -70,10 +70,11 @@ For sample input data format, see: https://doi.org/10.5061/dryad.t4b8gtj8n
 **📖 [View Full Documentation →](https://centerforthebuiltenvironment.github.io/HHW_brick/)**
 
 For comprehensive guides, tutorials, and API reference, please visit our documentation site:
-- [Getting Started Guide](https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/quickstart/)
-- [User Guide](https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/)
-- [API Reference](https://centerforthebuiltenvironment.github.io/HHW_brick/api-reference/conversion/)
-- [Examples & Tutorials](https://centerforthebuiltenvironment.github.io/HHW_brick/examples/)
+- [Getting Started Guide](https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/quick-start/)
+- [User Guide - Conversion](https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/)
+- [User Guide - Validation](https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/validation/)
+- [User Guide - Applications](https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/applications/)
+- [Examples](https://centerforthebuiltenvironment.github.io/HHW_brick/examples/)
 
 ---
 
