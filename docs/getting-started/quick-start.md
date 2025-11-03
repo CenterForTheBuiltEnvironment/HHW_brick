@@ -75,12 +75,16 @@ metadata = pd.DataFrame({
 })
 metadata.to_csv('metadata.csv', index=False)
 
-# Create vars_available_by_building.csv  
+# Create vars_available_by_building.csv
+# IMPORTANT: First 3 columns are skipped, sensors start from column 4
 vars_data = pd.DataFrame({
     'tag': [105],
-    'hw_supply_temp': [1],
-    'hw_return_temp': [1],
-    'hw_flow': [1]
+    'org': ['A'],  # Column 2 (skipped)
+    'datetime': [1],  # Column 3 (skipped)
+    'sup': [1],  # Column 4+ are sensors
+    'ret': [1],
+    'hw': [1],
+    'flow': [1]
 })
 vars_data.to_csv('vars_available_by_building.csv', index=False)
 ```
@@ -158,24 +162,21 @@ from hhw_brick import BrickModelValidator
 validator = BrickModelValidator()
 
 # Validate the model
-is_valid, report = validator.validate_ontology("building_105.ttl")
+report = validator.validate_ontology("building_105.ttl")
 
-if is_valid:
+if report['valid']:
     print("✓ Model passed ontology validation!")
-    print(f"  - {report['conformance']} conformance")
-    print(f"  - {report['violations']} violations")
+    print(f"  - Accuracy: {report['accuracy_percentage']}%")
 else:
     print("⚠ Validation found issues:")
-    for issue in report.get('violations', []):
-        print(f"  - {issue}")
+    print(f"  - Error: {report.get('error', 'Unknown')}")
 ```
 
 Expected output:
 
 ```
 ✓ Model passed ontology validation!
-  - True conformance
-  - 0 violations
+  - Accuracy: 100.0%
 ```
 
 ## Step 6: Run Portable Analytics
@@ -227,18 +228,26 @@ To run analytics, you need **timeseries data** in CSV format with timestamps and
 **Example timeseries CSV format:**
 
 ```csv
-timestamp,hw_supply_temp,hw_return_temp,hw_flow
-2023-01-01 00:00:00,180.5,160.2,350.0
-2023-01-01 00:15:00,181.0,160.8,352.5
-2023-01-01 00:30:00,180.8,160.5,351.2
+dt,datetime_UTC,sup,ret,flow,hw,t_out
+2020-02-05,2020-02-05T13:00:00Z,85.2,72.1,12.5,685000,7.5
+2020-02-05,2020-02-05T14:00:00Z,84.8,71.9,12.3,678000,7.6
+2020-02-05,2020-02-05T15:00:00Z,85.0,72.0,12.4,680000,8.2
 ...
 ```
 
-**Requirements:**
+**Required columns:**
 
-- First column: `timestamp` (datetime format)
-- Remaining columns: Sensor names matching your CSV variable names
-- Values: Numeric readings (°F, GPM, etc.)
+- `dt` - Local date (YYYY-MM-DD format)
+- `datetime_UTC` - UTC timestamp (ISO8601 format)
+
+**Sensor columns** (match your vars file sensor names):
+
+- `sup` - Supply water temperature (°C)
+- `ret` - Return water temperature (°C)
+- `flow` - Flow rate (l/s)
+- `hw` - Heating power (W)
+- `t_out` - Outdoor air temperature (°C)
+- `oper` - Operating state (0-1)
 
 **Download example timeseries data:**
 
@@ -251,12 +260,16 @@ import pandas as pd
 import numpy as np
 
 # Create sample timeseries data
-dates = pd.date_range('2023-01-01', periods=1000, freq='15min')
+dates = pd.date_range('2020-01-01', periods=1000, freq='1H')
 df = pd.DataFrame({
-    'timestamp': dates,
-    'hw_supply_temp': np.random.normal(180, 5, 1000),
-    'hw_return_temp': np.random.normal(160, 5, 1000),
-    'hw_flow': np.random.normal(350, 20, 1000)
+    'dt': dates.date,  # Local date
+    'datetime_UTC': dates.strftime('%Y-%m-%dT%H:%M:%SZ'),  # UTC timestamp
+    'sup': np.random.normal(85, 5, 1000),  # Supply temp (°C)
+    'ret': np.random.normal(72, 5, 1000),  # Return temp (°C)
+    'flow': np.random.normal(12, 2, 1000),  # Flow rate (l/s)
+    'hw': np.random.normal(680000, 50000, 1000),  # Heating power (W)
+    't_out': np.random.normal(10, 5, 1000),  # Outdoor temp (°C)
+    'oper': np.random.choice([0, 1], 1000, p=[0.2, 0.8])  # Operating state
 })
 df.to_csv('building_105_timeseries.csv', index=False)
 ```
@@ -507,14 +520,14 @@ def main():
     # Step 2: Validate the model
     print("\n[Step 2/3] Validating Brick model...")
     validator = BrickModelValidator()
-    is_valid, report = validator.validate_ontology(output_file)
+    report = validator.validate_ontology(output_file)
 
+    is_valid = report.get('valid', False)
     if is_valid:
         print("✓ Model passed ontology validation!")
     else:
         print("⚠ Validation issues found:")
-        for issue in report.get('violations', [])[:3]:
-            print(f"  - {issue}")
+        print(f"  Error: {report.get('error', 'Unknown')}")
 
     # Step 3: Check analytics qualification
     print("\n[Step 3/3] Checking analytics qualification...")
