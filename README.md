@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="docs/Figures/HHWS LOGO.png" alt="HHW Brick Logo" width="400"/>
-
-# HHW Brick: Heating Hot Water System Brick Schema Toolkit
+# <img src="docs/Figures/HHWS LOGO.png" alt="HHW Brick Logo" height="60" style="vertical-align: middle;"/> HHW Brick: Heating Hot Water System Brick Schema Toolkit
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![Brick Schema](https://img.shields.io/badge/Brick-1.4-green)](https://brickschema.org/)
