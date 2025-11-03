@@ -6,44 +6,55 @@ Ensure your Brick models are correct, complete, and follow schema rules.
 
 After converting CSV data to Brick models, validation ensures:
 
-- **Ontology correctness** - Models follow Brick schema rules
-- **Data completeness** - All expected points and equipment exist
-- **Count accuracy** - Point and equipment counts match expectations
+- **Ontology correctness** - Models follow Brick Schema 1.4 rules (SHACL validation)
+- **Data completeness** - All expected sensors and equipment exist
+- **Structural integrity** - System topology matches expected patterns
 
 ## Why Validate?
 
 ### Quality Assurance
+Catch errors early before running analytics:
 
-Catch errors early:
 ```python
 # Convert
-converter.convert_to_brick(...)
+converter = CSVToBrickConverter()
+graph = converter.convert_to_brick(...)
 
 # Validate immediately
 validator = BrickModelValidator()
-is_valid, report = validator.validate_model("building_105.ttl")
+result = validator.validate_ontology("building_105.ttl")
 
-if not is_valid:
-    print("Fix these issues:", report)
+if not result['valid']:
+    print("Fix these issues before proceeding:")
+    for violation in result['violations']:
+        print(f"  - {violation}")
 ```
 
 ### Production Readiness
+Ensure models are ready for analytics applications:
 
-Ensure models are ready for analytics:
 ```python
-# Only use validated models
-if is_valid:
+# Only use validated models in production
+if result['valid']:
     app = apps.load_app("secondary_loop_temp_diff")
-    results = app.analyze(model, data, config)
+    results = app.analyze(
+        brick_model="building_105.ttl",
+        timeseries_data="data.csv"
+    )
 ```
 
-## Validation Types
+### Build Confidence
+Validation provides confidence that your semantic models accurately represent your buildings.
 
-HHW Brick Application provides three types of validation:
+---
 
-### 1. Ontology Validation
+## Four Validation Levels
 
-Check if model follows Brick schema rules.
+HHW Brick provides comprehensive multi-level validation:
+
+### 1. 🔍 Ontology Validation (SHACL)
+
+**What it checks**: Compliance with Brick Schema 1.4 rules
 
 ```python
 from hhw_brick import BrickModelValidator
@@ -52,52 +63,413 @@ validator = BrickModelValidator(use_local_brick=True)
 result = validator.validate_ontology("building_105.ttl")
 
 if result['valid']:
-    print("✓ Model follows Brick schema")
+    print("✓ Model follows Brick Schema")
 else:
     print(f"✗ Found {len(result['violations'])} violations")
+    for v in result['violations']:
+        print(f"  - {v}")
 ```
 
-**Checks:**
-- ✓ Valid Brick classes used
-- ✓ Correct relationship types
-- ✓ Proper namespaces
-- ✓ RDF/OWL syntax
+**Validates**:
+- ✓ Valid Brick classes used (e.g., `brick:Boiler`, `brick:Temperature_Sensor`)
+- ✓ Correct relationship types (e.g., `brick:hasPart`, `brick:feeds`)
+- ✓ Proper namespaces and URIs
+- ✓ RDF/OWL syntax correctness
 
-[Learn more →](ontology.md)
+[Learn more about ontology validation →](ontology.md)
 
-### 2. Ground Truth Validation
+---
 
-Compare model against expected values.
+### 2. 📊 Point Count Validation
+
+**What it checks**: All sensors from CSV were converted correctly
 
 ```python
 from hhw_brick import GroundTruthCalculator, BrickModelValidator
 
-# Generate ground truth from CSV
+# Step 1: Generate ground truth from CSV
 calculator = GroundTruthCalculator()
-calculator.calculate(
+ground_truth = calculator.calculate(
     metadata_csv="metadata.csv",
-    vars_csv="vars.csv",
+    vars_csv="vars_available_by_building.csv",
     output_csv="ground_truth.csv"
 )
 
-# Validate against ground truth
+# Step 2: Validate point counts
+validator = BrickModelValidator(ground_truth_csv_path="ground_truth.csv")
+result = validator.validate_point_count("building_105.ttl")
+
+print(f"Expected: {result['expected_points']} points")
+print(f"Actual: {result['actual_points']} points")
+print(f"Match: {result['match']} ({'✓' if result['match'] else '✗'})")
+print(f"Accuracy: {result['accuracy_percentage']:.1f}%")
+```
+
+**Validates**:
+- ✓ Sensor count matches expected (from CSV)
+- ✓ Handles `owl:sameAs` deduplication (shared sensors)
+- ✓ Independent ground truth (calculated from source CSV, not Brick model)
+
+[Learn more about point count validation →](ground-truth.md#point-count-validation)
+
+---
+
+### 3. ⚙️ Equipment Count Validation
+
+**What it checks**: Boilers, pumps, and weather stations
+
+```python
+result = validator.validate_equipment_count("building_105.ttl")
+
+print("Equipment Counts:")
+print(f"  Boilers: {result['boilers']['actual']}/{result['boilers']['expected']}")
+print(f"  Pumps: {result['pumps']['actual']}/{result['pumps']['expected']}")
+print(f"  Weather: {result['weather_stations']['actual']}/{result['weather_stations']['expected']}")
+
+if result['all_match']:
+    print("✓ All equipment counts correct")
+```
+
+**Validates**:
+- ✓ Boiler count (with subclass support for condensing/non-condensing)
+- ✓ Pump count (per loop)
+- ✓ Weather station presence
+- ✓ Supports equipment inheritance (e.g., `Condensing_Boiler` → `Boiler`)
+
+[Learn more about equipment validation →](ground-truth.md#equipment-count-validation)
+
+---
+
+### 4. 🏗️ Structural Pattern Validation
+
+**What it checks**: System topology and component relationships
+
+```python
+from hhw_brick import SubgraphPatternValidator
+
+validator = SubgraphPatternValidator()
+result = validator.validate_building_pattern("building_105.ttl")
+
+if result['pattern_1']:
+    print("✓ Pattern 1: Boiler System")
+    print(f"  Boilers: {result['pattern_1']['boiler_count']}")
+    print(f"  Primary pumps: {result['pattern_1']['primary_pump_count']}")
+    print(f"  Secondary pumps: {result['pattern_1']['secondary_pump_count']}")
+elif result['pattern_2']:
+    print("✓ Pattern 2: District System")
+    print(f"  Secondary pumps: {result['pattern_2']['secondary_pump_count']}")
+```
+
+**Validates**:
+- ✓ **Pattern 1**: Boiler system (primary loop + secondary loop + boilers)
+- ✓ **Pattern 2**: District system (secondary loop only, no boilers)
+- ✓ Correct loop structure using SPARQL queries
+- ✓ Equipment placement in appropriate loops
+
+[Learn more about pattern validation →](subgraph-patterns.md)
+
+---
+
+## Validation Workflow
+
+```mermaid
+graph TD
+    A[CSV Files] --> B[Convert to Brick]
+    B --> C[Brick Model .ttl]
+    C --> D[1. Ontology Validation]
+    D --> E{Valid?}
+    E -->|No| F[Fix Conversion Logic]
+    E -->|Yes| G[2. Point Count Validation]
+    G --> H{Match?}
+    H -->|No| I[Check CSV & Converter]
+    H -->|Yes| J[3. Equipment Count Validation]
+    J --> K{Match?}
+    K -->|No| L[Check Equipment Logic]
+    K -->|Yes| M[4. Pattern Validation]
+    M --> N{Pattern Found?}
+    N -->|No| O[Check System Structure]
+    N -->|Yes| P[✓ Validated Model]
+    P --> Q[Ready for Analytics]
+    F --> B
+    I --> B
+    L --> B
+    O --> B
+```
+
+### Recommended Validation Order
+
+1. **Ontology First** - Catch schema violations early
+2. **Point Counts** - Verify completeness
+3. **Equipment Counts** - Check specific components
+4. **Patterns Last** - Validate overall structure
+
+---
+
+## Batch Validation (Parallel Processing)
+
+Validate multiple buildings efficiently using parallel workers:
+
+### Batch Ontology Validation
+```python
+validator = BrickModelValidator(use_local_brick=True)
+
+results = validator.batch_validate_ontology(
+    test_data_dir="output/",
+    max_workers=4  # Parallel processing
+)
+
+print(f"Total: {results['total_files']}")
+print(f"Passed: {results['passed_files']}")
+print(f"Failed: {results['failed_files']}")
+print(f"Accuracy: {results['overall_accuracy']:.1f}%")
+```
+
+### Batch Point Count Validation
+```python
+results = validator.batch_validate_point_count(
+    test_data_dir="output/",
+    max_workers=4
+)
+
+for detail in results['details']:
+    building = detail['filename']
+    match = detail['match']
+    print(f"{building}: {'✓' if match else '✗'}")
+```
+
+### Batch Pattern Validation
+```python
+validator = SubgraphPatternValidator()
+
+results = validator.batch_validate_patterns(
+    test_data_dir="output/",
+    max_workers=4
+)
+
+print(f"Boiler Systems (Pattern 1): {results['pattern_1_count']}")
+print(f"District Systems (Pattern 2): {results['pattern_2_count']}")
+print(f"Success Rate: {results['success_rate']:.1f}%")
+```
+
+**Benefits of Batch Validation**:
+- ⚡ Faster (parallel processing)
+- 📊 Summary statistics
+- 🎯 Identify problematic buildings
+- 📈 Track overall quality
+
+---
+
+## Ground Truth: The Key Concept
+
+!!! important "What is Ground Truth?"
+    Ground truth values (expected counts) are calculated **independently from the input CSV data**,
+    not from the generated Brick model. This ensures unbiased validation.
+
+### Why Independent Ground Truth?
+
+**Without Independent Ground Truth** (circular validation):
+```
+CSV → Converter → Brick Model
+                      ↓
+                  Count Points ← Compare with itself ✗
+```
+
+**With Independent Ground Truth** (proper validation):
+```
+CSV → Converter → Brick Model
+  ↓                   ↓
+Count Expected → Compare with Actual ✓
+  (Ground Truth)
+```
+
+### How Ground Truth is Calculated
+
+```python
+calculator = GroundTruthCalculator()
+
+# Reads metadata.csv and vars_available_by_building.csv
+# Counts sensors and equipment directly from source data
+ground_truth = calculator.calculate(
+    metadata_csv="metadata.csv",
+    vars_csv="vars_available_by_building.csv",
+    output_csv="ground_truth.csv"
+)
+
+# ground_truth.csv contains expected counts for each building
+# Independent of the conversion process
+```
+
+---
+
+## Quick Start Example
+
+Complete validation workflow:
+
+```python
+from hhw_brick import (
+    CSVToBrickConverter,
+    BrickModelValidator,
+    GroundTruthCalculator,
+    SubgraphPatternValidator
+)
+
+# 1. Convert
+converter = CSVToBrickConverter()
+graph = converter.convert_to_brick(
+    metadata_csv="metadata.csv",
+    vars_csv="vars_available_by_building.csv",
+    building_tag="105",
+    output_path="building_105.ttl"
+)
+print(f"Converted: {len(graph)} triples")
+
+# 2. Generate ground truth
+calculator = GroundTruthCalculator()
+calculator.calculate(
+    metadata_csv="metadata.csv",
+    vars_csv="vars_available_by_building.csv",
+    output_csv="ground_truth.csv"
+)
+
+# 3. Validate ontology
 validator = BrickModelValidator(
+    use_local_brick=True,
     ground_truth_csv_path="ground_truth.csv"
 )
 
-result = validator.validate_point_count("building_105.ttl")
-print(f"Point accuracy: {result['accuracy_percentage']:.1f}%")
+ontology_result = validator.validate_ontology("building_105.ttl")
+print(f"Ontology valid: {ontology_result['valid']}")
+
+# 4. Validate point counts
+point_result = validator.validate_point_count("building_105.ttl")
+print(f"Point count match: {point_result['match']}")
+
+# 5. Validate equipment
+equip_result = validator.validate_equipment_count("building_105.ttl")
+print(f"Equipment match: {equip_result['all_match']}")
+
+# 6. Validate pattern
+pattern_validator = SubgraphPatternValidator()
+pattern_result = pattern_validator.validate_building_pattern("building_105.ttl")
+print(f"Pattern found: {pattern_result['pattern_1'] is not None or pattern_result['pattern_2'] is not None}")
 ```
 
-**Checks:**
-- ✓ Point count matches
-- ✓ Boiler count correct
-- ✓ Pump count correct
-- ✓ Weather station present
+---
 
-[Learn more →](ground-truth.md)
+## Troubleshooting Validation Issues
 
-### 3. Subgraph Pattern Validation
+### Ontology Validation Failures
+
+**Issue**: SHACL violations
+
+**Solutions**:
+- Check class names (e.g., use `brick:Boiler`, not `Boiler`)
+- Verify relationships (e.g., `brick:hasPart`, not `hasPart`)
+- Ensure URIs are properly formatted
+- Use `use_local_brick=True` for stable validation
+
+### Point Count Mismatches
+
+**Issue**: Expected ≠ Actual point counts
+
+**Solutions**:
+- Check CSV data for missing/extra sensors
+- Verify `owl:sameAs` is used for shared sensors
+- Review converter sensor mapping logic
+- Inspect ground_truth.csv for accuracy
+
+### Equipment Count Mismatches
+
+**Issue**: Boiler/pump counts don't match
+
+**Solutions**:
+- Use `include_subclasses=True` for equipment inheritance
+- Check metadata.csv for correct `b_number` and `p_number`
+- Verify equipment placement in correct loops
+
+### Pattern Validation Failures
+
+**Issue**: No pattern matched
+
+**Solutions**:
+- Verify loop labels contain "primary" or "secondary"
+- Check `brick:feeds` relationship between loops
+- Ensure boilers are in primary loop (Pattern 1)
+- Validate equipment placement
+
+---
+
+## Best Practices
+
+!!! tip "Validation Best Practices"
+    1. **Validate immediately after conversion** - Catch errors early
+    2. **Use batch validation** - Faster with `max_workers`
+    3. **Save validation reports** - Track quality over time
+    4. **Fix root causes** - Don't just fix individual models
+    5. **Automate validation** - Include in CI/CD pipeline
+
+### Automation Example
+
+```python
+def validate_pipeline(metadata_csv, vars_csv, output_dir):
+    """Complete conversion and validation pipeline"""
+
+    # Convert
+    batch = BatchConverter()
+    conv_results = batch.convert_all_buildings(
+        metadata_csv=metadata_csv,
+        vars_csv=vars_csv,
+        output_dir=output_dir
+    )
+
+    # Generate ground truth
+    calculator = GroundTruthCalculator()
+    calculator.calculate(
+        metadata_csv=metadata_csv,
+        vars_csv=vars_csv,
+        output_csv=f"{output_dir}/ground_truth.csv"
+    )
+
+    # Validate all
+    validator = BrickModelValidator(
+        use_local_brick=True,
+        ground_truth_csv_path=f"{output_dir}/ground_truth.csv"
+    )
+
+    val_results = {
+        'ontology': validator.batch_validate_ontology(output_dir),
+        'points': validator.batch_validate_point_count(output_dir),
+        'equipment': validator.batch_validate_equipment_count(output_dir)
+    }
+
+    # Report
+    print(f"\n{'='*60}")
+    print("Validation Report")
+    print(f"{'='*60}")
+    print(f"Converted: {conv_results['successful']}/{conv_results['total']} buildings")
+    print(f"Ontology: {val_results['ontology']['passed_files']}/{val_results['ontology']['total_files']} passed")
+    print(f"Points: {val_results['points']['passed_files']}/{val_results['points']['total_files']} matched")
+    print(f"Equipment: {val_results['equipment']['passed_files']}/{val_results['equipment']['total_files']} matched")
+
+    return val_results
+```
+
+---
+
+## Next Steps
+
+- [Ontology Validation Guide](ontology.md) - SHACL validation details
+- [Ground Truth Validation](ground-truth.md) - Point and equipment count validation
+- [Subgraph Pattern Validation](subgraph-patterns.md) - Structural pattern validation
+- [Examples](../../examples/) - Complete working examples
+
+---
+
+## Need Help?
+
+- Check the [FAQ](../../faq.md) for common issues
+- Review [examples](../../examples/) for working code
+- [Report issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues) on GitHub
 
 Verify system topology patterns.
 

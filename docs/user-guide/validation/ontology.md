@@ -1,51 +1,99 @@
 # Ontology Validation
 
-Verify that Brick models follow the Brick schema rules and RDF/OWL standards.
+Verify that Brick models follow the Brick Schema 1.4 rules and RDF/OWL standards using SHACL validation.
 
 ## Overview
 
-Ontology validation checks if your Brick model:
+Ontology validation ensures your Brick model:
 
-- Uses **valid Brick classes** (e.g., `brick:Boiler`, `brick:Temperature_Sensor`)
-- Has **correct relationships** (e.g., `brick:hasPoint`, `brick:feeds`)
-- Follows **RDF/OWL syntax** rules
-- Uses **proper namespaces**
+- ✓ Uses **valid Brick classes** (e.g., `brick:Boiler`, `brick:Temperature_Sensor`)
+- ✓ Has **correct relationships** (e.g., `brick:hasPart`, `brick:feeds`, `brick:isPointOf`)
+- ✓ Follows **RDF/OWL syntax** rules
+- ✓ Uses **proper namespaces** and URIs
+- ✓ Conforms to **SHACL constraints** defined in Brick Schema 1.4
+
+---
 
 ## Why Ontology Validation?
 
-### Ensure Interoperability
-
-Valid models work with all Brick-compatible tools:
+### 1. Ensure Interoperability
+Valid models work seamlessly with all Brick-compatible tools:
 
 ```python
 # If model is valid, it works with:
-# - Other Brick applications
-# - SPARQL queries
-# - Visualization tools
-# - Analytics frameworks
+# ✓ Other Brick applications
+# ✓ SPARQL query engines
+# ✓ Visualization tools (e.g., Brick Viewer)
+# ✓ Analytics frameworks
+# ✓ Integration platforms
 ```
 
-### Catch Errors Early
-
-Find issues before using models in production:
+### 2. Catch Errors Early
+Find schema violations before using models in production:
 
 ```python
-# Invalid model might cause:
-# - Analytics failures
-# - Query errors
-# - Integration problems
+# Invalid models might cause:
+# ✗ Analytics application failures
+# ✗ SPARQL query errors
+# ✗ Integration problems
+# ✗ Incorrect inference results
 
-# Validate first:
-if validator.validate_ontology(model)['valid']:
-    # Safe to use
-    app.analyze(model, data, config)
+# Always validate first:
+validator = BrickModelValidator(use_local_brick=True)
+result = validator.validate_ontology("building_105.ttl")
+
+if result['valid']:
+    # Safe to use in production
+    app.analyze("building_105.ttl", data, config)
+else:
+    print("Fix violations before proceeding")
 ```
+
+### 3. Quality Assurance
+Ontology validation is the first level of quality assurance in the validation pipeline.
+
+---
+
+## What is SHACL?
+
+**SHACL** (Shapes Constraint Language) is a W3C standard for validating RDF graphs.
+
+### How SHACL Works
+
+```
+Brick Model (RDF)  +  SHACL Shapes  →  Validation Report
+    (Your data)      (Schema rules)     (Conformance check)
+```
+
+**Example SHACL Shape** (from Brick Schema):
+```turtle
+# A Temperature_Sensor must have a unit
+brick:TemperatureSensorShape
+    a sh:NodeShape ;
+    sh:targetClass brick:Temperature_Sensor ;
+    sh:property [
+        sh:path brick:hasUnit ;
+        sh:minCount 1 ;
+        sh:message "Temperature sensor must have a unit" ;
+    ] .
+```
+
+### SHACL in HHW Brick
+
+HHW Brick uses Brick Schema 1.4's official SHACL shapes to validate models:
+
+- ✓ Class constraints
+- ✓ Property constraints
+- ✓ Relationship constraints
+- ✓ Data type constraints
+
+---
 
 ## Basic Usage
 
 ### Validate Single Model
 
-Based on `examples/02_ontology_validation.py`:
+Complete example from `examples/02_ontology_validation.py`:
 
 ```python
 from hhw_brick import BrickModelValidator
@@ -59,26 +107,509 @@ result = validator.validate_ontology("building_105.ttl")
 # Check result
 if result['valid']:
     print("✓ Model is valid!")
+    print(f"  Conforms to Brick Schema 1.4")
 else:
-    print(f"✗ Model has {len(result['violations'])} violations")
-    for violation in result['violations']:
-        print(f"  - {violation}")
+    print(f"✗ Model has {len(result['violations'])} violations:")
+    for i, violation in enumerate(result['violations'], 1):
+        print(f"  {i}. {violation}")
+```
+
+### Result Structure
+
+```python
+{
+    'valid': True,              # or False
+    'conforms': True,           # SHACL conformance
+    'violations': [],           # List of violation messages
+    'validation_report': {...}  # Detailed SHACL report (if violations exist)
+}
 ```
 
 ### Expected Output
 
-**Valid model:**
+**✓ Valid model:**
 ```
 ✓ Model is valid!
+  Conforms to Brick Schema 1.4
 ```
 
-**Invalid model:**
+**✗ Invalid model:**
 ```
-✗ Model has 3 violations
-  - Invalid class: brick:InvalidBoiler
-  - Missing required property: brick:hasPoint
-  - Invalid namespace: http://wrong.namespace.org#
+✗ Model has 3 violations:
+  1. Value does not have class brick:Equipment
+  2. Less than 1 values on building105:boiler1->brick:hasPoint
+  3. Invalid namespace: http://wrong.namespace.org#sensor1
 ```
+
+---
+
+## Batch Validation with Parallel Processing
+
+Validate multiple buildings efficiently:
+
+### Basic Batch Validation
+
+```python
+from hhw_brick import BrickModelValidator
+
+validator = BrickModelValidator(use_local_brick=True)
+
+# Validate all TTL files in directory
+results = validator.batch_validate_ontology(
+    test_data_dir="output/",
+    max_workers=4  # Parallel workers (default: CPU count - 1)
+)
+
+# Display summary
+print(f"\n{'='*60}")
+print("Batch Validation Results")
+print(f"{'='*60}")
+print(f"Total models: {results['total_files']}")
+print(f"Valid: {results['passed_files']} ✓")
+print(f"Invalid: {results['failed_files']} ✗")
+print(f"Overall accuracy: {results['overall_accuracy']:.1f}%")
+```
+
+### Detailed Results
+
+```python
+# Access individual results
+for detail in results['details']:
+    filename = detail['filename']
+    valid = detail['valid']
+    status = '✓' if valid else '✗'
+
+    print(f"{status} {filename}")
+
+    if not valid and 'violations' in detail:
+        for violation in detail['violations']:
+            print(f"    - {violation}")
+```
+
+### Results Structure
+
+```python
+{
+    'total_files': 10,
+    'passed_files': 9,
+    'failed_files': 1,
+    'overall_accuracy': 90.0,
+    'details': [
+        {
+            'filename': 'building_105.ttl',
+            'valid': True,
+            'conforms': True,
+            'violations': []
+        },
+        {
+            'filename': 'building_110.ttl',
+            'valid': False,
+            'conforms': False,
+            'violations': ['Invalid class: brick:WrongBoiler']
+        },
+        # ... more results
+    ]
+}
+```
+
+### Performance with Parallel Processing
+
+```python
+# Single-threaded (slow for many files)
+results = validator.batch_validate_ontology(
+    test_data_dir="output/",
+    max_workers=1  # Sequential
+)
+# 10 files × 10s each = 100 seconds
+
+# Multi-threaded (faster)
+results = validator.batch_validate_ontology(
+    test_data_dir="output/",
+    max_workers=4  # 4 parallel workers
+)
+# 10 files / 4 workers × 10s = ~25 seconds
+```
+
+!!! tip "Choosing max_workers"
+    - Default: `cpu_count() - 1` (leaves one core free)
+    - Small datasets: `max_workers=2` or `3`
+    - Large datasets: `max_workers=8` or more
+    - Don't exceed available CPU cores
+
+---
+
+## Local vs Nightly Brick Schema
+
+### Use Local Brick (Recommended)
+
+```python
+validator = BrickModelValidator(use_local_brick=True)
+```
+
+**Advantages**:
+- ✓ Works offline
+- ✓ Faster (no network download)
+- ✓ Stable (specific Brick version)
+- ✓ Reproducible results
+
+**When to use**:
+- Production environments
+- CI/CD pipelines
+- Offline validation
+- Consistent testing
+
+### Use Nightly Brick (Latest)
+
+```python
+validator = BrickModelValidator(load_brick_nightly=True)
+```
+
+**Advantages**:
+- ✓ Latest Brick Schema features
+- ✓ Newest SHACL shapes
+- ✓ Cutting-edge updates
+
+**Disadvantages**:
+- ✗ Requires internet connection
+- ✗ Slower (downloads from GitHub)
+- ✗ Results may change over time
+
+**When to use**:
+- Development/testing
+- Exploring new Brick features
+- Checking compatibility with latest schema
+
+!!! warning "Don't mix in production"
+    Choose one approach and stick with it for consistency. Use `use_local_brick=True`
+    for production to ensure reproducible validation results.
+
+---
+
+## Common Violations and Fixes
+
+### 1. Invalid Brick Class
+
+**Violation**:
+```
+Value does not have class brick:Equipment
+```
+
+**Cause**: Using non-existent or misspelled Brick class
+
+**Fix**:
+```python
+# ✗ Wrong
+g.add((building_ns.boiler1, RDF.type, BRICK.InvalidBoiler))
+
+# ✓ Correct
+g.add((building_ns.boiler1, RDF.type, BRICK.Boiler))
+```
+
+### 2. Missing Required Relationship
+
+**Violation**:
+```
+Less than 1 values on building105:boiler1->brick:hasPoint
+```
+
+**Cause**: Equipment missing required sensors/points
+
+**Fix**:
+```python
+# ✗ Missing hasPoint relationship
+g.add((building_ns.boiler1, RDF.type, BRICK.Boiler))
+
+# ✓ Add required sensor
+g.add((building_ns.boiler1, RDF.type, BRICK.Boiler))
+g.add((building_ns.boiler1, BRICK.hasPoint, building_ns.boiler1_temp))
+g.add((building_ns.boiler1_temp, RDF.type, BRICK.Temperature_Sensor))
+```
+
+### 3. Invalid Namespace
+
+**Violation**:
+```
+Invalid namespace: http://example.org#sensor1
+```
+
+**Cause**: Using non-standard namespace without proper declaration
+
+**Fix**:
+```python
+# ✗ Wrong - undefined namespace
+sensor_uri = URIRef("http://example.org#sensor1")
+
+# ✓ Correct - use building-specific namespace
+from rdflib import Namespace
+BUILDING = Namespace("https://buildings.example.org#")
+sensor_uri = BUILDING.building105_sensor1
+```
+
+### 4. Incorrect Relationship Direction
+
+**Violation**:
+```
+Unexpected relationship direction
+```
+
+**Cause**: Using inverse relationships incorrectly
+
+**Fix**:
+```python
+# ✗ Wrong direction
+g.add((sensor, BRICK.isPointOf, equipment))
+
+# ✓ Correct direction
+g.add((equipment, BRICK.hasPoint, sensor))
+# OR use inverse
+g.add((sensor, BRICK.isPointOf, equipment))
+```
+
+### 5. Missing Type Declaration
+
+**Violation**:
+```
+Node has no rdf:type
+```
+
+**Cause**: Entity missing `rdf:type` declaration
+
+**Fix**:
+```python
+# ✗ Missing type
+g.add((building_ns.loop1, BRICK.hasPart, building_ns.pump1))
+
+# ✓ Add types
+g.add((building_ns.loop1, RDF.type, BRICK.Hot_Water_Loop))
+g.add((building_ns.pump1, RDF.type, BRICK.Pump))
+g.add((building_ns.loop1, BRICK.hasPart, building_ns.pump1))
+```
+
+---
+
+## Advanced Usage
+
+### Custom Validation with Additional Shapes
+
+```python
+from hhw_brick import BrickModelValidator
+
+# Validate with custom SHACL shapes
+validator = BrickModelValidator(use_local_brick=True)
+
+# Load additional shapes
+custom_shapes = """
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+
+# Custom shape: All boilers must have a manufacturer
+brick:CustomBoilerShape
+    a sh:NodeShape ;
+    sh:targetClass brick:Boiler ;
+    sh:property [
+        sh:path brick:hasManufacturer ;
+        sh:minCount 1 ;
+        sh:message "Boiler must have a manufacturer" ;
+    ] .
+"""
+
+# Note: HHW Brick currently validates against standard Brick shapes
+# Custom shapes require extending the validator
+```
+
+### Programmatic Access to Violations
+
+```python
+result = validator.validate_ontology("building_105.ttl")
+
+if not result['valid']:
+    violations = result['violations']
+
+    # Categorize violations
+    class_violations = [v for v in violations if 'class' in v.lower()]
+    property_violations = [v for v in violations if 'property' in v.lower()]
+
+    print(f"Class violations: {len(class_violations)}")
+    print(f"Property violations: {len(property_violations)}")
+
+    # Log for debugging
+    with open('validation_report.txt', 'w') as f:
+        for v in violations:
+            f.write(f"{v}\n")
+```
+
+---
+
+## Integration with Conversion Pipeline
+
+Validate immediately after conversion:
+
+```python
+from hhw_brick import CSVToBrickConverter, BrickModelValidator
+
+# Convert
+converter = CSVToBrickConverter()
+graph = converter.convert_to_brick(
+    metadata_csv="metadata.csv",
+    vars_csv="vars_available_by_building.csv",
+    building_tag="105",
+    output_path="building_105.ttl"
+)
+
+# Validate immediately
+validator = BrickModelValidator(use_local_brick=True)
+result = validator.validate_ontology("building_105.ttl")
+
+if result['valid']:
+    print(f"✓ Conversion successful: {len(graph)} triples")
+    print("✓ Model validated")
+else:
+    print("✗ Conversion produced invalid model")
+    print("Violations:")
+    for v in result['violations']:
+        print(f"  - {v}")
+    # Fix converter logic
+```
+
+---
+
+## Troubleshooting
+
+### Validation Takes Too Long
+
+**Problem**: Validation is slow for large models
+
+**Solutions**:
+1. Use batch validation with parallel processing
+2. Reduce `max_workers` if memory is limited
+3. Validate incrementally during development
+
+```python
+# Fast batch validation
+results = validator.batch_validate_ontology(
+    test_data_dir="output/",
+    max_workers=8  # Adjust based on CPU
+)
+```
+
+### "No data to validate" Error
+
+**Problem**: Validator can't read the TTL file
+
+**Solutions**:
+1. Check file path is correct
+2. Verify TTL file is valid RDF syntax
+3. Ensure file has `.ttl` extension
+
+```python
+from pathlib import Path
+
+ttl_file = Path("building_105.ttl")
+if not ttl_file.exists():
+    print(f"File not found: {ttl_file}")
+elif not ttl_file.suffix == '.ttl':
+    print(f"Wrong extension: {ttl_file.suffix}")
+```
+
+### Inconsistent Validation Results
+
+**Problem**: Results differ between runs
+
+**Solution**: Use `use_local_brick=True` for consistent results
+
+```python
+# ✗ Inconsistent (downloads latest schema each time)
+validator = BrickModelValidator(load_brick_nightly=True)
+
+# ✓ Consistent (uses fixed local schema)
+validator = BrickModelValidator(use_local_brick=True)
+```
+
+### Violations but Model Looks Correct
+
+**Problem**: SHACL reports violations but model seems valid
+
+**Solutions**:
+1. Check Brick Schema version compatibility
+2. Verify namespace URIs are exact
+3. Review SHACL shape definitions
+4. Check relationship directions
+
+```python
+# Debug: Inspect model manually
+from rdflib import Graph
+
+g = Graph()
+g.parse("building_105.ttl", format="turtle")
+
+# Check all types used
+types = set()
+for s, p, o in g.triples((None, RDF.type, None)):
+    types.add(str(o))
+
+print("Classes used:")
+for t in sorted(types):
+    print(f"  - {t}")
+```
+
+---
+
+## Best Practices
+
+!!! tip "Ontology Validation Best Practices"
+    1. **Validate early and often** - After each conversion
+    2. **Use local Brick** - For consistent results (`use_local_brick=True`)
+    3. **Batch validate** - Faster with `max_workers`
+    4. **Log violations** - Save reports for debugging
+    5. **Fix root causes** - Update converter, not individual models
+    6. **Automate** - Include in CI/CD pipeline
+
+### Example CI/CD Integration
+
+```python
+def ci_validation_check(output_dir):
+    """CI/CD validation check - fails build if invalid models"""
+    validator = BrickModelValidator(use_local_brick=True)
+
+    results = validator.batch_validate_ontology(
+        test_data_dir=output_dir,
+        max_workers=4
+    )
+
+    if results['overall_accuracy'] < 100.0:
+        print(f"✗ Validation failed: {results['failed_files']} invalid models")
+        for detail in results['details']:
+            if not detail['valid']:
+                print(f"\n{detail['filename']}:")
+                for v in detail.get('violations', []):
+                    print(f"  - {v}")
+        return False  # Fail CI build
+    else:
+        print(f"✓ All {results['total_files']} models valid")
+        return True  # Pass CI build
+
+# In CI pipeline
+if not ci_validation_check("output/"):
+    exit(1)  # Fail build
+```
+
+---
+
+## Next Steps
+
+- [Ground Truth Validation](ground-truth.md) - Validate point and equipment counts
+- [Subgraph Pattern Validation](subgraph-patterns.md) - Validate system structure
+- [Examples](../../examples/) - Working validation examples
+- [Back to Validation Overview](index.md)
+
+---
+
+## References
+
+- [Brick Schema Documentation](https://brickschema.org/)
+- [SHACL W3C Specification](https://www.w3.org/TR/shacl/)
+- [RDF 1.1 Primer](https://www.w3.org/TR/rdf11-primer/)
+- [brickschema Python Package](https://github.com/BrickSchema/py-brickschema)
 
 ## Validation Methods
 
