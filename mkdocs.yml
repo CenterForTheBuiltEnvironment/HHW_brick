@@ -141,7 +141,16 @@ nav:
     - CSV Data Format: getting-started/csv-format.md
     - Quick Start: getting-started/quick-start.md
 
-  - Examples: examples/index.md
+  - Examples:
+    - examples/index.md
+    - "01: Convert CSV to Brick": examples/01-convert-csv-to-brick.md
+    - "02: Ontology Validation": examples/02-ontology-validation.md
+    - "03: Point Count Validation": examples/03-point-count-validation.md
+    - "04: Equipment Count Validation": examples/04-equipment-count-validation.md
+    - "05: Subgraph Pattern Matching": examples/05-subgraph-pattern-matching.md
+    - "06: Application Management": examples/06-application-management.md
+    - "07: Run Application": examples/07-run-application.md
+    - "08: Batch Run Application": examples/08-batch-run-application.md
 
   - User Guide:
     - CSV to Brick Conversion:
