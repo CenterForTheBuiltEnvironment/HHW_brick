@@ -31,11 +31,13 @@ tag,org,area,bldg_type,year,system,b_number,design_supply,design_return
 ### Column Descriptions
 
 **Required:**
+
 - `tag` - Building ID (integer, unique)
 - `system` - System type (see below)
 - `org` - Organization name
 
 **Optional but useful:**
+
 - `area` - Building area (sq ft)
 - `bldg_type` - Building type (Office, Lab, etc.)
 - `year` - Year built
@@ -86,18 +88,21 @@ tag,ret,sup,sup1,ret1,fire1,sup2,ret2,fire2,hw,flow,pmp1_pwr,pmp2_pwr,t_out,enab
 ### Common Sensor Columns
 
 **Temperature:**
+
 ```
 sup, ret          # Primary supply/return
 sup1-4, ret1-4    # Individual boiler temps
 ```
 
 **Pumps:**
+
 ```
 pmp1_pwr, pmp1_spd, pmp1_vfd    # Pump 1
 pmp2_pwr, pmp2_spd, pmp2_vfd    # Pump 2
 ```
 
 **Other:**
+
 ```
 hw          # Hot water sensor
 flow        # Flow rate

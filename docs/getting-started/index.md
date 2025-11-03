@@ -137,6 +137,7 @@ Before you begin, ensure you have:
   - Or download sample data from [https://doi.org/10.5061/dryad.t4b8gtj8n](https://doi.org/10.5061/dryad.t4b8gtj8n)
 
 **Optional but Recommended**:
+
 - Virtual environment tool (venv or conda)
 - Text editor or IDE (VS Code, PyCharm, etc.)
 - Basic understanding of RDF/semantic web (helpful but not required)
@@ -230,6 +231,7 @@ graph LR
 ```
 
 **Capabilities**:
+
 - ⚡ Single building conversion
 - 🚀 Batch conversion with parallel processing
 - 🤖 Automatic system type detection
@@ -277,6 +279,7 @@ graph TD
 ```
 
 **Validation Layers**:
+
 - 📋 **Ontology**: SHACL-based Brick Schema 1.4 compliance
 - 🔢 **Point Count**: All sensors converted correctly
 - ⚙️ **Equipment Count**: Boilers, pumps, weather stations validated
@@ -337,12 +340,14 @@ graph LR
 ```
 
 **Why Portable?**
+
 - ✅ **No hardcoded point names** - SPARQL auto-discovers sensors
 - ✅ **Building-agnostic** - Same code on any qualified building
 - ✅ **Auto-qualification** - Checks requirements automatically
 - ✅ **One-click deployment** - No recoding needed
 
 **Available Applications**:
+
 - 🌡️ `secondary_loop_temp_diff` - Secondary loop ΔT analysis
 - 🔥 `primary_loop_temp_diff` - Primary loop ΔT analysis
 

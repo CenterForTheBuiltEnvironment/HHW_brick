@@ -235,6 +235,7 @@ timestamp,hw_supply_temp,hw_return_temp,hw_flow
 ```
 
 **Requirements:**
+
 - First column: `timestamp` (datetime format)
 - Remaining columns: Sensor names matching your CSV variable names
 - Values: Numeric readings (°F, GPM, etc.)
