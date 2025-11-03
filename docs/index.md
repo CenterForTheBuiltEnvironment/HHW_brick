@@ -60,6 +60,8 @@ Run pre-built analytics applications or deploy custom applications that automati
 
 Convert, validate, and analyze a building in under 5 minutes:
 
+**Sample Data**: For input data format examples, see https://doi.org/10.5061/dryad.t4b8gtj8n or use test data in `tests/fixtures/`
+
 ```python
 from pathlib import Path
 from hhw_brick import CSVToBrickConverter, BrickModelValidator
