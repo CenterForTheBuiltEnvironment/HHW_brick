@@ -30,13 +30,26 @@ The package supports **five hot water system types** (condensing boilers, non-co
 
 ### Installation
 
+**For Users (when published to PyPI)**:
 ```bash
 pip install hhw-brick
 ```
 
+**For Development (current method)**:
+```bash
+# Clone the repository
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+
+# Install in editable mode
+pip install -e .
+```
+
+The `-e` flag installs the package in editable mode, so changes to the source code are immediately reflected without reinstalling.
+
 **System Requirements**:
 - Python 3.8 or higher
-- See `requirements.txt` for dependencies
+- All dependencies are automatically installed (see `pyproject.toml`)
 
 **Input Data**:
 For sample input data format, see: https://doi.org/10.5061/dryad.t4b8gtj8n
@@ -118,7 +131,7 @@ results = batch.convert_all_buildings(
     metadata_csv="metadata.csv",
     vars_csv="vars_available_by_building.csv",
     output_dir="output/",
-    max_workers=4  # Parallel workers
+    show_progress=True  # Show progress bar
 )
 
 # Batch validation
