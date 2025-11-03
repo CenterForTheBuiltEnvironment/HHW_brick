@@ -142,7 +142,7 @@ nav:
     - Quick Start: getting-started/quick-start.md
 
   - Examples:
-    - examples/index.md
+    - Overview: examples/index.md
     - "01: Convert CSV to Brick": examples/01-convert-csv-to-brick.md
     - "02: Ontology Validation": examples/02-ontology-validation.md
     - "03: Point Count Validation": examples/03-point-count-validation.md
