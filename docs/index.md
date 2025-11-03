@@ -43,16 +43,21 @@ The package supports **five heating hot water system types** (condensing boilers
 
 ---
 
-## Three-Step Workflow
+## Installation
 
-### 1. Convert - CSV to Brick Models
-Transform equipment metadata and sensor data into standardized Brick semantic models with automatic system type detection.
+```bash
+# For users (when published to PyPI)
+pip install hhw-brick
 
-### 2. Validate - Multi-Level Quality Assurance  
-Ensure model correctness through Brick Schema compliance, point/equipment count verification, and system topology pattern matching.
+# For development (current method)
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+pip install -e .
+```
 
-### 3. Analyze - Portable Applications
-Run pre-built analytics applications or deploy custom applications that automatically discover required sensors.
+**Requirements:** Python 3.8 or higher
+
+[📘 Detailed Installation Guide →](getting-started/installation/)
 
 ---
 
@@ -62,18 +67,20 @@ Convert, validate, and analyze a building in under 5 minutes:
 
 **Sample Data**: For input data format examples, see [https://doi.org/10.5061/dryad.t4b8gtj8n](https://doi.org/10.5061/dryad.t4b8gtj8n) or use test data in `tests/fixtures/`
 
+### Step 1: Convert CSV to Brick Model
+
+Transform your CSV data into a standardized Brick Schema RDF model with automatic system type detection and sensor mapping.
+
 ```python
 from pathlib import Path
-from hhw_brick import CSVToBrickConverter, BrickModelValidator
-from hhw_brick.validation import GroundTruthCalculator
-from hhw_brick import apps
+from hhw_brick import CSVToBrickConverter
 
 # Setup paths
 fixtures = Path("tests/fixtures")
 metadata_csv = fixtures / "metadata.csv"
 vars_csv = fixtures / "vars_available_by_building.csv"
 
-# Step 1: Convert CSV to Brick model
+# Convert CSV to Brick model
 converter = CSVToBrickConverter()
 graph = converter.convert_to_brick(
     metadata_csv=str(metadata_csv),
@@ -82,8 +89,15 @@ graph = converter.convert_to_brick(
     output_path="building_105.ttl"
 )
 print(f"✓ Converted: {len(graph)} RDF triples")
+```
 
-# Step 2: Validate the model
+### Step 2: Validate the Model
+
+Ensure your Brick model is correct through multi-level validation: ontology compliance (SHACL), point counts, and equipment counts.
+
+```python
+from hhw_brick import BrickModelValidator
+from hhw_brick.validation import GroundTruthCalculator
 
 # 2a. Ontology validation (Brick Schema compliance)
 validator = BrickModelValidator(use_local_brick=True)
@@ -103,18 +117,26 @@ validator = BrickModelValidator(ground_truth_csv_path="ground_truth.csv")
 point_result = validator.validate_point_count("building_105.ttl")
 print(f"✓ Point count match: {point_result['match']}")
 
-# 2d. Validate equipment counts  
+# 2d. Validate equipment counts
 equip_result = validator.validate_equipment_count("building_105.ttl")
 print(f"✓ Equipment match: {equip_result.get('overall_success', False)}")
+```
 
-# Step 3: Run analytics application
+### Step 3: Run Analytics Application
+
+Deploy portable analytics that automatically discover required sensors using SPARQL queries. Save configuration templates for easy customization.
+
+```python
+from hhw_brick import apps
+import yaml
+
+# Load application
 app = apps.load_app("secondary_loop_temp_diff")
 
 # Check if building qualifies
 qualified = app.qualify("building_105.ttl")
 if qualified:
     # Get and save default config template
-    import yaml
     config = apps.get_default_config("secondary_loop_temp_diff")
 
     # Save config template for easy editing
@@ -141,23 +163,6 @@ if qualified:
 
 ---
 
-## Installation
-
-```bash
-# For users (when published to PyPI)
-pip install hhw-brick
-
-# For development (current method)
-git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
-cd HHW_brick
-pip install -e .
-```
-
-**Requirements:** Python 3.8 or higher
-
-[📘 Detailed Installation Guide →](getting-started/installation/)
-
----
 
 ## Key Features
 
