@@ -1258,11 +1258,77 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-hhw-brick-application" class="md-nav__link">
+  <a href="#what-is-hhw-brick" class="md-nav__link">
     <span class="md-ellipsis">
-      What is HHW Brick Application?
+      What is HHW Brick?
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="What is HHW Brick?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem-data-chaos" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Problem: Data Chaos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#our-solution-semantic-standardization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Our Solution: Semantic Standardization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Conversion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portable-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Portable Analytics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1276,9 +1342,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-example" class="md-nav__link">
+  <a href="#three-step-workflow" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Example
+      Three-Step Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package Architecture
     </span>
   </a>
   
@@ -1297,7 +1372,7 @@
           <li class="md-nav__item">
   <a href="#1-conversion-module" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Conversion Module
+      1. 🔄 Conversion Module
     </span>
   </a>
   
@@ -1306,16 +1381,16 @@
           <li class="md-nav__item">
   <a href="#2-validation-module" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Validation Module
+      2. ✅ Validation Module
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-applications-module" class="md-nav__link">
+  <a href="#3-portable-analytics-module" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Applications Module
+      3. 📊 Portable Analytics Module
     </span>
   </a>
   
@@ -1364,90 +1439,302 @@
 
 
 <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
-<p>Welcome to HHW Brick Application! This guide will help you get up and running with converting heating hot water system data to Brick ontology format.</p>
+<p>Welcome to <strong>HHW Brick</strong>! This comprehensive guide will take you from installation to running your first portable analytics application on heating hot water system data.</p>
 <h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
-<p>In this section, you'll learn:</p>
+<p>In this Getting Started section, you'll master:</p>
+<ol>
+<li><strong><a href="installation/">Installation</a></strong> - Set up the hhw_brick package on your system</li>
+<li><strong><a href="understanding-brick/">Understanding Brick Schema</a></strong> - Learn the semantic ontology powering interoperability</li>
+<li><strong><a href="csv-format/">CSV Data Format</a></strong> - Prepare your data files with proper structure</li>
+<li><strong><a href="quick-start/">Quick Start</a></strong> - Complete workflow: Convert → Validate → Analyze in 10 minutes</li>
+</ol>
+<p>By the end of this guide, you'll be able to:</p>
 <ul>
-<li>How to <a href="installation/">install</a> the package</li>
-<li>How to perform your <a href="quick-start/">first conversion</a>  </li>
-<li>Understanding <a href="understanding-brick/">Brick ontology</a></li>
-<li><a href="csv-format/">CSV data format</a> requirements</li>
+<li>✅ Convert CSV building data to standardized Brick Schema models</li>
+<li>✅ Validate models for correctness and completeness</li>
+<li>✅ Run analytics applications without writing building-specific code</li>
+<li>✅ Process multiple buildings in parallel with batch operations</li>
 </ul>
-<h2 id="what-is-hhw-brick-application">What is HHW Brick Application?<a class="headerlink" href="#what-is-hhw-brick-application" title="Permanent link">&para;</a></h2>
-<p>HHW Brick Application is a Python package that converts heating hot water system (HHWS) equipment data from CSV format into standardized Brick ontology models. It supports:</p>
+<h2 id="what-is-hhw-brick">What is HHW Brick?<a class="headerlink" href="#what-is-hhw-brick" title="Permanent link">&para;</a></h2>
+<p><strong>HHW Brick</strong> (<code>hhw_brick</code>) is a Python toolkit for <strong>converting</strong>, <strong>validating</strong>, and <strong>analyzing</strong> heating hot water system data using the Brick Schema semantic standard.</p>
+<h3 id="the-problem-data-chaos">The Problem: Data Chaos<a class="headerlink" href="#the-problem-data-chaos" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Building A"
+        A1[HW_Supply_Temp]
+        A2[HW_Return_Temp]
+        A3[HW_Flow_Rate]
+    end
+
+    subgraph "Building B"
+        B1[SupplyTempHotWater]
+        B2[ReturnTemp_HW]
+        B3[FlowRateHW]
+    end
+
+    subgraph "Building C"
+        C1[HWST_01]
+        C2[HWRT_01]
+        C3[HWF_01]
+    end
+
+    style A1 fill:#ffcdd2
+    style A2 fill:#ffcdd2
+    style A3 fill:#ffcdd2
+    style B1 fill:#ffcdd2
+    style B2 fill:#ffcdd2
+    style B3 fill:#ffcdd2
+    style C1 fill:#ffcdd2
+    style C2 fill:#ffcdd2
+    style C3 fill:#ffcdd2</code></pre>
+<p><strong>Different names for the same sensors</strong> → Impossible to write reusable analytics!</p>
+<h3 id="our-solution-semantic-standardization">Our Solution: Semantic Standardization<a class="headerlink" href="#our-solution-semantic-standardization" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Building A"
+        A1[HW_Supply_Temp]
+        A2[HW_Return_Temp]
+    end
+
+    subgraph "Building B"
+        B1[SupplyTempHotWater]
+        B2[ReturnTemp_HW]
+    end
+
+    subgraph "Building C"
+        C1[HWST_01]
+        C2[HWRT_01]
+    end
+
+    A1 --&gt;|Convert| S1[brick:Hot_Water_Supply_Temperature_Sensor]
+    B1 --&gt;|Convert| S1
+    C1 --&gt;|Convert| S1
+
+    A2 --&gt;|Convert| S2[brick:Hot_Water_Return_Temperature_Sensor]
+    B2 --&gt;|Convert| S2
+    C2 --&gt;|Convert| S2
+
+    S1 --&gt; App[Portable Analytics]
+    S2 --&gt; App
+
+    style S1 fill:#c8e6c9
+    style S2 fill:#c8e6c9
+    style App fill:#90caf9</code></pre>
+<p><strong>Same semantic meaning</strong> → Write analytics once, run everywhere!</p>
+<h2 id="core-capabilities">Core Capabilities<a class="headerlink" href="#core-capabilities" title="Permanent link">&para;</a></h2>
+<p><strong>HHW Brick</strong> (<code>hhw_brick</code>) is a Python package that provides three integrated capabilities:</p>
+<h3 id="conversion">🔄 Conversion<a class="headerlink" href="#conversion" title="Permanent link">&para;</a></h3>
+<p>Transform heating hot water system equipment data from CSV format into standardized Brick Schema 1.4 RDF models.</p>
 <ul>
-<li><strong>Multiple System Types</strong>: Boiler, Condensing, Non-condensing, District HW, District Steam</li>
-<li><strong>Batch Processing</strong>: Convert hundreds of buildings at once</li>
-<li><strong>Validation</strong>: Ensure model correctness</li>
-<li><strong>Analytics</strong>: Run analysis applications on converted models</li>
+<li><strong>5 System Types Supported</strong>: Condensing boilers, non-condensing boilers, generic boilers, district hot water, district steam</li>
+<li><strong>Automatic Detection</strong>: System type identification and sensor mapping</li>
+<li><strong>Batch Processing</strong>: Convert hundreds of buildings in parallel</li>
+<li><strong>Flexible Input</strong>: Works with varying CSV structures and sensor availability</li>
+<li><strong>Test Data</strong>: We provide test data in <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick/tree/main/tests/fixtures/"><code>tests/fixtures/</code></a> to get you started</li>
+</ul>
+<h3 id="validation">✅ Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<p>Ensure your Brick models are correct through comprehensive multi-level validation.</p>
+<ul>
+<li><strong>Ontology Validation</strong>: SHACL-based compliance with Brick Schema 1.4</li>
+<li><strong>Point Count Validation</strong>: Verify all sensors were converted correctly</li>
+<li><strong>Equipment Count Validation</strong>: Validate boilers, pumps, and weather stations</li>
+<li><strong>Structural Validation</strong>: Pattern matching for system topology</li>
+<li><strong>Ground Truth Comparison</strong>: Independent validation against source CSV data</li>
+</ul>
+<h3 id="portable-analytics">📊 Portable Analytics<a class="headerlink" href="#portable-analytics" title="Permanent link">&para;</a></h3>
+<p>Run analytics applications that work across any qualified building without recoding.</p>
+<ul>
+<li><strong>Auto-Discovery</strong>: SPARQL queries find required sensors automatically</li>
+<li><strong>Building-Agnostic</strong>: No hardcoded point names or building IDs</li>
+<li><strong>Qualification Checks</strong>: Automatically verify buildings have required equipment</li>
+<li><strong>Pre-Built Apps</strong>: Temperature difference analysis for primary/secondary loops</li>
+<li><strong>Extensible Framework</strong>: Build your own portable applications</li>
 </ul>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<p>Before you begin, you should have:</p>
+<p>Before you begin, ensure you have:</p>
 <ul>
-<li><strong>Python 3.8+</strong> installed on your system</li>
-<li><strong>Basic Python knowledge</strong> (variables, functions, modules)</li>
-<li><strong>CSV data files</strong> with building equipment information (we provide test data to get started)</li>
+<li><strong>Python 3.8 or higher</strong> installed on your system</li>
+<li><strong>Basic Python knowledge</strong> - understanding of variables, functions, and imports</li>
+<li><strong>Git</strong> installed for cloning the repository</li>
+<li><strong>CSV data files</strong> with building equipment metadata and sensor availability</li>
+<li>We provide test data in <a href="https://github.com/CenterForTheBuiltEnvironment/HHW_brick/tree/main/tests/fixtures/"><code>tests/fixtures/</code></a> to get you started</li>
+<li>Or download sample data from <a href="https://doi.org/10.5061/dryad.t4b8gtj8n">https://doi.org/10.5061/dryad.t4b8gtj8n</a></li>
 </ul>
-<h2 id="quick-example">Quick Example<a class="headerlink" href="#quick-example" title="Permanent link">&para;</a></h2>
-<p>Here's the simplest possible example:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVToBrickConverter</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Create converter</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">converter</span> <span class="o">=</span> <span class="n">CSVToBrickConverter</span><span class="p">()</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Convert a building</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">converter</span><span class="o">.</span><span class="n">convert_to_brick</span><span class="p">(</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">metadata_csv</span><span class="o">=</span><span class="s2">&quot;metadata.csv&quot;</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">vars_csv</span><span class="o">=</span><span class="s2">&quot;vars_available_by_building.csv&quot;</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">building_tag</span><span class="o">=</span><span class="s2">&quot;105&quot;</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;building_105.ttl&quot;</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
-</span></code></pre></div>
-<p>That's it! You now have a Brick ontology model in <code>building_105.ttl</code>.</p>
+<p><strong>Optional but Recommended</strong>:
+- Virtual environment tool (venv or conda)
+- Text editor or IDE (VS Code, PyCharm, etc.)
+- Basic understanding of RDF/semantic web (helpful but not required)</p>
+<h2 id="three-step-workflow">Three-Step Workflow<a class="headerlink" href="#three-step-workflow" title="Permanent link">&para;</a></h2>
+<p>HHW Brick follows a simple three-step workflow:</p>
+<pre class="mermaid"><code>graph LR
+    A[CSV Files] --&gt;|1. Convert| B[Brick Model]
+    B --&gt;|2. Validate| C[Validated Model]
+    C --&gt;|3. Analyze| D[Insights]
+
+    style A fill:#e3f2fd
+    style B fill:#fff9c4
+    style C fill:#c8e6c9
+    style D fill:#f8bbd0</code></pre>
+<ol>
+<li><strong>Convert</strong> - Transform CSV to Brick Schema</li>
+<li><strong>Validate</strong> - Ensure model correctness</li>
+<li><strong>Analyze</strong> - Deploy portable analytics</li>
+</ol>
+<h2 id="package-architecture">Package Architecture<a class="headerlink" href="#package-architecture" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>graph LR
+    subgraph Input
+        CSV[CSV Files]
+        TS[Timeseries Data]
+    end
+
+    subgraph "HHW Brick Package"
+        direction TB
+        CONV[🔄 Conversion Module]
+        VAL[✅ Validation Module]
+        APP[📊 Analytics Module]
+
+        CONV --&gt;|TTL Models| VAL
+        VAL --&gt;|Validated Models| APP
+    end
+
+    subgraph Output
+        TTL[Brick Models&lt;br/&gt;.ttl files]
+        REP[Validation Reports]
+        RES[Analysis Results]
+    end
+
+    CSV --&gt; CONV
+    CONV --&gt; TTL
+    VAL --&gt; REP
+    TS --&gt; APP
+    APP --&gt; RES
+
+    style CONV fill:#fff9c4
+    style VAL fill:#c8e6c9
+    style APP fill:#bbdefb
+    style TTL fill:#e1f5fe
+    style REP fill:#f0f4c3
+    style RES fill:#ffe0b2</code></pre>
 <h2 id="package-components">Package Components<a class="headerlink" href="#package-components" title="Permanent link">&para;</a></h2>
-<p>The package consists of three main components:</p>
-<h3 id="1-conversion-module">1. Conversion Module<a class="headerlink" href="#1-conversion-module" title="Permanent link">&para;</a></h3>
-<p>Convert CSV data to Brick models:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVToBrickConverter</span><span class="p">,</span> <span class="n">BatchConverter</span>
-</span></code></pre></div>
-<ul>
-<li><code>CSVToBrickConverter</code> - Single building conversion</li>
-<li><code>BatchConverter</code> - Multiple buildings at once</li>
-</ul>
-<h3 id="2-validation-module">2. Validation Module<a class="headerlink" href="#2-validation-module" title="Permanent link">&para;</a></h3>
-<p>Validate your Brick models:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick</span><span class="w"> </span><span class="kn">import</span> <span class="n">BrickModelValidator</span><span class="p">,</span> <span class="n">GroundTruthCalculator</span>
-</span></code></pre></div>
-<ul>
-<li><code>BrickModelValidator</code> - Check ontology correctness</li>
-<li><code>GroundTruthCalculator</code> - Compare against expected values</li>
-</ul>
-<h3 id="3-applications-module">3. Applications Module<a class="headerlink" href="#3-applications-module" title="Permanent link">&para;</a></h3>
-<p>Run analytics on your models:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick</span><span class="w"> </span><span class="kn">import</span> <span class="n">apps</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># List available applications</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">apps</span><span class="o">.</span><span class="n">list_apps</span><span class="p">()</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Load an application</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">app</span> <span class="o">=</span> <span class="n">apps</span><span class="o">.</span><span class="n">load_app</span><span class="p">(</span><span class="s2">&quot;secondary_loop_temp_diff&quot;</span><span class="p">)</span>
-</span></code></pre></div>
+<p>The package consists of three main modules:</p>
+<h3 id="1-conversion-module">1. 🔄 Conversion Module<a class="headerlink" href="#1-conversion-module" title="Permanent link">&para;</a></h3>
+<p>Transform CSV data to Brick Schema models.</p>
+<p><strong>Key Classes</strong>: <code>CSVToBrickConverter</code>, <code>BatchConverter</code></p>
+<p><strong>Supported System Types</strong>:</p>
+<pre class="mermaid"><code>graph LR
+    subgraph "5 Supported System Types"
+        C[🔥 Condensing&lt;br/&gt;Boiler]
+        NC[🔥 Non-Condensing&lt;br/&gt;Boiler]
+        G[🔥 Generic&lt;br/&gt;Boiler]
+        DH[🏢 District&lt;br/&gt;Hot Water]
+        DS[💨 District&lt;br/&gt;Steam]
+    end
+
+    style C fill:#ffccbc
+    style NC fill:#ffccbc
+    style G fill:#ffccbc
+    style DH fill:#b3e5fc
+    style DS fill:#b2dfdb</code></pre>
+<p><strong>Capabilities</strong>:
+- ⚡ Single building conversion
+- 🚀 Batch conversion with parallel processing
+- 🤖 Automatic system type detection
+- 📋 Flexible CSV input handling</p>
+<p>👉 <strong><a href="quick-start/">Learn more in Quick Start</a></strong></p>
+<h3 id="2-validation-module">2. ✅ Validation Module<a class="headerlink" href="#2-validation-module" title="Permanent link">&para;</a></h3>
+<p>Ensure your Brick models are correct and complete.</p>
+<p><strong>Key Classes</strong>: <code>BrickModelValidator</code>, <code>GroundTruthCalculator</code></p>
+<p><strong>Multi-Level Validation Process</strong>:</p>
+<pre class="mermaid"><code>graph TD
+    M[Brick Model] --&gt; V1[📋 Ontology Validation]
+    M --&gt; V2[🔢 Point Count Validation]
+    M --&gt; V3[⚙️ Equipment Count Validation]
+    M --&gt; V4[🔍 Structural Validation]
+
+    V1 --&gt; R1{SHACL&lt;br/&gt;Conformance?}
+    V2 --&gt; R2{Counts&lt;br/&gt;Match?}
+    V3 --&gt; R3{Equipment&lt;br/&gt;Present?}
+    V4 --&gt; R4{Pattern&lt;br/&gt;Match?}
+
+    R1 --&gt;|✓| PASS[✅ Valid Model]
+    R2 --&gt;|✓| PASS
+    R3 --&gt;|✓| PASS
+    R4 --&gt;|✓| PASS
+
+    R1 --&gt;|✗| FAIL[⚠️ Issues Found]
+    R2 --&gt;|✗| FAIL
+    R3 --&gt;|✗| FAIL
+    R4 --&gt;|✗| FAIL
+
+    style M fill:#e3f2fd
+    style V1 fill:#fff9c4
+    style V2 fill:#fff9c4
+    style V3 fill:#fff9c4
+    style V4 fill:#fff9c4
+    style PASS fill:#c8e6c9
+    style FAIL fill:#ffcdd2</code></pre>
+<p><strong>Validation Layers</strong>:
+- 📋 <strong>Ontology</strong>: SHACL-based Brick Schema 1.4 compliance
+- 🔢 <strong>Point Count</strong>: All sensors converted correctly
+- ⚙️ <strong>Equipment Count</strong>: Boilers, pumps, weather stations validated
+- 🔍 <strong>Structural</strong>: System topology pattern matching</p>
+<p>👉 <strong><a href="../user-guide/validation/">Learn more in Validation Guide</a></strong></p>
+<h3 id="3-portable-analytics-module">3. 📊 Portable Analytics Module<a class="headerlink" href="#3-portable-analytics-module" title="Permanent link">&para;</a></h3>
+<p>Run analytics applications that work across any qualified building.</p>
+<p><strong>Key Interface</strong>: <code>apps</code> manager</p>
+<p><strong>Traditional vs. Portable Analytics</strong>:</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "❌ Traditional Approach"
+        T1[Building A] --&gt;|Custom Code A| TA[Analytics A]
+        T2[Building B] --&gt;|Custom Code B| TB[Analytics B]
+        T3[Building C] --&gt;|Custom Code C| TC[Analytics C]
+    end
+
+    subgraph "✅ Portable Approach"
+        P1[Building A&lt;br/&gt;Brick Model] --&gt;|Same Code| PA[Portable&lt;br/&gt;Analytics]
+        P2[Building B&lt;br/&gt;Brick Model] --&gt;|Same Code| PA
+        P3[Building C&lt;br/&gt;Brick Model] --&gt;|Same Code| PA
+    end
+
+    style T1 fill:#ffcdd2
+    style T2 fill:#ffcdd2
+    style T3 fill:#ffcdd2
+    style TA fill:#ffcdd2
+    style TB fill:#ffcdd2
+    style TC fill:#ffcdd2
+
+    style P1 fill:#c8e6c9
+    style P2 fill:#c8e6c9
+    style P3 fill:#c8e6c9
+    style PA fill:#90caf9</code></pre>
+<p><strong>How It Works</strong>:</p>
+<pre class="mermaid"><code>graph LR
+    APP[Analytics App] --&gt;|1. SPARQL Query| BM[Brick Model]
+    BM --&gt;|2. Auto-Discover| SENS[Required&lt;br/&gt;Sensors]
+    SENS --&gt;|3. Qualify| CHECK{Has All&lt;br/&gt;Sensors?}
+    CHECK --&gt;|✓ Yes| RUN[4. Run Analysis]
+    CHECK --&gt;|✗ No| SKIP[Skip Building]
+
+    style APP fill:#90caf9
+    style BM fill:#fff9c4
+    style SENS fill:#ffe0b2
+    style RUN fill:#c8e6c9
+    style SKIP fill:#ffcdd2</code></pre>
+<p><strong>Why Portable?</strong>
+- ✅ <strong>No hardcoded point names</strong> - SPARQL auto-discovers sensors
+- ✅ <strong>Building-agnostic</strong> - Same code on any qualified building
+- ✅ <strong>Auto-qualification</strong> - Checks requirements automatically
+- ✅ <strong>One-click deployment</strong> - No recoding needed</p>
+<p><strong>Available Applications</strong>:
+- 🌡️ <code>secondary_loop_temp_diff</code> - Secondary loop ΔT analysis
+- 🔥 <code>primary_loop_temp_diff</code> - Primary loop ΔT analysis</p>
+<p>👉 <strong><a href="../user-guide/applications/">Learn more in Applications Guide</a></strong></p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<p>Ready to get started? Choose your path:</p>
-<ul>
-<li>
-<p>📥 <strong><a href="installation/">Install the Package</a></strong> - Install HHW Brick Application on your system</p>
-</li>
-<li>
-<p>⚡ <strong><a href="quick-start/">Quick Start Guide</a></strong> - Convert your first building in 5 minutes</p>
-</li>
-<li>
-<p>📚 <strong><a href="understanding-brick/">Understanding Brick</a></strong> - Learn what Brick ontology is</p>
-</li>
-<li>
-<p>📋 <strong><a href="csv-format/">CSV Format Guide</a></strong> - Prepare your data files</p>
-</li>
-</ul>
+<p>Ready to get started? Follow this path:</p>
+<ol>
+<li>📥 <strong><a href="installation/">Install the Package</a></strong> - Set up hhw_brick on your system</li>
+<li>📚 <strong><a href="understanding-brick/">Understanding Brick</a></strong> - Learn what Brick Schema is and why it matters</li>
+<li>📋 <strong><a href="csv-format/">CSV Format Guide</a></strong> - Understand the required data structure</li>
+<li>⚡ <strong><a href="quick-start/">Quick Start Guide</a></strong> - Complete workflow: Convert → Validate → Analyze</li>
+</ol>
 <h2 id="need-help">Need Help?<a class="headerlink" href="#need-help" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Check the <a href="../faq.md">FAQ</a> for common questions</li>
