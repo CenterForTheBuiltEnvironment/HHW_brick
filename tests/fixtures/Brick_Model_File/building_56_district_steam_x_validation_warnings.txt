@@ -1,13 +1,12 @@
 ================================================================================
 Brick Model Generation - Validation Warnings Report
-Generated: 2025-10-30 13:32:32
+Generated time: 2025-11-02 11:15:36
 ================================================================================
 
-Total warnings requiring manual verification: 1
+Total found 1 issues requiring manual review:
 
 1. Building 56: District system (district steam) but found boiler-related data - b_number=1, sensors show 0 boilers, not modeling boilers, needs manual verification
 
 ================================================================================
-Please manually verify the above issues to confirm data accuracy
+Please manually review the above issues to confirm data accuracy
 ================================================================================
-

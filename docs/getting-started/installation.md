@@ -1,6 +1,6 @@
 # Installation
 
-Get HHW Brick Application installed and ready to use.
+Get **hhw_brick** installed and ready to use.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ python --version
 
 ### Operating Systems
 
-HHW Brick Application works on:
+HHW Brick works on:
 
 - ✅ Windows 10/11
 - ✅ macOS 10.15+
@@ -25,38 +25,30 @@ HHW Brick Application works on:
 
 ## Installation Methods
 
-### Method 1: Install from PyPI (Recommended)
+### Method 1: Install from Source (Recommended)
 
-The easiest way to install:
+Currently, the package is not yet published to PyPI. Install from source:
+
+```bash
+# Clone the repository
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+
+# Install in editable mode
+pip install -e .
+```
+
+The `-e` flag installs in editable mode, so changes to the source code are immediately reflected.
+
+### Method 2: Install from PyPI (Coming Soon)
+
+Once published to PyPI, you'll be able to install with:
 
 ```bash
 pip install hhw-brick
 ```
 
 This installs the latest stable version.
-
-### Method 2: Install from Source
-
-For the latest development version:
-
-```bash
-# Clone the repository
-git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
-cd hhw-brick
-
-# Install in editable mode
-pip install -e .
-```
-
-### Method 3: Install Specific Version
-
-```bash
-# Install specific version
-pip install hhw-brick==0.2.0
-
-# Upgrade to latest
-pip install --upgrade hhw-brick
-```
 
 ## Verify Installation
 
@@ -69,7 +61,7 @@ print(hhw_brick.__version__)
 
 Expected output:
 ```
-0.2.0
+0.1.0
 ```
 
 Test the main components:
@@ -78,33 +70,37 @@ Test the main components:
 from hhw_brick import CSVToBrickConverter, BatchConverter, apps
 
 print("✓ Conversion module loaded")
-print(f"✓ Available apps: {apps.list_apps()}")
+print(f"✓ Available apps: {len(apps.list_apps())} applications")
 ```
 
 ## Dependencies
 
-HHW Brick Application automatically installs these dependencies:
+HHW Brick automatically installs these dependencies:
 
 ### Core Dependencies
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| rdflib | ≥7.2.0 | RDF graph processing |
-| pandas | ≥1.3.0 | Data manipulation |
-| pyyaml | ≥5.4.0 | Configuration files |
-| brickschema | ≥0.7.0 | Brick ontology support |
+| rdflib | ≥6.2.0, <7.0.0 | RDF graph processing |
+| pandas | ≥1.3.0, <3.0.0 | Data manipulation |
+| pyyaml | ≥5.4.0, <7.0.0 | Configuration files |
+| brickschema | ≥0.6.0, <0.7.0 | Brick ontology support |
 
-### Optional Dependencies
+### Analytics & Utilities
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| click | ≥8.0.0 | Command-line interface |
-| matplotlib | ≥3.5.0 | Visualization |
 | tqdm | ≥4.0.0 | Progress bars |
+| jsonschema | ≥4.0.0 | JSON validation |
+| requests | ≥2.28.0 | HTTP requests |
+| matplotlib | ≥3.5.0 | Visualization |
+| seaborn | ≥0.11.0 | Statistical visualization |
+
+All dependencies are automatically installed when you run `pip install -e .`
 
 ## Virtual Environment (Recommended)
 
-It's recommended to use a virtual environment:
+It's recommended to use a virtual environment to avoid dependency conflicts:
 
 ### Using venv
 
@@ -118,21 +114,25 @@ venv\Scripts\activate
 # Activate (Linux/Mac)
 source venv/bin/activate
 
-# Install package
-pip install hhw-brick
+# Clone and install package
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+pip install -e .
 ```
 
 ### Using conda
 
 ```bash
 # Create environment
-conda create -n hhws python=3.10
+conda create -n hhw_brick python=3.10
 
 # Activate
-conda activate hhws
+conda activate hhw_brick
 
-# Install package
-pip install hhw-brick
+# Clone and install package
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+pip install -e .
 ```
 
 ## Troubleshooting
@@ -142,27 +142,23 @@ pip install hhw-brick
 **Solution**: Install pip or use `python -m pip` instead:
 
 ```bash
-python -m pip install hhw-brick
+python -m pip install -e .
 ```
 
 ### Issue: "Permission denied"
 
-**Solution**: Use `--user` flag:
+**Solution**: Use a virtual environment (recommended) or add `--user` flag:
 
 ```bash
-pip install --user hhw-brick
+pip install --user -e .
 ```
 
-Or use a virtual environment (recommended).
+### Issue: Git not installed
 
-### Issue: "No matching distribution found"
-
-**Solution**: Upgrade pip:
-
-```bash
-python -m pip install --upgrade pip
-pip install hhw-brick
-```
+**Solution**: Install Git first:
+- Windows: Download from [git-scm.com](https://git-scm.com/)
+- Mac: `brew install git` or install Xcode Command Line Tools
+- Linux: `sudo apt-get install git` (Ubuntu/Debian)
 
 ### Issue: Dependency conflicts
 
@@ -171,20 +167,30 @@ pip install hhw-brick
 ```bash
 python -m venv fresh_env
 fresh_env\Scripts\activate  # Windows
-pip install hhw-brick
+source fresh_env/bin/activate  # Linux/Mac
+cd HHW_brick
+pip install -e .
+```
+
+### Issue: Import errors after installation
+
+**Solution**: Verify the installation:
+
+```bash
+pip list | grep hhw-brick
+# Should show: hhw-brick  0.1.0  /path/to/HHW_brick
 ```
 
 ## Development Installation
 
-For contributors and developers:
+For contributors and developers who want to modify the code:
 
 ```bash
 # Clone repository
 git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
-cd hhw-brick
+cd HHW_brick
 
 # Install development dependencies
-pip install -r requirements.txt
 pip install -r requirements-dev.txt
 
 # Install in editable mode
@@ -194,7 +200,14 @@ pip install -e .
 pytest
 ```
 
-See [Development Setup](../developer-guide/contributing/setup.md) for more details.
+**Development dependencies include**:
+- pytest - Testing framework
+- pytest-cov - Code coverage
+- black - Code formatter
+- flake8 - Linter
+- mkdocs - Documentation
+
+See [Contributing Guide](../developer-guide/) for more details on contributing to the project.
 
 ## Uninstallation
 

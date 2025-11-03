@@ -1,39 +1,65 @@
-# Quick Start
+# Quick Start: Complete Workflow
 
-Convert your first building to Brick format in just 5 minutes!
+This guide walks you through the **complete HHW Brick workflow** in 10 minutes:
+
+**Convert** CSV data → **Validate** Brick model → **Analyze** with portable analytics
 
 ## What You'll Build
 
 By the end of this guide, you'll have:
 
-- ✅ Converted a building from CSV to Brick format
-- ✅ Validated the resulting model
-- ✅ Understood the basic workflow
+- ✅ Converted a building from CSV to Brick Schema format
+- ✅ Validated the model for correctness and completeness
+- ✅ Run a portable analytics application on the building
+- ✅ Understood the complete workflow
 
 ## Step 1: Install the Package
 
-If you haven't already:
+If you haven't already, clone the repository and install in editable mode:
 
 ```bash
-pip install hhw-brick
+# Clone the repository
+git clone https://github.com/CenterForTheBuiltEnvironment/HHW_brick.git
+cd HHW_brick
+
+# Install in editable mode
+pip install -e .
 ```
+
+**Note**: Once published to PyPI, you'll be able to install with `pip install hhw-brick`.
 
 ## Step 2: Prepare Your Data
 
-You need two CSV files:
+You need **two types of CSV files** for the complete workflow:
+
+### A. Building Metadata (for conversion)
 
 1. **metadata.csv** - Building information (system type, organization, etc.)
-2. **vars_available_by_building.csv** - Sensor/point data for each building
+2. **vars_available_by_building.csv** - Sensor/point availability for each building
 
-For this tutorial, we'll use the included test data.
+### B. Timeseries Data (for analytics)
+
+3. **[building]_timeseries.csv** - Time-indexed sensor readings (used in Step 6)
+
+For this tutorial, we'll use the included test data for metadata (Steps 3-5).
 
 ### Download Test Data
 
-The package includes test data. You can find it at:
+The package includes test data in the repository:
+
+**[Download from GitHub →](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/tree/main/tests/fixtures)**
+
+You can find:
+- `metadata.csv` - Building metadata
+- `vars_available_by_building.csv` - Sensor availability data
+- `TimeSeriesData/*.csv` - Example timeseries data (for Step 6 analytics)
+
+Or if you've cloned the repository, they're located at:
 
 ```
 tests/fixtures/metadata.csv
 tests/fixtures/vars_available_by_building.csv
+tests/fixtures/TimeSeriesData/building_105_timeseries.csv  (example)
 ```
 
 Or create a simple example:
@@ -121,66 +147,250 @@ for row in g.query(query):
     print(f"  - {row.equip.split('#')[-1]}: {row.type.split('#')[-1]}")
 ```
 
-## Step 5: Validate the Model (Optional)
+## Step 5: Validate the Model
 
-Ensure your model is correct:
+Ensure your model is correct and complete:
 
 ```python
 from hhw_brick import BrickModelValidator
 
+# Create validator
 validator = BrickModelValidator()
-is_valid, report = validator.validate_model("building_105.ttl")
+
+# Validate the model
+is_valid, report = validator.validate_ontology("building_105.ttl")
 
 if is_valid:
-    print("✓ Model is valid!")
+    print("✓ Model passed ontology validation!")
+    print(f"  - {report['conformance']} conformance")
+    print(f"  - {report['violations']} violations")
 else:
-    print("⚠ Validation warnings:")
-    for warning in report.get('warnings', []):
-        print(f"  - {warning}")
+    print("⚠ Validation found issues:")
+    for issue in report.get('violations', []):
+        print(f"  - {issue}")
 ```
+
+Expected output:
+
+```
+✓ Model passed ontology validation!
+  - True conformance
+  - 0 violations
+```
+
+## Step 6: Run Portable Analytics
+
+Now for the **key advantage** of Brick Schema - run analytics that work across any building!
+
+### Discover Available Applications
+
+```python
+from hhw_brick import apps
+
+# List all available applications
+available = apps.list_apps()
+print("Available applications:")
+for app_info in available:
+    print(f"  - {app_info['name']}: {app_info['description']}")
+```
+
+Expected output:
+
+```
+Available applications:
+  - secondary_loop_temp_diff: Analyzes temperature difference in secondary loop
+  - primary_loop_temp_diff: Analyzes temperature difference in primary loop
+```
+
+### Check if Building Qualifies
+
+```python
+# Load an application
+app = apps.load_app("secondary_loop_temp_diff")
+
+# Check if building has required equipment
+qualified, details = app.qualify("building_105.ttl")
+
+if qualified:
+    print("✓ Building qualifies for this analysis!")
+    print(f"  Required sensors: {details['required_sensors']}")
+    print(f"  Found sensors: {details['found_sensors']}")
+else:
+    print("✗ Building does not qualify")
+    print(f"  Missing: {details['missing']}")
+```
+
+### Prepare Timeseries Data
+
+To run analytics, you need **timeseries data** in CSV format with timestamps and sensor readings:
+
+**Example timeseries CSV format:**
+
+```csv
+timestamp,hw_supply_temp,hw_return_temp,hw_flow
+2023-01-01 00:00:00,180.5,160.2,350.0
+2023-01-01 00:15:00,181.0,160.8,352.5
+2023-01-01 00:30:00,180.8,160.5,351.2
+...
+```
+
+**Requirements:**
+- First column: `timestamp` (datetime format)
+- Remaining columns: Sensor names matching your CSV variable names
+- Values: Numeric readings (°F, GPM, etc.)
+
+**Download example timeseries data:**
+
+**[Example Timeseries Data →](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/tree/main/tests/fixtures/TimeSeriesData)**
+
+Or create a simple example:
+
+```python
+import pandas as pd
+import numpy as np
+
+# Create sample timeseries data
+dates = pd.date_range('2023-01-01', periods=1000, freq='15min')
+df = pd.DataFrame({
+    'timestamp': dates,
+    'hw_supply_temp': np.random.normal(180, 5, 1000),
+    'hw_return_temp': np.random.normal(160, 5, 1000),
+    'hw_flow': np.random.normal(350, 20, 1000)
+})
+df.to_csv('building_105_timeseries.csv', index=False)
+```
+
+### Run Analysis
+
+With timeseries data ready, run the complete analysis:
+
+```python
+# Get default configuration
+config = apps.get_default_config("secondary_loop_temp_diff")
+
+# Customize configuration if needed
+config["analysis_period"] = "2023-01-01 to 2023-12-31"
+config["output_directory"] = "results/"
+
+# Run the analysis
+results = app.analyze(
+    brick_model="building_105.ttl",
+    timeseries_csv="building_105_timeseries.csv",
+    config=config
+)
+
+print("✓ Analysis complete!")
+print(f"  - Temperature difference mean: {results['mean_temp_diff']:.2f}°F")
+print(f"  - Anomalies detected: {results['anomaly_count']}")
+print(f"  - Report saved to: {results['output_path']}")
+```
+
+Expected output:
+
+```
+✓ Analysis complete!
+  - Temperature difference mean: 20.35°F
+  - Anomalies detected: 12
+  - Report saved to: results/building_105_analysis.html
+```
+
+**Note**: For detailed timeseries format requirements and advanced analysis options, see [Applications Guide](../user-guide/applications/).
 
 ## What Just Happened?
 
-Let's break down what the converter did:
+You completed the **complete HHW Brick workflow**:
 
 ```mermaid
 graph LR
-    A[CSV Files] -->|Read| B[Converter]
-    B -->|Parse| C[Equipment Data]
-    C -->|Map| D[Brick Classes]
-    D -->|Generate| E[RDF Triples]
-    E -->|Write| F[TTL File]
+    A[CSV Files] -->|1. Convert| B[Brick Model]
+    B -->|2. Validate| C[Validated Model]
+    C -->|3. Qualify| D[Check Requirements]
+    D -->|4. Analyze| E[Insights]
 
     style A fill:#e1f5ff
-    style F fill:#c8e6c9
+    style B fill:#fff9c4
+    style C fill:#c8e6c9
+    style D fill:#ffe0b2
+    style E fill:#f8bbd0
 ```
 
-1. **Read CSV files** - Loaded metadata and sensor data
-2. **Identified system type** - "Non-condensing" system
-3. **Created Brick entities** - Equipment, points, relationships
-4. **Generated RDF** - Standard semantic format
-5. **Saved TTL file** - Turtle format output
+### Step-by-Step Breakdown
+
+**1. Conversion (CSV → Brick)**
+- Read CSV files containing equipment metadata and sensor availability
+- Identified system type (e.g., "Non-condensing boiler")
+- Mapped CSV columns to Brick Schema classes and relationships
+- Generated RDF triples in Turtle format
+
+**2. Validation (Quality Check)**
+- Verified model conforms to Brick Schema 1.4 ontology
+- Checked point counts match source CSV data
+- Validated equipment relationships and structure
+
+**3. Analytics (Portable Application)**
+- Used SPARQL to auto-discover required sensors in the model
+- Checked if building has necessary equipment for analysis
+- Ready to run analytics without hardcoded point names
+
+**Key Insight**: You created a **standardized, validated, analysis-ready** building model!
+
+## Why This Matters
+
+Traditional building analytics require **manual recoding** for each building:
+
+```python
+# ❌ Traditional approach - hardcoded point names
+supply_temp = data["HW_Supply_Temp"]  # Only works for this building!
+return_temp = data["HWReturnTemp"]    # Different name in next building
+```
+
+With HHW Brick, analytics are **portable**:
+
+```python
+# ✅ Brick approach - semantic queries
+query = """
+SELECT ?sensor WHERE {
+    ?sensor a brick:Hot_Water_Supply_Temperature_Sensor .
+}
+"""
+# Works on ANY building with Brick model!
+```
+
+**Result**: Write analytics once, deploy across hundreds of buildings.
 
 ## Next Steps
 
-Now that you've converted your first building:
+Congratulations! You've completed the full workflow. Now dive deeper:
 
-### Learn More About Conversion
+### 📚 Deepen Your Understanding
 
-- **[Single Building Conversion](../user-guide/conversion/single-building.md)** - Detailed guide
-- **[Batch Conversion](../user-guide/conversion/batch-conversion.md)** - Convert multiple buildings
-- **[System Types](../user-guide/conversion/system-types.md)** - Supported HVAC systems
+- **[Understanding Brick Schema](understanding-brick.md)** - Learn the ontology concepts
+- **[CSV Data Format](csv-format.md)** - Master the input data structure
 
-### Explore Other Features
+### 🔧 Master the Tools
 
-- **[Model Validation](../user-guide/validation/index.md)** - Ensure quality
-- **[Analytics Applications](../user-guide/applications/index.md)** - Run analysis
-- **[Examples](../examples/index.md)** - More code samples
+- **[Conversion Guide](../user-guide/conversion/)** - Advanced conversion techniques
+  - Single building conversion with custom options
+  - Batch conversion for multiple buildings
+  - Supported system types and configurations
 
-### Understand the Data
+- **[Validation Guide](../user-guide/validation/)** - Ensure model quality
+  - Ontology conformance validation
+  - Point count validation
+  - Equipment structure validation
 
-- **[Understanding Brick](understanding-brick.md)** - What is Brick ontology?
-- **[CSV Format](csv-format.md)** - Data file requirements
+- **[Applications Guide](../user-guide/applications/)** - Build portable analytics
+  - Creating custom analytics apps
+  - Timeseries data format requirements
+  - Configuration and deployment
+
+### 💡 See More Examples
+
+- **[Example Scripts](../../examples/)** - Copy-paste ready code
+  - `01_convert_csv_to_brick.py` - Basic conversion
+  - `02_ontology_validation.py` - Validation examples
+  - `06_application_management.py` - App discovery and loading
+  - `07_run_application.py` - Running analytics
 
 ## Common Next Tasks
 
@@ -255,67 +465,139 @@ Some sensor values might be missing (NA). This is normal and the converter handl
 
 ## Complete Example Script
 
-Here's a complete script you can copy and run:
+Here's a **complete end-to-end script** you can copy and run:
 
 ```python
 """
-Complete Quick Start Example
-This script demonstrates the basic workflow.
+HHW Brick - Complete Workflow Example
+
+This script demonstrates the complete workflow:
+1. Convert CSV to Brick model
+2. Validate the model
+3. Check analytics qualification
 """
 
-from hhw_brick import CSVToBrickConverter, BrickModelValidator
+from hhw_brick import CSVToBrickConverter, BrickModelValidator, apps
 from pathlib import Path
 
 def main():
-    print("HHW Brick Application - Quick Start")
-    print("=" * 50)
+    print("=" * 60)
+    print("HHW Brick - Complete Workflow")
+    print("=" * 60)
 
-    # Step 1: Set up paths
+    # Configuration
     metadata_csv = "metadata.csv"
     vars_csv = "vars_available_by_building.csv"
-    output_file = "building_105.ttl"
+    building_tag = "105"
+    output_file = f"building_{building_tag}.ttl"
 
-    # Step 2: Convert
-    print("\n1. Converting building #105...")
+    # Step 1: Convert CSV to Brick
+    print("\n[Step 1/3] Converting CSV to Brick Schema...")
     converter = CSVToBrickConverter()
-    result = converter.convert_to_brick(
+    graph = converter.convert_to_brick(
         metadata_csv=metadata_csv,
         vars_csv=vars_csv,
-        building_tag="105",
+        building_tag=building_tag,
         output_path=output_file
     )
-    print(f"   ✓ Created {len(result)} RDF triples")
+    print(f"✓ Created {len(graph)} RDF triples")
+    print(f"✓ Saved to: {output_file}")
 
-    # Step 3: Validate
-    print("\n2. Validating model...")
+    # Step 2: Validate the model
+    print("\n[Step 2/3] Validating Brick model...")
     validator = BrickModelValidator()
-    is_valid, report = validator.validate_model(output_file)
+    is_valid, report = validator.validate_ontology(output_file)
 
     if is_valid:
-        print("   ✓ Model is valid!")
+        print("✓ Model passed ontology validation!")
     else:
-        print("   ⚠ Validation warnings (this is normal):")
-        for w in report.get('warnings', [])[:3]:  # Show first 3
-            print(f"     - {w}")
+        print("⚠ Validation issues found:")
+        for issue in report.get('violations', [])[:3]:
+            print(f"  - {issue}")
 
-    # Step 4: Summary
-    print("\n3. Summary:")
-    print(f"   - Input: {metadata_csv}, {vars_csv}")
-    print(f"   - Output: {output_file}")
-    print(f"   - Size: {Path(output_file).stat().st_size / 1024:.1f} KB")
+    # Step 3: Check analytics qualification
+    print("\n[Step 3/3] Checking analytics qualification...")
 
-    print("\n✓ Quick start complete!")
-    print("\nNext steps:")
-    print("  - View the TTL file in a text editor")
-    print("  - Try batch conversion")
-    print("  - Explore the User Guide")
+    # Discover available apps
+    available_apps = apps.list_apps()
+    print(f"Found {len(available_apps)} analytics applications")
+
+    # Test qualification for each app
+    for app_info in available_apps:
+        app_name = app_info['name']
+        try:
+            app = apps.load_app(app_name)
+            qualified, details = app.qualify(output_file)
+
+            if qualified:
+                print(f"  ✓ {app_name}: QUALIFIED")
+            else:
+                print(f"  ✗ {app_name}: Not qualified")
+                if 'missing' in details:
+                    print(f"    Missing: {', '.join(details['missing'][:3])}")
+        except Exception as e:
+            print(f"  ! {app_name}: Error - {e}")
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("Summary")
+    print("=" * 60)
+    print(f"Input:  {metadata_csv}, {vars_csv}")
+    print(f"Output: {output_file} ({Path(output_file).stat().st_size / 1024:.1f} KB)")
+    print(f"Status: {'Valid' if is_valid else 'Has warnings'}")
+    print("\n✓ Complete workflow finished!")
+    print("\nNext: View the TTL file or run analytics with timeseries data")
 
 if __name__ == "__main__":
     main()
 ```
 
+**Run it:**
+
+```bash
+python complete_workflow.py
+```
+
+**Expected output:**
+
+```
+============================================================
+HHW Brick - Complete Workflow
+============================================================
+
+[Step 1/3] Converting CSV to Brick Schema...
+✓ Created 156 RDF triples
+✓ Saved to: building_105.ttl
+
+[Step 2/3] Validating Brick model...
+✓ Model passed ontology validation!
+
+[Step 3/3] Checking analytics qualification...
+Found 2 analytics applications
+  ✓ secondary_loop_temp_diff: QUALIFIED
+  ✓ primary_loop_temp_diff: QUALIFIED
+
+============================================================
+Summary
+============================================================
+Input:  metadata.csv, vars_available_by_building.csv
+Output: building_105.ttl (12.3 KB)
+Status: Valid
+
+✓ Complete workflow finished!
+
+Next: View the TTL file or run analytics with timeseries data
+```
+
 ---
 
-**Congratulations!** 🎉 You've completed the quick start.
+**🎉 Congratulations!** You've completed the HHW Brick quick start and experienced the full workflow.
 
-Continue to [Understanding Brick](understanding-brick.md) or jump to [User Guide](../user-guide/conversion/index.md) →
+**What's Next?**
+
+- 📖 [Understanding Brick Schema](understanding-brick.md) - Learn the concepts
+- 📋 [CSV Data Format](csv-format.md) - Master the input format  
+- 🔧 [User Guide](../user-guide/conversion/) - Advanced features
+- 💻 [Example Scripts](../../examples/) - More code samples
+
+---
