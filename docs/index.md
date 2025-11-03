@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="Figures/HHWS LOGO.png" alt="HHW Brick Logo" width="150"/>
+<img src="Figures/HHWS LOGO.png" alt="HHW Brick Logo" width="100"/>
 
-# HHW Brick: Heating Hot Water System Brick Schema Toolkit
+<h1 style="margin-top: 1rem; margin-bottom: 1rem;">HHW Brick: Heating Hot Water System Brick Schema Toolkit</h1>
 
-<p style="font-size: 1.1rem; color: #666; margin: 1rem 0;">
+<p style="font-size: 1.05rem; color: var(--md-default-fg-color--light); margin: 1rem 0 1.5rem 0;">
 A Python package for converting heating hot water system data to Brick Schema models with comprehensive validation and portable analytics
 </p>
 
@@ -60,7 +60,7 @@ Run pre-built analytics applications or deploy custom applications that automati
 
 Convert, validate, and analyze a building in under 5 minutes:
 
-**Sample Data**: For input data format examples, see https://doi.org/10.5061/dryad.t4b8gtj8n or use test data in `tests/fixtures/`
+**Sample Data**: For input data format examples, see [https://doi.org/10.5061/dryad.t4b8gtj8n](https://doi.org/10.5061/dryad.t4b8gtj8n) or use test data in `tests/fixtures/`
 
 ```python
 from pathlib import Path
@@ -287,7 +287,7 @@ Transform your heating hot water system data into standardized Brick models
 
 ---
 
-<div align="center" style="color: #666; font-size: 0.9rem; padding: 1.5rem 0;">
+<div align="center" style="color: var(--md-default-fg-color--light); font-size: 0.9rem; padding: 1.5rem 0;">
 
 <p style="margin: 0.3rem 0;"><strong>Developed by Mingchen Li</strong></p>
 
