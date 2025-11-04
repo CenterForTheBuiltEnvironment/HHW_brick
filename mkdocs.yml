@@ -175,12 +175,12 @@ nav:
   - Developer Guide:
     - developer-guide/index.md
     - Creating Applications: developer-guide/creating-applications.md
-    - Tutorial:
-      - Overview: developer-guide/tutorial/index.md
-      - Step 1 - Structure: developer-guide/tutorial/step-01-structure.md
-      - Step 2 - Load Config: developer-guide/tutorial/step-02-load-config.md
-      - Step 3 - SPARQL & Qualify: developer-guide/tutorial/step-03-sparql-qualify.md
-      - Step 4 - Analyze Part 1: developer-guide/tutorial/step-04-analyze-part1.md
+    - Application Development Guide:
+      - Overview: developer-guide/application-development-guide/index.md
+      - Step 1 - Structure: developer-guide/application-development-guide/step-01-structure.md
+      - Step 2 - Load Config: developer-guide/application-development-guide/step-02-load-config.md
+      - Step 3 - SPARQL & Qualify: developer-guide/application-development-guide/step-03-sparql-qualify.md
+      - Step 4 - Analyze Part 1: developer-guide/application-development-guide/step-04-analyze-part1.md
 
   - FAQ: faq.md
   - Changelog: changelog.md

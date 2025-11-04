@@ -11,11 +11,11 @@ Comprehensive guides for developing with and extending the HHW Brick framework.
 | Guide | Description | For |
 |-------|-------------|-----|
 | [Creating Applications](./creating-applications.md) | Complete reference guide | All developers |
-| [Step-by-Step Tutorial](./tutorial/index.md) | Hands-on tutorial series | Beginners |
+| [Application Development Guide](./application-development-guide/index.md) | Step-by-step tutorial series | Beginners |
 
 ### Quick Links
 
-- 🚀 **New to app development?** Start with the [Tutorial](./tutorial/index.md)
+- 🚀 **New to app development?** Start with the [Application Development Guide](./application-development-guide/index.md)
 - 📖 **Need a reference?** See [Creating Applications Guide](./creating-applications.md)
 - 🔍 **Looking for examples?** Check `hhw_brick/applications/` directory
 
@@ -38,18 +38,18 @@ Comprehensive guides for developing with and extending the HHW Brick framework.
 
 ---
 
-## Step-by-Step Tutorial
+## Application Development Guide
 
-**Hands-on tutorial** that teaches by building a complete application.
+**Step-by-step tutorial** that teaches by building a complete application.
 
-[**🎓 Start Tutorial →**](./tutorial/index.md)
+[**🎓 Start Tutorial →**](./application-development-guide/index.md)
 
 **Tutorial Steps**:
 
-1. [Create Application Structure](./tutorial/step-01-structure.md) - Set up files and folders
-2. [Write load_config Function](./tutorial/step-02-load-config.md) - Configuration loading
-3. [SPARQL Query & qualify Function](./tutorial/step-03-sparql-qualify.md) - Sensor discovery
-4. [analyze Function - Part 1](./tutorial/step-04-analyze-part1.md) - Data loading
+1. [Create Application Structure](./application-development-guide/step-01-structure.md) - Set up files and folders
+2. [Write load_config Function](./application-development-guide/step-02-load-config.md) - Configuration loading
+3. [SPARQL Query & qualify Function](./application-development-guide/step-03-sparql-qualify.md) - Sensor discovery
+4. [analyze Function - Part 1](./application-development-guide/step-04-analyze-part1.md) - Data loading
 5. analyze Function - Part 2 - Analysis logic *(coming soon)*
 6. Matplotlib Visualization *(coming soon)*
 7. Plotly HTML Visualization *(coming soon)*
