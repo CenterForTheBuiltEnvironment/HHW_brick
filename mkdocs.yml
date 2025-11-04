@@ -173,7 +173,7 @@ nav:
       - user-guide/plotly-visualization.md
 
   - Developer Guide:
-    - developer-guide/README.md
+    - developer-guide/index.md
     - Creating Applications: developer-guide/creating-applications.md
     - Tutorial:
       - Overview: developer-guide/tutorial/index.md
@@ -182,7 +182,6 @@ nav:
       - Step 3 - SPARQL & Qualify: developer-guide/tutorial/step-03-sparql-qualify.md
       - Step 4 - Analyze Part 1: developer-guide/tutorial/step-04-analyze-part1.md
 
-  - Documentation Map: documentation-map.md
   - FAQ: faq.md
   - Changelog: changelog.md
   - License: license.md

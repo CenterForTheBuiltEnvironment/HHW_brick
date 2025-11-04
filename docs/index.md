@@ -256,7 +256,6 @@ if qualified:
     <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">📖</div>
     <h4 style="margin-top: 0;">Documentation</h4>
     <p style="margin-top: 0.8rem; font-size: 0.95rem;">
-      <a href="documentation-map/">Documentation Map</a><br/>
       <a href="getting-started/">Getting Started</a><br/>
       <a href="user-guide/conversion/">User Guide</a><br/>
       <a href="developer-guide/">Developer Guide</a><br/>

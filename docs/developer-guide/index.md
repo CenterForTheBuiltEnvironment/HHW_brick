@@ -1,308 +1,322 @@
 # Developer Guide
 
-Welcome to the HHW Brick Application Developer Guide! This guide is for developers who want to extend the package or contribute to its development.
+Comprehensive guides for developing with and extending the HHW Brick framework.
 
-## Overview
+## 📚 Documentation Overview
 
-This guide covers:
+### For Application Developers
 
-### :material-package-variant: [Package Architecture](architecture/index.md)
+**Create analytics applications that run on Brick-modeled buildings:**
 
-Understand the internal structure and design of the package.
+| Guide | Description | For |
+|-------|-------------|-----|
+| [Creating Applications](./creating-applications.md) | Complete reference guide | All developers |
+| [Step-by-Step Tutorial](./tutorial/index.md) | Hands-on tutorial series | Beginners |
 
-- [Core Modules](architecture/modules.md) - Overview of all modules
-- [Application Framework](architecture/app-framework.md) - How the app system works
-- [Design Patterns](architecture/patterns.md) - Architectural decisions
+### Quick Links
 
----
-
-### :material-code-braces: [Developing Applications](developing-apps/index.md)
-
-Learn how to create your own analytics applications.
-
-- [Getting Started](developing-apps/getting-started.md) - Your first application
-- [Application Structure](developing-apps/structure.md) - Required components
-- [Qualify Function](developing-apps/qualify.md) - Check building eligibility
-- [Analyze Function](developing-apps/analyze.md) - Implement analysis logic
-- [Configuration](developing-apps/configuration.md) - Handle app settings
-- [Testing](developing-apps/testing.md) - Test your application
-- [Best Practices](developing-apps/best-practices.md) - Tips and guidelines
+- 🚀 **New to app development?** Start with the [Tutorial](./tutorial/index.md)
+- 📖 **Need a reference?** See [Creating Applications Guide](./creating-applications.md)
+- 🔍 **Looking for examples?** Check `hhw_brick/applications/` directory
 
 ---
 
-### :material-source-pull: [Contributing](contributing/index.md)
+## Creating Applications Guide
 
-Contribute to the HHW Brick Application project.
+**Single comprehensive reference** covering all aspects of application development.
 
-- [Development Setup](contributing/setup.md) - Set up your environment
-- [Code Style](contributing/code-style.md) - Coding standards
-- [Testing Guide](contributing/testing.md) - Write and run tests
-- [Documentation](contributing/documentation.md) - Update docs
-- [Pull Requests](contributing/pull-requests.md) - Submit changes
+[**📖 Read the Guide →**](./creating-applications.md)
+
+**Contents**:
+- Application structure and required files
+- Core functions (`load_config`, `qualify`, `analyze`)
+- SPARQL queries for Brick models
+- Visualization (matplotlib and Plotly)
+- Testing and deployment
+
+**Best for**: Developers who want all information in one place
 
 ---
 
-## Quick Start for Developers
+## Step-by-Step Tutorial
 
-### Create Your First Application
+**Hands-on tutorial** that teaches by building a complete application.
 
-```python
-# my_app/__init__.py
-"""
-Custom Analytics Application
-"""
-from typing import Dict, Tuple
-import pandas as pd
-from rdflib import Graph
+[**🎓 Start Tutorial →**](./tutorial/index.md)
 
-__all__ = ['qualify', 'analyze', 'load_config']
+**Tutorial Steps**:
 
-def qualify(brick_model: Graph) -> Tuple[bool, Dict]:
-    """Check if building has required sensors"""
-    # Implementation here
-    return True, {"status": "qualified"}
+1. [Create Application Structure](./tutorial/step-01-structure.md) - Set up files and folders
+2. [Write load_config Function](./tutorial/step-02-load-config.md) - Configuration loading
+3. [SPARQL Query & qualify Function](./tutorial/step-03-sparql-qualify.md) - Sensor discovery
+4. [analyze Function - Part 1](./tutorial/step-04-analyze-part1.md) - Data loading
+5. analyze Function - Part 2 - Analysis logic *(coming soon)*
+6. Matplotlib Visualization *(coming soon)*
+7. Plotly HTML Visualization *(coming soon)*
+8. Testing Your Application *(coming soon)*
+9. Deployment & Integration *(coming soon)*
 
-def analyze(brick_model: Graph,
-           timeseries_data: pd.DataFrame,
-           config: Dict) -> Dict:
-    """Run analysis on the building"""
-    # Implementation here
-    return {"results": "analysis complete"}
+**Best for**: Beginners who prefer learning by doing
 
-def load_config(config_path: str = None) -> Dict:
-    """Load application configuration"""
-    return {"default": "config"}
+**Time**: ~3 hours to complete
+
+---
+
+## Learning Paths
+
+### Path 1: Quick Start
+
+**Goal**: Get a working app as fast as possible
+
+1. Read [Creating Applications Guide](./creating-applications.md) - Overview section
+2. Follow [Tutorial Steps 1-4](./tutorial/index.md)
+3. Study example: `secondary_loop_temp_diff`
+
+**Time**: 1.5 hours
+
+### Path 2: Deep Understanding
+
+**Goal**: Master application development
+
+1. Complete full [Tutorial](./tutorial/index.md) (Steps 1-9)
+2. Read [Creating Applications Guide](./creating-applications.md) for details
+3. Study both example applications
+4. Build your own custom application
+
+**Time**: 5-6 hours
+
+### Path 3: Advanced Development
+
+**Goal**: Create complex, production-ready applications
+
+1. Complete Path 2
+2. Learn advanced SPARQL from [Brick Documentation](https://docs.brickschema.org/)
+3. Explore advanced visualization techniques
+4. Contribute to the HHW Brick framework
+
+**Time**: Ongoing
+
+---
+
+## Example Applications
+
+Study working applications in `hhw_brick/applications/`:
+
+### 📁 secondary_loop_temp_diff
+
+**What it does**: Analyzes temperature differential in secondary hot water loops
+
+**Complexity**: ⭐⭐ Medium
+
+**Files**:
+- `app.py` - Main application logic
+- `config.yaml` - Default configuration
+- `README.md` - User documentation
+- `requirements.txt` - Dependencies
+
+**Learn from it**:
+- Simple SPARQL query for sensor discovery
+- Basic statistical analysis
+- Standard visualization patterns
+- Clean code structure
+
+### 📁 primary_loop_temp_diff
+
+**What it does**: Analyzes temperature differential in primary loops with boilers
+
+**Complexity**: ⭐⭐ Medium
+
+**Learn from it**:
+- Filtered SPARQL queries
+- Anomaly detection logic
+- Multiple visualization types
+- Advanced data processing
+
+---
+
+## Key Concepts
+
+### Application Structure
+
+Every application follows this structure:
+
+```
+my_app/
+├── __init__.py          # Package metadata and exports
+├── app.py               # Main application logic
+├── config.yaml          # Default configuration
+├── requirements.txt     # Dependencies
+└── README.md            # Documentation
 ```
 
-[Learn more about developing apps →](developing-apps/getting-started.md)
+### Core Functions
 
----
+Three required functions:
 
-## Application Development Workflow
+1. **`load_config()`** - Load configuration from YAML
+2. **`qualify()`** - Check if building has required sensors  
+3. **`analyze()`** - Execute analysis workflow
 
-```mermaid
-graph TD
-    A[Define App Idea] --> B[Create App Structure]
-    B --> C[Implement qualify]
-    C --> D[Implement analyze]
-    D --> E[Add Configuration]
-    E --> F[Write Tests]
-    F --> G[Document App]
-    G --> H{Tests Pass?}
-    H -->|Yes| I[Deploy App]
-    H -->|No| F
-
-    style A fill:#e1f5ff
-    style I fill:#c8e6c9
-```
-
----
-
-## Package Structure
+### Workflow
 
 ```
-hhw_brick/
-├── conversion/              # CSV to Brick conversion
-│   ├── csv_to_brick.py
-│   └── batch_converter.py
-├── validation/              # Model validation
-│   ├── validator.py
-│   └── subgraph_matcher.py
-├── applications/            # Analytics applications
-│   ├── apps_manager.py     # Application framework
-│   ├── secondary_loop_temp_diff/
-│   └── primary_loop_temp_diff/
-├── cli/                     # Command-line interface
-│   └── main.py
-└── utils/                   # Utility functions
-    ├── brick_query.py
-    └── config_loader.py
+User Input → qualify() → analyze() → Results
+             ↓           ↓
+          SPARQL      Load Data
+          Query       Compute Stats
+                      Generate Viz
 ```
-
-[Explore architecture →](architecture/modules.md)
 
 ---
 
 ## Development Tools
 
-### Required Tools
+### Required Software
 
-- **Python 3.8+**
-- **Git** - Version control
-- **pytest** - Testing framework
-- **black** - Code formatting
-- **mypy** - Type checking
+```bash
+# Python 3.8+
+python --version
 
-### Recommended Tools
+# HHW Brick (install in editable mode for development)
+pip install -e /path/to/HHW_brick
 
-- **VS Code** or **PyCharm** - IDE
-- **pytest-cov** - Coverage reporting
-- **pre-commit** - Git hooks
-
-[Setup guide →](contributing/setup.md)
-
----
-
-## API Design Principles
-
-### Consistency
-
-All applications follow the same interface:
-
-```python
-__all__ = ['qualify', 'analyze', 'load_config']
-
-def qualify(brick_model: Graph) -> Tuple[bool, Dict]:
-    """Standard signature for all apps"""
-    pass
-
-def analyze(brick_model: Graph,
-           timeseries_data: pd.DataFrame,
-           config: Dict) -> Dict:
-    """Standard signature for all apps"""
-    pass
+# Or install dependencies individually
+pip install pandas numpy matplotlib seaborn plotly rdflib brickschema pyyaml
 ```
 
-### Modularity
+### Helpful Tools
 
-Each component is self-contained and can be used independently:
+- **Brick Studio**: Visual SPARQL query builder - https://brickstudio.io/
+- **RDF Visualizer**: Explore Brick models graphically
+- **SPARQL Playground**: Test queries interactively
 
-```python
-# Use conversion alone
-from hhw_brick import CSVToBrickConverter
-
-# Use validation alone
-from hhw_brick import BrickModelValidator
-
-# Use apps alone
-from hhw_brick import apps
-```
-
-### Extensibility
-
-The application framework allows easy addition of new analytics:
+### Testing Tools
 
 ```python
-# Your custom app is automatically discovered
+# Test your application
 from hhw_brick import apps
 
-# Just place it in applications/ directory
-apps.list_apps()  # Will include your app
+app = apps.load_app("my_app")
+qualified, details = app.qualify("model.ttl")
+results = app.analyze("model.ttl", "data.csv", config)
 ```
-
----
-
-## Quick Navigation
-
-<div class="grid cards" markdown>
-
-- :material-architecture: **[Architecture](architecture/index.md)**
-
-    Understand the package design
-
-- :material-hammer-wrench: **[Build Apps](developing-apps/index.md)**
-
-    Create analytics applications
-
-- :material-account-group: **[Contribute](contributing/index.md)**
-
-    Join the development
-
-- :material-api: **[API Reference](../api-reference/index.md)**
-
-    Detailed API docs
-
-</div>
 
 ---
 
 ## Resources
 
-- **Source Code**: [GitHub Repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick)
-- **Issue Tracker**: [GitHub Issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
-- **PyPI Package**: [hhw-brick](https://pypi.org/project/hhw-brick/)
+### Brick Schema
+
+- **Official Docs**: https://docs.brickschema.org/
+- **Ontology Browser**: https://brickschema.org/ontology/
+- **GitHub**: https://github.com/BrickSchema/Brick
+
+### SPARQL
+
+- **W3C SPARQL 1.1**: https://www.w3.org/TR/sparql11-query/
+- **Tutorial**: https://www.w3.org/2009/Talks/0615-qbe/
+- **Brick Query Examples**: https://docs.brickschema.org/query/
+
+### Python Data Science
+
+- **pandas**: https://pandas.pydata.org/docs/
+- **matplotlib**: https://matplotlib.org/stable/tutorials/
+- **Plotly**: https://plotly.com/python/
 
 ---
 
-**Ready to build?** Start with [Package Architecture](architecture/index.md) or jump to [Developing Applications](developing-apps/index.md) →
-# Getting Started
+## Getting Help
 
-Welcome to HHW Brick Application! This guide will help you get up and running quickly.
+### Issues & Questions
 
-## What You'll Learn
+- **GitHub Issues**: https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues
+- **Discussions**: Ask questions in GitHub Discussions
 
-In this section, you'll learn:
+### Contributing
 
-- How to [install](installation.md) the package
-- How to perform your [first conversion](quick-start.md)
-- Understanding [core concepts](core-concepts.md) of the package
+Want to contribute? See:
+- Example applications for coding style
+- Tutorial for best practices
+- Submit pull requests with new applications
 
-## Prerequisites
+---
 
-Before you begin, make sure you have:
+## Roadmap
 
-- Python 3.8 or higher installed
-- Basic knowledge of Python programming
-- Familiarity with CSV files (optional but helpful)
-- Understanding of building systems (optional but helpful)
+### Coming Soon
 
-## Installation Overview
+- [ ] Additional tutorial steps (5-9)
+- [ ] Video tutorials
+- [ ] Interactive SPARQL builder
+- [ ] Application templates
+- [ ] Advanced topics guide
 
-The easiest way to install HHW Brick Application is using pip:
+### Future Plans
 
-```bash
-pip install hhw-brick
+- Community application repository
+- Application marketplace
+- Automated testing framework
+- Performance optimization guide
+
+---
+
+## Quick Reference
+
+### File Template Locations
+
+- `__init__.py`: See [Step 1](./tutorial/step-01-structure.md#step-13-write-__init__py)
+- `config.yaml`: See [Step 1](./tutorial/step-01-structure.md#step-15-create-basic-configyaml)
+- `load_config()`: See [Step 2](./tutorial/step-02-load-config.md)
+- `qualify()`: See [Step 3](./tutorial/step-03-sparql-qualify.md)
+- `analyze()`: See [Step 4](./tutorial/step-04-analyze-part1.md)
+
+### Common SPARQL Patterns
+
+```sparql
+# Find equipment by type
+?equipment rdf:type/rdfs:subClassOf* brick:Equipment_Type .
+
+# Find sensors of equipment
+?equipment brick:hasPart ?sensor .
+
+# Filter by sensor type
+?sensor rdf:type/rdfs:subClassOf* brick:Sensor_Type .
+
+# Filter by name
+FILTER(CONTAINS(LCASE(STR(?equipment)), "keyword"))
 ```
 
-For detailed installation instructions, including development setup, see the [Installation Guide](installation.md).
-
-## Quick Example
-
-Here's a simple example to get you started:
+### Common Code Patterns
 
 ```python
-from hhw_brick import CSVToBrickConverter
+# Load config
+config = load_config()
 
-# Create a converter
-converter = CSVToBrickConverter()
+# Qualify building
+qualified, details = qualify(brick_model_path)
 
-# Convert CSV to Brick
-converter.convert_csv_to_brick(
-    input_file="your_building.csv",
-    output_file="your_building.ttl"
-)
+# Load data
+g, df = load_data(brick_model_path, timeseries_path)
+
+# Map sensors
+sensor_mapping = map_sensors_to_columns(g, sensor_uris, df)
+
+# Extract data
+df_clean = extract_data_columns(df, sensor_mapping, rename_map)
 ```
-
-## Next Steps
-
-Ready to dive in? Choose your path:
-
-<div class="grid cards" markdown>
-
-- :material-download: **[Install the Package](installation.md)**
-
-    Get HHW Brick Application installed on your system
-
-- :material-flash: **[Quick Start Guide](quick-start.md)**
-
-    Follow a step-by-step tutorial
-
-- :material-school: **[Learn Core Concepts](core-concepts.md)**
-
-    Understand the fundamentals
-
-- :material-book-open: **[Explore User Guide](../user-guide/index.md)**
-
-    Dive deeper into features
-
-</div>
-
-## Need Help?
-
-- Check the [FAQ](../faq.md) for common questions
-- Browse [Examples](../examples/index.md) for code samples
-- Visit our [GitHub repository](https://github.com/CenterForTheBuiltEnvironment/HHW_brick) for issues and discussions
 
 ---
 
-**Let's get started!** Head over to the [Installation Guide](installation.md) →
+## Feedback
+
+Help us improve these guides:
+
+- Found an error? [Open an issue](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
+- Have a suggestion? Submit a pull request
+- Need clarification? Ask in discussions
+
+---
+
+**Ready to start developing?**
+
+👉 [Begin with the Tutorial](./tutorial/index.md) or [Read the Complete Guide](./creating-applications.md)
