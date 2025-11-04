@@ -12,6 +12,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import yaml
 import argparse
 
@@ -65,6 +67,7 @@ def load_config(config_file=None):
             "export_format": "csv",
             "generate_plots": True,
             "plot_format": "png",
+            "generate_plotly_html": True,  # Generate interactive HTML with Plotly
         },
         "time_range": {
             "start_time": None,
@@ -72,8 +75,13 @@ def load_config(config_file=None):
         },
     }
 
-    if config_file and Path(config_file).exists():
-        with open(config_file, "r", encoding="utf-8") as f:
+    # If no config file specified, try to load from same directory
+    if config_file is None:
+        config_file = app_dir / "config.yaml"
+
+    config_path = Path(config_file)
+    if config_path.exists():
+        with open(config_path, "r", encoding="utf-8") as f:
             user_config = yaml.safe_load(f) or {}
         for key in user_config:
             if key in default_config and isinstance(user_config[key], dict):
@@ -267,6 +275,9 @@ def analyze(brick_model_path, timeseries_data_path, config):
 
     if config["output"]["generate_plots"]:
         generate_plots(results, config)
+
+    if config["output"]["generate_plotly_html"]:
+        generate_plotly_html(results, config)
 
     return results
 
@@ -499,6 +510,339 @@ def generate_plots(results, config):
     plt.savefig(filepath, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"  [OK] {filepath.name}")
+
+
+def generate_plotly_html(results, config):
+    """Generate interactive HTML visualizations using Plotly"""
+    output_dir = Path(config["output"]["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"\n{'='*60}")
+    print(f"Generating interactive Plotly HTML visualizations")
+    print(f"{'='*60}\n")
+
+    df = results["data"]
+    stats = results["stats"]
+    threshold_min = config["analysis"]["threshold_min_delta"]
+    threshold_max = config["analysis"]["threshold_max_delta"]
+
+    # Create a comprehensive dashboard with multiple subplots
+    fig = make_subplots(
+        rows=3,
+        cols=2,
+        subplot_titles=(
+            "Supply and Return Temperature Over Time",
+            "Temperature Differential Over Time",
+            "Temperature Differential Distribution",
+            "Supply vs Return Temperature",
+            "Hourly Pattern Analysis",
+            "Weekly Pattern Analysis",
+        ),
+        specs=[
+            [{"secondary_y": False}, {"secondary_y": False}],
+            [{"secondary_y": False}, {"secondary_y": False}],
+            [{"secondary_y": False}, {"secondary_y": False}],
+        ],
+        vertical_spacing=0.12,
+        horizontal_spacing=0.10,
+    )
+
+    # Plot 1: Supply and Return temperatures
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["sup"],
+            mode="lines",
+            name="Supply Temp",
+            line=dict(color="#e74c3c", width=2),
+            hovertemplate="Time: %{x}<br>Supply: %{y:.2f}°C<extra></extra>",
+        ),
+        row=1,
+        col=1,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["ret"],
+            mode="lines",
+            name="Return Temp",
+            line=dict(color="#3498db", width=2),
+            hovertemplate="Time: %{x}<br>Return: %{y:.2f}°C<extra></extra>",
+        ),
+        row=1,
+        col=1,
+    )
+
+    # Plot 2: Temperature differential
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["temp_diff"],
+            mode="lines",
+            name="Temp Diff",
+            line=dict(color="#9b59b6", width=1.5),
+            fill="tozeroy",
+            fillcolor="rgba(155, 89, 182, 0.2)",
+            hovertemplate="Time: %{x}<br>Diff: %{y:.2f}°C<extra></extra>",
+        ),
+        row=1,
+        col=2,
+    )
+    # Add mean line
+    fig.add_hline(
+        y=stats["mean_temp_diff"],
+        line_dash="dash",
+        line_color="#27ae60",
+        annotation_text=f"Mean: {stats['mean_temp_diff']:.2f}°C",
+        row=1,
+        col=2,
+    )
+
+    # Plot 3: Distribution histogram
+    fig.add_trace(
+        go.Histogram(
+            x=df["temp_diff"],
+            nbinsx=50,
+            name="Distribution",
+            marker=dict(color="#3498db", opacity=0.7),
+            hovertemplate="Range: %{x}<br>Count: %{y}<extra></extra>",
+        ),
+        row=2,
+        col=1,
+    )
+
+    # Plot 4: Scatter - Supply vs Return
+    fig.add_trace(
+        go.Scatter(
+            x=df["sup"],
+            y=df["ret"],
+            mode="markers",
+            name="Supply vs Return",
+            marker=dict(
+                size=4,
+                color=df["temp_diff"],
+                colorscale="RdYlBu_r",
+                showscale=True,
+                colorbar=dict(title="Temp Diff (°C)", x=1.15, len=0.3, y=0.5),
+            ),
+            hovertemplate="Supply: %{x:.2f}°C<br>Return: %{y:.2f}°C<extra></extra>",
+        ),
+        row=2,
+        col=2,
+    )
+    # Add perfect match line
+    min_temp = min(df["sup"].min(), df["ret"].min())
+    max_temp = max(df["sup"].max(), df["ret"].max())
+    fig.add_trace(
+        go.Scatter(
+            x=[min_temp, max_temp],
+            y=[min_temp, max_temp],
+            mode="lines",
+            name="Perfect Match",
+            line=dict(color="black", dash="dash", width=2),
+            showlegend=False,
+        ),
+        row=2,
+        col=2,
+    )
+
+    # Plot 5: Hourly pattern
+    hourly = df.groupby("hour")["temp_diff"].agg(["mean", "std"]).reset_index()
+    fig.add_trace(
+        go.Bar(
+            x=hourly["hour"],
+            y=hourly["mean"],
+            name="Hourly Avg",
+            marker=dict(color="#3498db"),
+            error_y=dict(type="data", array=hourly["std"], color="#e74c3c"),
+            hovertemplate="Hour: %{x}<br>Mean: %{y:.2f}°C<extra></extra>",
+        ),
+        row=3,
+        col=1,
+    )
+
+    # Plot 6: Weekly pattern
+    weekday_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    weekly = df.groupby("weekday")["temp_diff"].agg(["mean", "std"]).reset_index()
+    fig.add_trace(
+        go.Bar(
+            x=[weekday_names[i] for i in weekly["weekday"]],
+            y=weekly["mean"],
+            name="Weekly Avg",
+            marker=dict(color="#27ae60"),
+            error_y=dict(type="data", array=weekly["std"], color="#e74c3c"),
+            hovertemplate="Day: %{x}<br>Mean: %{y:.2f}°C<extra></extra>",
+        ),
+        row=3,
+        col=2,
+    )
+
+    # Update layout
+    fig.update_xaxes(title_text="Time", row=1, col=1)
+    fig.update_yaxes(title_text="Temperature (°C)", row=1, col=1)
+    fig.update_xaxes(title_text="Time", row=1, col=2)
+    fig.update_yaxes(title_text="Temp Diff (°C)", row=1, col=2)
+    fig.update_xaxes(title_text="Temp Diff (°C)", row=2, col=1)
+    fig.update_yaxes(title_text="Frequency", row=2, col=1)
+    fig.update_xaxes(title_text="Supply Temp (°C)", row=2, col=2)
+    fig.update_yaxes(title_text="Return Temp (°C)", row=2, col=2)
+    fig.update_xaxes(title_text="Hour of Day", row=3, col=1)
+    fig.update_yaxes(title_text="Mean Temp Diff (°C)", row=3, col=1)
+    fig.update_xaxes(title_text="Day of Week", row=3, col=2)
+    fig.update_yaxes(title_text="Mean Temp Diff (°C)", row=3, col=2)
+
+    fig.update_layout(
+        title_text="Secondary Loop Temperature Differential Analysis - Interactive Dashboard",
+        title_font_size=20,
+        height=1400,
+        showlegend=True,
+        hovermode="closest",
+        template="plotly_white",
+    )
+
+    # Save the comprehensive dashboard
+    dashboard_file = output_dir / "secondary_loop_interactive_dashboard.html"
+    fig.write_html(dashboard_file)
+    print(f"  [OK] {dashboard_file.name}")
+
+    # Create a separate detailed timeseries visualization
+    fig_timeseries = go.Figure()
+
+    # Add supply temperature
+    fig_timeseries.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["sup"],
+            mode="lines",
+            name="Supply Temperature",
+            line=dict(color="#e74c3c", width=2),
+            hovertemplate="<b>Supply Temp</b><br>Time: %{x}<br>Temp: %{y:.2f}°C<extra></extra>",
+        )
+    )
+
+    # Add return temperature
+    fig_timeseries.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["ret"],
+            mode="lines",
+            name="Return Temperature",
+            line=dict(color="#3498db", width=2),
+            hovertemplate="<b>Return Temp</b><br>Time: %{x}<br>Temp: %{y:.2f}°C<extra></extra>",
+        )
+    )
+
+    # Add temperature differential on secondary y-axis
+    fig_timeseries.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["temp_diff"],
+            mode="lines",
+            name="Temperature Differential",
+            line=dict(color="#9b59b6", width=2),
+            yaxis="y2",
+            hovertemplate="<b>Temp Diff</b><br>Time: %{x}<br>Diff: %{y:.2f}°C<extra></extra>",
+        )
+    )
+
+    # Add threshold lines on secondary y-axis
+    fig_timeseries.add_hline(
+        y=threshold_min,
+        line_dash="dash",
+        line_color="orange",
+        annotation_text=f"Min Threshold: {threshold_min}°C",
+        yref="y2",
+    )
+    fig_timeseries.add_hline(
+        y=threshold_max,
+        line_dash="dash",
+        line_color="red",
+        annotation_text=f"Max Threshold: {threshold_max}°C",
+        yref="y2",
+    )
+
+    # Update layout with dual y-axes
+    fig_timeseries.update_layout(
+        title="Secondary Loop: Detailed Temperature Analysis Over Time",
+        xaxis_title="Time",
+        yaxis_title="Temperature (°C)",
+        yaxis2=dict(title="Temperature Differential (°C)", overlaying="y", side="right"),
+        hovermode="x unified",
+        template="plotly_white",
+        height=600,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    )
+
+    timeseries_file = output_dir / "secondary_loop_timeseries_interactive.html"
+    fig_timeseries.write_html(timeseries_file)
+    print(f"  [OK] {timeseries_file.name}")
+
+    # Create a 3D surface plot for hour vs day of week heatmap
+    pivot_data = df.pivot_table(values="temp_diff", index="hour", columns="weekday", aggfunc="mean")
+    weekday_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+    fig_heatmap = go.Figure(
+        data=go.Heatmap(
+            z=pivot_data.values,
+            x=[weekday_names[i] for i in pivot_data.columns],
+            y=pivot_data.index,
+            colorscale="RdYlBu_r",
+            colorbar=dict(title="Mean Temp Diff (°C)"),
+            hovertemplate="Day: %{x}<br>Hour: %{y}<br>Temp Diff: %{z:.2f}°C<extra></extra>",
+        )
+    )
+
+    fig_heatmap.update_layout(
+        title="Secondary Loop: Temperature Differential Pattern (Hour vs Day of Week)",
+        xaxis_title="Day of Week",
+        yaxis_title="Hour of Day",
+        height=600,
+        template="plotly_white",
+    )
+
+    heatmap_file = output_dir / "secondary_loop_heatmap_interactive.html"
+    fig_heatmap.write_html(heatmap_file)
+    print(f"  [OK] {heatmap_file.name}")
+
+    # Create a box plot for distribution analysis
+    fig_box = go.Figure()
+
+    fig_box.add_trace(
+        go.Box(
+            y=df["temp_diff"],
+            name="Temperature Differential",
+            marker=dict(color="#3498db"),
+            boxmean="sd",
+            hovertemplate="<b>Stats</b><br>Value: %{y:.2f}°C<extra></extra>",
+        )
+    )
+
+    fig_box.update_layout(
+        title="Secondary Loop: Temperature Differential Distribution (Box Plot)",
+        yaxis_title="Temperature Differential (°C)",
+        height=500,
+        template="plotly_white",
+        showlegend=False,
+    )
+
+    # Add annotations for statistics
+    fig_box.add_annotation(
+        xref="paper",
+        yref="y",
+        x=0.5,
+        y=stats["mean_temp_diff"],
+        text=f"Mean: {stats['mean_temp_diff']:.2f}°C",
+        showarrow=True,
+        arrowhead=2,
+        ax=80,
+        ay=0,
+    )
+
+    boxplot_file = output_dir / "secondary_loop_boxplot_interactive.html"
+    fig_box.write_html(boxplot_file)
+    print(f"  [OK] {boxplot_file.name}")
+
+    print(f"\n  Generated 4 interactive HTML files with Plotly visualizations!")
 
 
 def main():

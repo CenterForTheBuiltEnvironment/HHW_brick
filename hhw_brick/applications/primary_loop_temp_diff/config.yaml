@@ -26,6 +26,9 @@ output:
   # Plot format: png, pdf, svg
   plot_format: "png"
 
+  # Whether to generate interactive HTML visualizations with Plotly
+  generate_plotly_html: true
+
 # Time range (optional)
 time_range:
   # Start time in YYYY-MM-DD format (null = use all data)

@@ -186,6 +186,11 @@ test_output/
 *.pickle
 *.pkl
 
+# Test fixtures output (generated files)
+tests/fixtures/analysis_output/
+tests/fixtures/secondary_loop_temp_diff_config.yaml
+tests/fixtures/primary_loop_temp_diff_config.yaml
+
 # Temporary Python scripts
 fix_bom.py
 remove_bom.py

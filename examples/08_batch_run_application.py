@@ -71,14 +71,13 @@ def main():
     print(f"\nStep 3: Configure Application")
     print("-" * 60)
 
-    # Get default configuration
+    # Get default configuration (loads from app's config.yaml)
     config = apps.get_default_config(app_name)
 
-    # Customize for batch processing
-    config["output"]["generate_plots"] = True
-    config["output"]["save_results"] = True
     print(f"✓ Configuration ready")
     print(f"  Generate plots: {config['output']['generate_plots']}")
+    print(f"  Generate HTML: {config['output']['generate_plotly_html']}")
+    print(f"  Save results: {config['output']['save_results']}")
 
     # ========================================================================
     # Step 4: Run Analysis on All Buildings
@@ -163,7 +162,10 @@ def main():
     print(f"  Application: {app_name}")
     print(f"  Buildings analyzed: {len(successful)}/{len(qualified_buildings)}")
     print(f"  Results location: {fixtures / 'analysis_output'}")
-    print(f"\n💡 Tip: Check analysis_output/building_XX/ for individual results")
+    print(f"\n💡 Tips:")
+    print(f"  - Check analysis_output/building_XX/ for individual results")
+    print(f"  - Set generate_plotly_html=False to skip HTML generation")
+    print(f"  - Open .html files in browser for interactive visualizations")
 
 
 if __name__ == "__main__":

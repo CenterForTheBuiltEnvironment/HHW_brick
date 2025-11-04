@@ -109,14 +109,27 @@ class AppsManager:
         try:
             app = self.load_app(app_name)
             if hasattr(app, "load_config"):
-                return app.load_config()
-        except (ImportError, AttributeError):
-            pass
+                # Call load_config with config_file=None to load from app's default config.yaml
+                config = app.load_config(config_file=None)
+                if config is not None:
+                    return config
+        except Exception as e:
+            # If loading fails, fall back to basic default config
+            print(f"Warning: Could not load config for {app_name}: {e}")
 
-        # Return basic default config
+        # Return basic default config as fallback
         return {
             "analysis": {},
-            "output": {"save_results": True, "output_dir": "./results", "generate_plots": True},
+            "output": {
+                "save_results": True,
+                "output_dir": "./results",
+                "generate_plots": True,
+                "generate_plotly_html": True,
+            },
+            "time_range": {
+                "start_time": None,
+                "end_time": None,
+            },
         }
 
     def get_app_info(self, app_name: str) -> Dict[str, Any]:

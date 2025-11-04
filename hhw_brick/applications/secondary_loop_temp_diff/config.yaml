@@ -2,20 +2,29 @@
 
 # Analysis Parameters
 analysis:
-# Minimum temperature difference threshold (°C) – values below this are considered abnormal
-threshold\_min\_delta: 0.5
-# Maximum temperature difference threshold (°C) – values above this are considered abnormal
-threshold\_max\_delta: 10.0
+  # Minimum temperature difference threshold (°C) - values below this are considered abnormal
+  threshold_min_delta: 0.5
+  # Maximum temperature difference threshold (°C) - values above this are considered abnormal
+  threshold_max_delta: 10.0
 
 # Output Settings
 output:
-# Whether to save the analysis results
-save\_results: true
-# Directory for output files
-output\_dir: "./results"
-# Export format: csv or json
-export\_format: "csv"
-# Whether to generate plots
-generate\_plots: true
-# Plot format: png, pdf, or svg
-plot\_format: "png"
+  # Whether to save the analysis results
+  save_results: true
+  # Directory for output files
+  output_dir: "./results"
+  # Export format: csv or json
+  export_format: "csv"
+  # Whether to generate plots
+  generate_plots: true
+  # Plot format: png, pdf, or svg
+  plot_format: "png"
+  # Whether to generate interactive HTML visualizations with Plotly
+  generate_plotly_html: true
+
+# Time Range (optional)
+time_range:
+  # Start time in YYYY-MM-DD format (null = use all data)
+  start_time: null
+  # End time in YYYY-MM-DD format (null = use all data)
+  end_time: null

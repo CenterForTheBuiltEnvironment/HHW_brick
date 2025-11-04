@@ -72,7 +72,7 @@ def main():
     print(f"\nStep 3: Configure Application")
     print("-" * 60)
 
-    # Get default configuration template
+    # Get default configuration (loads from app's config.yaml)
     config = apps.get_default_config(app_name)
 
     # Save config template for users to edit
@@ -83,8 +83,9 @@ def main():
 
     # Customize configuration (or edit the YAML file directly)
     config["output"]["output_dir"] = str(fixtures / "analysis_output")
-    config["output"]["generate_plots"] = True
     print(f"✓ Output directory: {config['output']['output_dir']}")
+    print(f"✓ Generate plots: {config['output']['generate_plots']}")
+    print(f"✓ Generate HTML: {config['output']['generate_plotly_html']}")
 
     # ========================================================================
     # Step 4: Run Analysis
@@ -118,7 +119,12 @@ def main():
         files = list(output_dir.glob("*"))
         print(f"\n✓ Generated {len(files)} file(s):")
         for f in sorted(files):
-            icon = "📊" if f.suffix == ".png" else "📄"
+            if f.suffix == ".html":
+                icon = "🌐"
+            elif f.suffix == ".png":
+                icon = "📊"
+            else:
+                icon = "📄"
             print(f"    {icon} {f.name}")
 
     # ========================================================================
@@ -130,7 +136,10 @@ def main():
     print(f"  Building: {building_number}")
     print(f"  Config: {config_file.name}")
     print(f"  Results: {config['output']['output_dir']}")
-    print(f"\n💡 Tip: Change building_number at line 23 to analyze other buildings")
+    print(f"\n💡 Tips:")
+    print(f"  - Change building_number at line 23 to analyze other buildings")
+    print(f"  - Set generate_plotly_html=False to skip HTML generation")
+    print(f"  - Open .html files in browser for interactive visualizations")
 
 
 if __name__ == "__main__":
