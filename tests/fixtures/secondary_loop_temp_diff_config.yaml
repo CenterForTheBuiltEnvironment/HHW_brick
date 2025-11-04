@@ -7,6 +7,7 @@ output:
   export_format: csv
   generate_plots: true
   plot_format: png
+  generate_plotly_html: true
 time_range:
   start_time: null
   end_time: null

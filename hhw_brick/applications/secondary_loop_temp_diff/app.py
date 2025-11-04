@@ -40,105 +40,42 @@ sns.set_palette("husl")
 plt.rcParams["figure.figsize"] = (14, 8)
 plt.rcParams["font.size"] = 10
 
-# App-specific sensor types (defined in the app, not in utils)
-SUPPLY_TEMP_SENSORS = [
-    "Supply_Water_Temperature_Sensor",
-    "Leaving_Hot_Water_Temperature_Sensor",
-    "Hot_Water_Supply_Temperature_Sensor",
-]
-
-RETURN_TEMP_SENSORS = [
-    "Return_Water_Temperature_Sensor",
-    "Entering_Hot_Water_Temperature_Sensor",
-    "Hot_Water_Return_Temperature_Sensor",
-]
-
 
 def load_config(config_file=None):
-    """Load configuration with defaults"""
-    default_config = {
-        "analysis": {
-            "threshold_min_delta": 0.5,
-            "threshold_max_delta": 10.0,
-        },
-        "output": {
-            "save_results": True,
-            "output_dir": "./results",
-            "export_format": "csv",
-            "generate_plots": True,
-            "plot_format": "png",
-            "generate_plotly_html": True,  # Generate interactive HTML with Plotly
-        },
-        "time_range": {
-            "start_time": None,
-            "end_time": None,
-        },
-    }
-
-    # If no config file specified, try to load from same directory
+    """Load configuration from YAML file"""
+    # If no config file specified, use the default one in app directory
     if config_file is None:
         config_file = app_dir / "config.yaml"
 
     config_path = Path(config_file)
-    if config_path.exists():
-        with open(config_path, "r", encoding="utf-8") as f:
-            user_config = yaml.safe_load(f) or {}
-        for key in user_config:
-            if key in default_config and isinstance(user_config[key], dict):
-                default_config[key].update(user_config[key])
-            else:
-                default_config[key] = user_config[key]
 
-    return default_config
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"Config file not found: {config_path}\n"
+            f"Please ensure config.yaml exists in the application directory."
+        )
+
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+
+    return config if config else {}
 
 
 def find_supply_return_sensors(graph):
-    """
-    App-specific function to find supply and return temperature sensors
-
-    This is NOT a universal utility - it's specific to this app's needs.
-    """
-    # Build sensor type lists
-    supply_types = " ".join([f"brick:{st}" for st in SUPPLY_TEMP_SENSORS])
-    return_types = " ".join([f"brick:{rt}" for rt in RETURN_TEMP_SENSORS])
-
-    # App-specific SPARQL query (PREFIX auto-added by utils)
-    # Focus on SECONDARY loops - identify by checking if URI contains "secondary"
-    query = f"""
-    SELECT ?equipment ?supply ?return WHERE {{
-        # Find loops that are Hot_Water_Loop
+    """Find supply and return temperature sensors on secondary loop"""
+    query = """
+    SELECT ?equipment ?supply ?return WHERE {
         ?equipment rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
-
-        # Filter to only secondary loops (by checking URI contains "secondary")
         FILTER(CONTAINS(LCASE(STR(?equipment)), "secondary"))
 
-        # Find supply temperature sensor
-        ?supply rdf:type/rdfs:subClassOf* ?supply_type .
-        VALUES ?supply_type {{ {supply_types} }}
+        ?equipment brick:hasPart ?supply .
+        ?supply rdf:type/rdfs:subClassOf* brick:Leaving_Hot_Water_Temperature_Sensor .
 
-        # Find return temperature sensor
-        ?return rdf:type/rdfs:subClassOf* ?return_type .
-        VALUES ?return_type {{ {return_types} }}
-
-        # Both sensors must be associated with the loop
-        # Either as parts of the loop OR as points of the loop
-        {{
-            ?equipment brick:hasPart ?supply .
-            ?equipment brick:hasPart ?return .
-        }} UNION {{
-            ?supply brick:isPointOf ?equipment .
-            ?return brick:isPointOf ?equipment .
-        }} UNION {{
-            ?equipment brick:hasPart ?supply .
-            ?return brick:isPointOf ?equipment .
-        }} UNION {{
-            ?supply brick:isPointOf ?equipment .
-            ?equipment brick:hasPart ?return .
-        }}
-    }}
+        ?equipment brick:hasPart ?return .
+        ?return rdf:type/rdfs:subClassOf* brick:Entering_Hot_Water_Temperature_Sensor .
+    }
     """
 
-    # Use universal utility for custom query
     results = query_sensors(graph, [], custom_query=query)
     return results[0] if results else None
 
@@ -157,7 +94,6 @@ def qualify(brick_model_path):
     g = Graph()
     g.parse(brick_model_path, format="turtle")
 
-    # Use app-specific function
     result = find_supply_return_sensors(g)
 
     if result:
@@ -166,15 +102,10 @@ def qualify(brick_model_path):
         print(f"   Loop: {loop}")
         print(f"   Supply: {supply}")
         print(f"   Return: {return_sensor}\n")
-
-        return True, {
-            "loop": str(loop),
-            "supply": str(supply),
-            "return": str(return_sensor),
-        }
+        return True, {"loop": str(loop), "supply": str(supply), "return": str(return_sensor)}
     else:
         print(f"[FAIL] Building NOT qualified")
-        print(f"   Missing: Supply and return temperature sensors on same loop\n")
+        print(f"   Missing: Supply and return sensors on secondary loop\n")
         return False, {}
 
 

@@ -41,131 +41,57 @@ sns.set_palette("husl")
 plt.rcParams["figure.figsize"] = (14, 8)
 plt.rcParams["font.size"] = 10
 
-# App-specific sensor types (defined in the app, not in utils)
-SUPPLY_TEMP_SENSORS = [
-    "Supply_Water_Temperature_Sensor",
-    "Leaving_Hot_Water_Temperature_Sensor",
-    "Hot_Water_Supply_Temperature_Sensor",
-]
-
-RETURN_TEMP_SENSORS = [
-    "Return_Water_Temperature_Sensor",
-    "Entering_Hot_Water_Temperature_Sensor",
-    "Hot_Water_Return_Temperature_Sensor",
-]
-
 
 def load_config(config_file=None):
-    """Load configuration with defaults"""
-    default_config = {
-        "analysis": {
-            "threshold_min_delta": 2.0,  # Primary loops typically have larger differentials
-            "threshold_max_delta": 20.0,
-        },
-        "output": {
-            "save_results": True,
-            "output_dir": "./results",
-            "export_format": "csv",
-            "generate_plots": True,
-            "plot_format": "png",
-            "generate_plotly_html": True,  # Generate interactive HTML with Plotly
-        },
-        "time_range": {
-            "start_time": None,
-            "end_time": None,
-        },
-    }
-
-    # If no config file specified, try to load from same directory
+    """Load configuration from YAML file"""
+    # If no config file specified, use the default one in app directory
     if config_file is None:
         config_file = app_dir / "config.yaml"
 
     config_path = Path(config_file)
-    if config_path.exists():
-        with open(config_path, "r", encoding="utf-8") as f:
-            user_config = yaml.safe_load(f) or {}
-        for key in user_config:
-            if key in default_config and isinstance(user_config[key], dict):
-                default_config[key].update(user_config[key])
-            else:
-                default_config[key] = user_config[key]
 
-    return default_config
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"Config file not found: {config_path}\n"
+            f"Please ensure config.yaml exists in the application directory."
+        )
+
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+
+    return config if config else {}
 
 
 def find_supply_return_sensors(graph):
-    """
-    App-specific function to find supply and return temperature sensors on PRIMARY loop
-
-    This is NOT a universal utility - it's specific to this app's needs.
-    """
-    # Build sensor type lists
-    supply_types = " ".join([f"brick:{st}" for st in SUPPLY_TEMP_SENSORS])
-    return_types = " ".join([f"brick:{rt}" for rt in RETURN_TEMP_SENSORS])
-
-    # App-specific SPARQL query (PREFIX auto-added by utils)
-    # Focus on PRIMARY loops - identify by checking if URI contains "primary"
-    query = f"""
-    SELECT ?loop ?supply ?return WHERE {{
-        # Find loops that are Hot_Water_Loop
+    """Find supply and return temperature sensors on primary loop"""
+    query = """
+    SELECT ?loop ?supply ?return WHERE {
         ?loop rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
-
-        # Filter to only primary loops (by checking URI contains "primary")
         FILTER(CONTAINS(LCASE(STR(?loop)), "primary"))
 
-        # Find supply temperature sensor
-        ?supply rdf:type/rdfs:subClassOf* ?supply_type .
-        VALUES ?supply_type {{ {supply_types} }}
+        ?loop brick:hasPart ?supply .
+        ?supply rdf:type/rdfs:subClassOf* brick:Leaving_Hot_Water_Temperature_Sensor .
 
-        # Find return temperature sensor
-        ?return rdf:type/rdfs:subClassOf* ?return_type .
-        VALUES ?return_type {{ {return_types} }}
-
-        # Both sensors must be associated with the loop
-        # Either as parts of the loop OR as points of the loop
-        {{
-            ?loop brick:hasPart ?supply .
-            ?loop brick:hasPart ?return .
-        }} UNION {{
-            ?supply brick:isPointOf ?loop .
-            ?return brick:isPointOf ?loop .
-        }} UNION {{
-            ?loop brick:hasPart ?supply .
-            ?return brick:isPointOf ?loop .
-        }} UNION {{
-            ?supply brick:isPointOf ?loop .
-            ?loop brick:hasPart ?return .
-        }}
-
-        # Optional: verify the loop has a boiler (characteristic of primary loops)
-        # This is optional because the "primary" naming is already a strong indicator
-        OPTIONAL {{
-            ?loop brick:hasPart ?boiler .
-            ?boiler rdf:type/rdfs:subClassOf* brick:Boiler .
-        }}
-    }}
+        ?loop brick:hasPart ?return .
+        ?return rdf:type/rdfs:subClassOf* brick:Entering_Hot_Water_Temperature_Sensor .
+    }
     """
 
-    # Use universal utility for custom query
     results = query_sensors(graph, [], custom_query=query)
     return results[0] if results else None
 
 
 def qualify(brick_model_path):
-    """
-    QUALIFY: Check if building has required sensors on primary loop
-    """
+    """Check if building has required sensors on primary loop"""
     print(f"\n{'='*60}")
     print(f"QUALIFY: Checking required sensors on primary loop")
     print(f"{'='*60}\n")
 
-    # Load Brick model
     from rdflib import Graph
 
     g = Graph()
     g.parse(brick_model_path, format="turtle")
 
-    # Use app-specific function
     result = find_supply_return_sensors(g)
 
     if result:
@@ -174,70 +100,59 @@ def qualify(brick_model_path):
         print(f"   Primary Loop: {loop}")
         print(f"   Supply: {supply}")
         print(f"   Return: {return_sensor}\n")
-
-        return True, {
-            "loop": str(loop),
-            "supply": str(supply),
-            "return": str(return_sensor),
-        }
+        return True, {"loop": str(loop), "supply": str(supply), "return": str(return_sensor)}
     else:
         print(f"[FAIL] Building NOT qualified")
-        print(f"   Missing: Supply and return temperature sensors on primary loop with boiler\n")
+        print(f"   Missing: Supply and return sensors on primary loop\n")
         return False, {}
 
 
 def analyze(brick_model_path, timeseries_data_path, config):
     """Execute analysis workflow"""
-
-    # Step 1: QUALIFY
+    # Step 1: Qualify
     qualified, qualify_result = qualify(brick_model_path)
     if not qualified:
         return None
 
-    # Step 2: FETCH
+    # Step 2: Load data
     print(f"{'='*60}")
     print(f"FETCH: Loading data")
     print(f"{'='*60}\n")
 
     g, df = load_data(brick_model_path, timeseries_data_path)
-
     print(f"[OK] Loaded {len(df)} data points")
     print(f"[OK] Time range: {df.index.min()} to {df.index.max()}\n")
 
     # Map sensors to columns
     supply_uri = qualify_result["supply"]
     return_uri = qualify_result["return"]
-
     sensor_mapping = map_sensors_to_columns(g, [supply_uri, return_uri], df)
 
     if len(sensor_mapping) != 2:
         print("[FAIL] Failed to map sensors to data columns\n")
         return None
 
-    # Extract data
+    # Extract and filter data
     df_extracted = extract_data_columns(
         df, sensor_mapping, rename_map={supply_uri: "sup", return_uri: "ret"}
     )
 
-    # Filter time range if specified
     if config["time_range"]["start_time"] or config["time_range"]["end_time"]:
         df_extracted = filter_time_range(
             df_extracted, config["time_range"]["start_time"], config["time_range"]["end_time"]
         )
         print(f"[OK] Filtered to {len(df_extracted)} data points\n")
 
-    # Step 3: ANALYZE
+    # Step 3: Analyze
     print(f"{'='*60}")
     print(f"ANALYZE: Computing primary loop temperature differential")
     print(f"{'='*60}\n")
 
-    # Calculate temperature differential
     df_extracted["temp_diff"] = df_extracted["sup"] - df_extracted["ret"]
     df_clean = df_extracted.dropna().copy()
-
     print(f"Valid data points: {len(df_clean)}")
 
-    # Statistical analysis
+    # Calculate statistics
     threshold_min = config["analysis"]["threshold_min_delta"]
     threshold_max = config["analysis"]["threshold_max_delta"]
 
@@ -261,7 +176,6 @@ def analyze(brick_model_path, timeseries_data_path, config):
         * 100
     )
 
-    # Add time-based statistics
     df_clean.loc[:, "hour"] = df_clean.index.hour
     df_clean.loc[:, "weekday"] = df_clean.index.dayofweek
     df_clean.loc[:, "month"] = df_clean.index.month
@@ -277,7 +191,7 @@ def analyze(brick_model_path, timeseries_data_path, config):
 
     results = {"stats": stats, "data": df_clean}
 
-    # Step 4: OUTPUT
+    # Step 4: Output
     if config["output"]["save_results"]:
         save_results(results, config)
 
@@ -301,21 +215,21 @@ def save_results(results, config):
     print(f"{'='*60}\n")
 
     # Save statistics
-    stats_df = pd.DataFrame([results["stats"]])
     stats_file = output_dir / f"primary_loop_temp_diff_stats.{export_format}"
+    stats_df = pd.DataFrame([results["stats"]])
 
     if export_format == "csv":
         stats_df.to_csv(stats_file, index=False)
-    elif export_format == "json":
+    else:  # json
         stats_df.to_json(stats_file, orient="records", indent=2)
-
     print(f"  [OK] {stats_file.name}")
 
     # Save timeseries
     ts_file = output_dir / f"primary_loop_temp_diff_timeseries.{export_format}"
+
     if export_format == "csv":
         results["data"].to_csv(ts_file)
-    elif export_format == "json":
+    else:  # json
         results["data"].to_json(ts_file, orient="index", date_format="iso")
 
     print(f"  [OK] {ts_file.name}")

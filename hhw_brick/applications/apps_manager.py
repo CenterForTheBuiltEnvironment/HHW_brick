@@ -105,16 +105,19 @@ class AppsManager:
         Returns:
             Default configuration dictionary
         """
-        # Try to load config from app's load_config function
+        # Try to load config from app's config.yaml file
         try:
             app = self.load_app(app_name)
             if hasattr(app, "load_config"):
-                # Call load_config with config_file=None to load from app's default config.yaml
+                # Load from app's config.yaml (config_file=None uses default location)
                 config = app.load_config(config_file=None)
                 if config is not None:
                     return config
+        except FileNotFoundError:
+            # Config file doesn't exist, use fallback
+            pass
         except Exception as e:
-            # If loading fails, fall back to basic default config
+            # Other errors, warn and use fallback
             print(f"Warning: Could not load config for {app_name}: {e}")
 
         # Return basic default config as fallback
