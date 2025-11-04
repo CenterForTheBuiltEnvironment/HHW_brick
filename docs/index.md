@@ -231,6 +231,18 @@ if qualified:
     <a href="user-guide/applications/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
   </div>
 
+  <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
+    <h3 style="margin-top: 0;">👨‍💻 Developer Guide</h3>
+    <p>Create your own applications: step-by-step tutorials, SPARQL queries, visualization, and best practices.</p>
+    <a href="developer-guide/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
+  </div>
+
+  <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
+    <h3 style="margin-top: 0;">🎨 Plotly Visualization</h3>
+    <p>Interactive HTML visualizations with Plotly: dashboards, time-series, heatmaps, and box plots.</p>
+    <a href="user-guide/plotly-visualization/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
+  </div>
+
 </div>
 
 
@@ -244,8 +256,10 @@ if qualified:
     <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">📖</div>
     <h4 style="margin-top: 0;">Documentation</h4>
     <p style="margin-top: 0.8rem; font-size: 0.95rem;">
+      <a href="documentation-map/">Documentation Map</a><br/>
       <a href="getting-started/">Getting Started</a><br/>
       <a href="user-guide/conversion/">User Guide</a><br/>
+      <a href="developer-guide/">Developer Guide</a><br/>
       <a href="faq/">FAQ</a>
     </p>
   </div>

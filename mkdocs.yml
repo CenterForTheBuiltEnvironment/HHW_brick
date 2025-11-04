@@ -169,7 +169,20 @@ nav:
       - Apps Manager: user-guide/applications/apps-manager.md
       - Secondary Loop: user-guide/applications/secondary-loop.md
       - Running Apps: user-guide/applications/running-apps.md
+    - Plotly Visualization:
+      - user-guide/plotly-visualization.md
 
+  - Developer Guide:
+    - developer-guide/README.md
+    - Creating Applications: developer-guide/creating-applications.md
+    - Tutorial:
+      - Overview: developer-guide/tutorial/index.md
+      - Step 1 - Structure: developer-guide/tutorial/step-01-structure.md
+      - Step 2 - Load Config: developer-guide/tutorial/step-02-load-config.md
+      - Step 3 - SPARQL & Qualify: developer-guide/tutorial/step-03-sparql-qualify.md
+      - Step 4 - Analyze Part 1: developer-guide/tutorial/step-04-analyze-part1.md
+
+  - Documentation Map: documentation-map.md
   - FAQ: faq.md
   - Changelog: changelog.md
   - License: license.md
