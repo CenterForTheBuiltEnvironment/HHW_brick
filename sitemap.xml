@@ -2,142 +2,154 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/changelog/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/license/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/api-reference/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/developer-guide/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/01-convert-csv-to-brick/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/02-ontology-validation/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/03-point-count-validation/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/04-equipment-count-validation/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/05-subgraph-pattern-matching/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/06-application-management/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/07-run-application/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/examples/08-batch-run-application/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/csv-format/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/installation/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/quick-start/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/getting-started/understanding-brick/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/tutorials/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/tutorials/01_hello_world_app/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
+    </url>
+    <url>
+         <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion_method_comparison/</loc>
+         <lastmod>2025-11-04</lastmod>
+    </url>
+    <url>
+         <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/plotly-visualization-cn/</loc>
+         <lastmod>2025-11-04</lastmod>
+    </url>
+    <url>
+         <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/plotly-visualization/</loc>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/applications/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/applications/apps-manager/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/applications/running-apps/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/applications/secondary-loop/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/batch-conversion/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/sensor-mapping/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/single-building/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/conversion/system-types/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/validation/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/validation/ground-truth/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/validation/ontology/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
     <url>
          <loc>https://centerforthebuiltenvironment.github.io/HHW_brick/user-guide/validation/subgraph-patterns/</loc>
-         <lastmod>2025-11-03</lastmod>
+         <lastmod>2025-11-04</lastmod>
     </url>
 </urlset>
