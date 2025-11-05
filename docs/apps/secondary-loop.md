@@ -1,5 +1,3 @@
 # Secondary Loop Temperature Differential Analysis
 
-{%
-   include-markdown "../hhw_brick/applications/secondary_loop_temp_diff/README.md"
-%}
+{% include-markdown "../../hhw_brick/applications/secondary_loop_temp_diff/README.md" %}

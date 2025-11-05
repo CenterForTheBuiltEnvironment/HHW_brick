@@ -50,7 +50,7 @@ if app.qualify("building.ttl"):
     results = app.analyze("building.ttl", "timeseries.csv", config)
 ```
 
-See [User Guide - Running Apps](../user-guide/applications/running-apps/) for detailed instructions.
+See [User Guide - Running Apps](../user-guide/applications/running-apps.md) for detailed instructions.
 
 ---
 
@@ -58,7 +58,7 @@ See [User Guide - Running Apps](../user-guide/applications/running-apps/) for de
 
 Want to build custom analytics? Follow our step-by-step tutorial:
 
-👉 [Developer Guide](../app-development/)
+👉 [Application Development Guide](../app-development/index.md)
 
 ---
 

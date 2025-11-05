@@ -38,22 +38,6 @@ Analytics application framework.
 
 ---
 
-### :material-console: CLI
-
-Command-line interface.
-
-- [Main CLI](cli/main.md) - Command-line entry points
-
----
-
-### :material-tools: Utils
-
-Utility functions and helpers.
-
-- [BrickQuery](utils/brick-query.md) - Query Brick models
-- [ConfigLoader](utils/config-loader.md) - Load configurations
-
----
 
 ## Quick Reference
 
@@ -69,11 +53,6 @@ from hhw_brick import (
     apps
 )
 
-# Utilities
-from hhw_brick.utils import (
-    BrickQuery,
-    ConfigLoader
-)
 
 # Validation
 from hhw_brick.validation import (
