@@ -12,28 +12,28 @@
         <meta name="author" content="Mingchen Li">
       
       
-        <link rel="canonical" href="https://centerforthebuiltenvironment.github.io/HHW_brick/developer-guide/application-development-guide/step-01-structure/">
+        <link rel="canonical" href="https://centerforthebuiltenvironment.github.io/HHW_brick/application-development-guide/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../user-guide/plotly-visualization/">
       
       
-        <link rel="next" href="../step-02-load-config/">
+        <link rel="next" href="step-01-structure/">
       
       
-      <link rel="icon" href="../../../assets/favicon.png">
+      <link rel="icon" href="../assets/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
-        <title>Step 1 - Structure - HHW Brick Application</title>
+        <title>Overview - HHW Brick Application</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,9 +52,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#step-1-create-application-structure" class="md-skip">
+        <a href="#application-development-tutorial-overview" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="HHW Brick Application" class="md-header__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
+    <a href=".." title="HHW Brick Application" class="md-header__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 2c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h1v2H6v2h3c1.11 0 2-.89 2-2v-2h2v2c0 1.11.89 2 2 2h3v-2h-3v-2h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm4 2.97a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m-2 9.53h4V16h-4z"/></svg>
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Step 1 - Structure
+              Overview
             
           </span>
         </div>
@@ -232,7 +232,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -253,7 +253,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../getting-started/" class="md-tabs__link">
+        <a href="../getting-started/" class="md-tabs__link">
           
   
   
@@ -275,7 +275,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../examples/" class="md-tabs__link">
+        <a href="../examples/" class="md-tabs__link">
           
   
   
@@ -304,7 +304,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../user-guide/conversion/" class="md-tabs__link">
+        <a href="../user-guide/conversion/" class="md-tabs__link">
           
   
   
@@ -331,13 +331,13 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="./" class="md-tabs__link">
           
   
   
     
   
-  Developer Guide
+  Application Development Guide
 
         </a>
       </li>
@@ -351,7 +351,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../faq.md" class="md-tabs__link">
+      <a href="../faq.md" class="md-tabs__link">
         
   
   
@@ -370,7 +370,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../changelog/" class="md-tabs__link">
+      <a href="../changelog/" class="md-tabs__link">
         
   
   
@@ -389,7 +389,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../license/" class="md-tabs__link">
+      <a href="../license/" class="md-tabs__link">
         
   
   
@@ -430,7 +430,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="HHW Brick Application" class="md-nav__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
+    <a href=".." title="HHW Brick Application" class="md-nav__button md-logo" aria-label="HHW Brick Application" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 2c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h1v2H6v2h3c1.11 0 2-.89 2-2v-2h2v2c0 1.11.89 2 2 2h3v-2h-3v-2h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm4 2.97a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m-2 9.53h4V16h-4z"/></svg>
@@ -460,7 +460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -515,7 +515,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../getting-started/" class="md-nav__link ">
+            <a href="../getting-started/" class="md-nav__link ">
               
   
   
@@ -550,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/installation/" class="md-nav__link">
+      <a href="../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -573,7 +573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/understanding-brick/" class="md-nav__link">
+      <a href="../getting-started/understanding-brick/" class="md-nav__link">
         
   
   
@@ -596,7 +596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/csv-format/" class="md-nav__link">
+      <a href="../getting-started/csv-format/" class="md-nav__link">
         
   
   
@@ -619,7 +619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+      <a href="../getting-started/quick-start/" class="md-nav__link">
         
   
   
@@ -690,7 +690,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../examples/" class="md-nav__link ">
+            <a href="../examples/" class="md-nav__link ">
               
   
   
@@ -725,7 +725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/01-convert-csv-to-brick/" class="md-nav__link">
+      <a href="../examples/01-convert-csv-to-brick/" class="md-nav__link">
         
   
   
@@ -748,7 +748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/02-ontology-validation/" class="md-nav__link">
+      <a href="../examples/02-ontology-validation/" class="md-nav__link">
         
   
   
@@ -771,7 +771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/03-point-count-validation/" class="md-nav__link">
+      <a href="../examples/03-point-count-validation/" class="md-nav__link">
         
   
   
@@ -794,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/04-equipment-count-validation/" class="md-nav__link">
+      <a href="../examples/04-equipment-count-validation/" class="md-nav__link">
         
   
   
@@ -817,7 +817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/05-subgraph-pattern-matching/" class="md-nav__link">
+      <a href="../examples/05-subgraph-pattern-matching/" class="md-nav__link">
         
   
   
@@ -840,7 +840,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/06-application-management/" class="md-nav__link">
+      <a href="../examples/06-application-management/" class="md-nav__link">
         
   
   
@@ -863,7 +863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/07-run-application/" class="md-nav__link">
+      <a href="../examples/07-run-application/" class="md-nav__link">
         
   
   
@@ -886,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/08-batch-run-application/" class="md-nav__link">
+      <a href="../examples/08-batch-run-application/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user-guide/conversion/" class="md-nav__link ">
+            <a href="../user-guide/conversion/" class="md-nav__link ">
               
   
   
@@ -1039,7 +1039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/conversion/single-building/" class="md-nav__link">
+      <a href="../user-guide/conversion/single-building/" class="md-nav__link">
         
   
   
@@ -1062,7 +1062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/conversion/batch-conversion/" class="md-nav__link">
+      <a href="../user-guide/conversion/batch-conversion/" class="md-nav__link">
         
   
   
@@ -1085,7 +1085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/conversion/system-types/" class="md-nav__link">
+      <a href="../user-guide/conversion/system-types/" class="md-nav__link">
         
   
   
@@ -1108,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/conversion/sensor-mapping/" class="md-nav__link">
+      <a href="../user-guide/conversion/sensor-mapping/" class="md-nav__link">
         
   
   
@@ -1170,7 +1170,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user-guide/validation/" class="md-nav__link ">
+            <a href="../user-guide/validation/" class="md-nav__link ">
               
   
   
@@ -1205,7 +1205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/validation/ontology/" class="md-nav__link">
+      <a href="../user-guide/validation/ontology/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/validation/ground-truth/" class="md-nav__link">
+      <a href="../user-guide/validation/ground-truth/" class="md-nav__link">
         
   
   
@@ -1251,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/validation/subgraph-patterns/" class="md-nav__link">
+      <a href="../user-guide/validation/subgraph-patterns/" class="md-nav__link">
         
   
   
@@ -1313,7 +1313,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user-guide/applications/" class="md-nav__link ">
+            <a href="../user-guide/applications/" class="md-nav__link ">
               
   
   
@@ -1348,7 +1348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/applications/apps-manager/" class="md-nav__link">
+      <a href="../user-guide/applications/apps-manager/" class="md-nav__link">
         
   
   
@@ -1371,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/applications/secondary-loop/" class="md-nav__link">
+      <a href="../user-guide/applications/secondary-loop/" class="md-nav__link">
         
   
   
@@ -1394,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/applications/running-apps/" class="md-nav__link">
+      <a href="../user-guide/applications/running-apps/" class="md-nav__link">
         
   
   
@@ -1474,7 +1474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user-guide/plotly-visualization/" class="md-nav__link">
+      <a href="../user-guide/plotly-visualization/" class="md-nav__link">
         
   
   
@@ -1558,12 +1558,12 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   
   <span class="md-ellipsis">
-    Developer Guide
+    Application Development Guide
     
   </span>
   
@@ -1571,7 +1571,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1580,7 +1580,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Developer Guide
+            Application Development Guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1590,32 +1590,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Step 1 - Structure
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="step-01-structure/" class="md-nav__link">
         
   
   
@@ -1626,113 +1604,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-create-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Create Directory
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-create-required-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Create Required Files
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-file-contents" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. File Contents
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. File Contents">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#__init__py" class="md-nav__link">
-    <span class="md-ellipsis">
-      __init__.py
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#requirementstxt" class="md-nav__link">
-    <span class="md-ellipsis">
-      requirements.txt
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configyaml" class="md-nav__link">
-    <span class="md-ellipsis">
-      config.yaml
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#readmemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      README.md
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      Checkpoint
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-step" class="md-nav__link">
-    <span class="md-ellipsis">
-      Next Step
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1745,7 +1616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-02-load-config/" class="md-nav__link">
+      <a href="step-02-load-config/" class="md-nav__link">
         
   
   
@@ -1768,7 +1639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-03-sparql-qualify/" class="md-nav__link">
+      <a href="step-03-sparql-qualify/" class="md-nav__link">
         
   
   
@@ -1791,7 +1662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-04-analyze-part1/" class="md-nav__link">
+      <a href="step-04-analyze-part1/" class="md-nav__link">
         
   
   
@@ -1814,7 +1685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-05-analyze-part2/" class="md-nav__link">
+      <a href="step-05-analyze-part2/" class="md-nav__link">
         
   
   
@@ -1837,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-06-visualization-matplotlib/" class="md-nav__link">
+      <a href="step-06-visualization-matplotlib/" class="md-nav__link">
         
   
   
@@ -1860,7 +1731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-07-visualization-plotly/" class="md-nav__link">
+      <a href="step-07-visualization-plotly/" class="md-nav__link">
         
   
   
@@ -1883,7 +1754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-08-testing/" class="md-nav__link">
+      <a href="step-08-testing/" class="md-nav__link">
         
   
   
@@ -1906,7 +1777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../step-09-deployment/" class="md-nav__link">
+      <a href="step-09-deployment/" class="md-nav__link">
         
   
   
@@ -1936,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../faq.md" class="md-nav__link">
+      <a href="../faq.md" class="md-nav__link">
         
   
   
@@ -1958,7 +1829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -1980,7 +1851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../license/" class="md-nav__link">
+      <a href="../license/" class="md-nav__link">
         
   
   
@@ -2022,64 +1893,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-create-directory" class="md-nav__link">
+  <a href="#tutorial-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Create Directory
+      Tutorial Structure
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-create-required-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Create Required Files
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-file-contents" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. File Contents
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. File Contents">
+    <nav class="md-nav" aria-label="Tutorial Structure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#__init__py" class="md-nav__link">
+  <a href="#tutorial-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__.py
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#requirementstxt" class="md-nav__link">
-    <span class="md-ellipsis">
-      requirements.txt
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configyaml" class="md-nav__link">
-    <span class="md-ellipsis">
-      config.yaml
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#readmemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      README.md
+      📚 Tutorial Steps
     </span>
   </a>
   
@@ -2091,18 +1917,294 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
+  <a href="#what-youll-build" class="md-nav__link">
     <span class="md-ellipsis">
-      Checkpoint
+      What You'll Build
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-step" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Next Step
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Knowledge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-experience-needed-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      No Experience Needed With
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tutorial Learning Path
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tutorial Learning Path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path-1-quick-start-minimum-viable-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Path 1: Quick Start (Minimum Viable App)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-2-complete-tutorial-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Path 2: Complete Tutorial (Recommended)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-3-advanced-custom-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Path 3: Advanced (Custom Applications)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-this-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Use This Tutorial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Use This Tutorial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading the Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Blocks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips-throughout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips Throughout
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#during-the-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      During the Tutorial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-the-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      After the Tutorial
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Applications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Applications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#secondary_loop_temp_diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 secondary_loop_temp_diff
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#primary_loop_temp_diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 primary_loop_temp_diff
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-for-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips for Success
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips for Success">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Do's
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donts" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ Don'ts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#after-completing-the-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      After Completing the Tutorial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="After Completing the Tutorial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#share-your-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      Share Your Work
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ready-to-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ready to Start?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions-before-starting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions Before Starting?
     </span>
   </a>
   
@@ -2127,140 +2229,280 @@
   
 
 
-<h1 id="step-1-create-application-structure">Step 1: Create Application Structure<a class="headerlink" href="#step-1-create-application-structure" title="Permanent link">&para;</a></h1>
-<p>Set up the basic file structure for your application.</p>
+<h1 id="application-development-tutorial-overview">Application Development Tutorial - Overview<a class="headerlink" href="#application-development-tutorial-overview" title="Permanent link">&para;</a></h1>
+<p>Learn to create HHW Brick analytics applications through hands-on, step-by-step tutorials.</p>
+<h2 id="tutorial-structure">Tutorial Structure<a class="headerlink" href="#tutorial-structure" title="Permanent link">&para;</a></h2>
+<p>This tutorial is divided into logical steps, each focusing on one aspect of application development.</p>
+<h3 id="tutorial-steps">📚 Tutorial Steps<a class="headerlink" href="#tutorial-steps" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Topic</th>
+<th>Time</th>
+<th>Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="step-01-structure/">Step 1</a></td>
+<td>Create Application Structure</td>
+<td>10 min</td>
+<td>⭐ Easy</td>
+</tr>
+<tr>
+<td><a href="step-02-load-config/">Step 2</a></td>
+<td>Write load_config Function</td>
+<td>15 min</td>
+<td>⭐ Easy</td>
+</tr>
+<tr>
+<td><a href="step-03-sparql-qualify/">Step 3</a></td>
+<td>SPARQL Query &amp; qualify Function</td>
+<td>30 min</td>
+<td>⭐⭐ Medium</td>
+</tr>
+<tr>
+<td><a href="step-04-analyze-part1/">Step 4</a></td>
+<td>analyze Function - Data Loading</td>
+<td>20 min</td>
+<td>⭐⭐ Medium</td>
+</tr>
+<tr>
+<td><a href="step-05-analyze-part2/">Step 5</a></td>
+<td>analyze Function - Analysis Logic</td>
+<td>25 min</td>
+<td>⭐⭐ Medium</td>
+</tr>
+<tr>
+<td><a href="step-06-visualization-matplotlib/">Step 6</a></td>
+<td>Matplotlib Visualization</td>
+<td>20 min</td>
+<td>⭐⭐ Medium</td>
+</tr>
+<tr>
+<td><a href="step-07-visualization-plotly/">Step 7</a></td>
+<td>Plotly HTML Visualization</td>
+<td>30 min</td>
+<td>⭐⭐⭐ Advanced</td>
+</tr>
+<tr>
+<td><a href="step-08-testing/">Step 8</a></td>
+<td>Testing Your Application</td>
+<td>20 min</td>
+<td>⭐⭐ Medium</td>
+</tr>
+<tr>
+<td><a href="step-09-deployment/">Step 9</a></td>
+<td>Deployment &amp; Integration</td>
+<td>15 min</td>
+<td>⭐ Easy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Time</strong>: ~3 hours</p>
 <hr />
-<h2 id="1-create-directory">1. Create Directory<a class="headerlink" href="#1-create-directory" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>hhw_brick/applications/
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>my_first_app
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>my_first_app
-</span></code></pre></div>
-<p><strong>Naming</strong>: Use lowercase with underscores (e.g., <code>temperature_analysis</code>)</p>
+<h2 id="what-youll-build">What You'll Build<a class="headerlink" href="#what-youll-build" title="Permanent link">&para;</a></h2>
+<p>By the end of this tutorial, you'll have built a complete analytics application that:</p>
+<p>✅ <strong>Qualifies</strong> buildings based on required sensors<br />
+✅ <strong>Analyzes</strong> time-series data from Brick models<br />
+✅ <strong>Generates</strong> statistical reports<br />
+✅ <strong>Creates</strong> visualizations (PNG and interactive HTML)<br />
+✅ <strong>Integrates</strong> with the HHW Brick framework  </p>
 <hr />
-<h2 id="2-create-required-files">2. Create Required Files<a class="headerlink" href="#2-create-required-files" title="Permanent link">&para;</a></h2>
-<p>Every application needs these 5 files:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>my_first_app/
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── __init__.py          # Package metadata and exports
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── app.py               # Main application code
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├── config.yaml          # Default configuration
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├── requirements.txt     # Python dependencies
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>└── README.md            # User documentation
-</span></code></pre></div>
-<p><strong>Windows</strong>:
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">New-Item</span> <span class="n">__init__</span><span class="p">.</span><span class="n">py</span><span class="p">,</span> <span class="n">app</span><span class="p">.</span><span class="n">py</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">yaml</span><span class="p">,</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span><span class="p">,</span> <span class="n">README</span><span class="p">.</span><span class="nb">md</span>
-</span></code></pre></div></p>
-<p><strong>Linux/Mac</strong>:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>touch<span class="w"> </span>__init__.py<span class="w"> </span>app.py<span class="w"> </span>config.yaml<span class="w"> </span>requirements.txt<span class="w"> </span>README.md
-</span></code></pre></div></p>
-<hr />
-<h2 id="3-file-contents">3. File Contents<a class="headerlink" href="#3-file-contents" title="Permanent link">&para;</a></h2>
-<h3 id="__init__py"><code>__init__.py</code><a class="headerlink" href="#__init__py" title="Permanent link">&para;</a></h3>
-<p>Exports the three required functions and defines metadata.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="sd">My First Application</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd">Temperature differential analysis for hot water systems.</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="sd">Author: Your Name</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">qualify</span><span class="p">,</span> <span class="n">analyze</span><span class="p">,</span> <span class="n">load_config</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;qualify&quot;</span><span class="p">,</span> <span class="s2">&quot;analyze&quot;</span><span class="p">,</span> <span class="s2">&quot;load_config&quot;</span><span class="p">]</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="n">__app_name__</span> <span class="o">=</span> <span class="s2">&quot;my_first_app&quot;</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">__description__</span> <span class="o">=</span> <span class="s2">&quot;Temperature differential analysis&quot;</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Your Name&quot;</span>
-</span></code></pre></div>
-<hr />
-<h3 id="requirementstxt"><code>requirements.txt</code><a class="headerlink" href="#requirementstxt" title="Permanent link">&para;</a></h3>
-<p>Lists all Python packages your app needs.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pandas&gt;=1.3.0
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>numpy&gt;=1.21.0
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>matplotlib&gt;=3.5.0
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>seaborn&gt;=0.11.0
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>plotly&gt;=5.0.0
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>rdflib&gt;=6.0.0
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>brickschema&gt;=0.6.0
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>pyyaml&gt;=5.4.0
-</span></code></pre></div>
-<hr />
-<h3 id="configyaml"><code>config.yaml</code><a class="headerlink" href="#configyaml" title="Permanent link">&para;</a></h3>
-<p>Default configuration that users can customize.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Analysis parameters (customize for your app)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">analysis</span><span class="p">:</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">threshold_min_delta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">threshold_max_delta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Output settings (standard, keep structure)</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nt">output</span><span class="p">:</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nt">save_results</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./results&quot;</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">  </span><span class="nt">export_format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;csv&quot;</span><span class="w">           </span><span class="c1"># csv or json</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="nt">generate_plots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="nt">plot_format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;png&quot;</span><span class="w">             </span><span class="c1"># png, pdf, or svg</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span><span class="nt">generate_plotly_html</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1"># Time filtering (optional)</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="nt">time_range</span><span class="p">:</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="nt">start_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">               </span><span class="c1"># YYYY-MM-DD or null</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span><span class="nt">end_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
-</span></code></pre></div>
-<hr />
-<h3 id="readmemd"><code>README.md</code><a class="headerlink" href="#readmemd" title="Permanent link">&para;</a></h3>
-<p>User-facing documentation for your application.</p>
-<div class="language-markdown highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gh"># My First Application</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="gu">## Overview</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Analyzes temperature differential in hot water systems.
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="gu">## Requirements</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>Buildings must have:
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">-</span><span class="w"> </span>Hot Water Loop
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">-</span><span class="w"> </span>Supply temperature sensor (Leaving_Hot_Water_Temperature_Sensor)
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">-</span><span class="w"> </span>Return temperature sensor (Entering_Hot_Water_Temperature_Sensor)
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="gu">## Usage</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>\`\`\`python
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>from hhw_brick import apps
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
-</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>app = apps.load_app(&quot;my_first_app&quot;)
-</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>qualified, details = app.qualify(&quot;building.ttl&quot;)
-</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
-</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>if qualified:
-</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    config = app.load_config()
-</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>    results = app.analyze(&quot;building.ttl&quot;, &quot;data.csv&quot;, config)
-</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>\`\`\`
-</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
-</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="gu">## Output</span>
-</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>
-</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="k">-</span><span class="w"> </span><span class="sb">`stats.csv`</span> - Statistical results
-</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="k">-</span><span class="w"> </span><span class="sb">`timeseries.csv`</span> - Processed data
-</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="k">-</span><span class="w"> </span><span class="sb">`*.png`</span> - Static plots
-</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="k">-</span><span class="w"> </span><span class="sb">`*.html`</span> - Interactive visualizations
-</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>
-</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="gu">## Author</span>
-</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>
-</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>Your Name - v1.0.0
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h3 id="required-knowledge">Required Knowledge<a class="headerlink" href="#required-knowledge" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Python Basics</strong>: Variables, functions, file I/O</li>
+<li><strong>Command Line</strong>: Navigate directories, run Python scripts</li>
+<li><strong>YAML</strong>: Basic configuration file syntax (we'll teach SPARQL!)</li>
+</ul>
+<h3 id="no-experience-needed-with">No Experience Needed With<a class="headerlink" href="#no-experience-needed-with" title="Permanent link">&para;</a></h3>
+<ul>
+<li>❌ Brick Schema (we'll teach you!)</li>
+<li>❌ SPARQL (covered in Step 3)</li>
+<li>❌ RDF/Semantic Web (explained as we go)</li>
+<li>❌ Advanced visualization (templates provided)</li>
+</ul>
+<h3 id="software-requirements">Software Requirements<a class="headerlink" href="#software-requirements" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Python 3.8 or higher</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>--version
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># HHW Brick package installed</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>/path/to/HHW_brick
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Or install dependencies</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>plotly<span class="w"> </span>rdflib<span class="w"> </span>brickschema<span class="w"> </span>pyyaml
 </span></code></pre></div>
 <hr />
-<h2 id="checkpoint">Checkpoint<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h2>
-<p>Verify your setup:</p>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Directory <code>my_first_app/</code> created</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> All 5 files created</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>__init__.py</code> has metadata</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>requirements.txt</code> has dependencies</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>config.yaml</code> has correct structure</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>README.md</code> has basic docs</li>
+<h2 id="tutorial-learning-path">Tutorial Learning Path<a class="headerlink" href="#tutorial-learning-path" title="Permanent link">&para;</a></h2>
+<h3 id="path-1-quick-start-minimum-viable-app">🎯 Path 1: Quick Start (Minimum Viable App)<a class="headerlink" href="#path-1-quick-start-minimum-viable-app" title="Permanent link">&para;</a></h3>
+<p>Build a working app as fast as possible:</p>
+<ol>
+<li><a href="step-01-structure/">Step 1</a> - Structure</li>
+<li><a href="step-02-load-config/">Step 2</a> - Config loading</li>
+<li><a href="step-03-sparql-qualify/">Step 3</a> - Qualification</li>
+<li><a href="step-04-analyze-part1/">Step 4</a> - Basic analysis</li>
+<li><a href="step-08-testing/">Step 8</a> - Test it</li>
+</ol>
+<p><strong>Time</strong>: ~1.5 hours<br />
+<strong>Result</strong>: Working application with basic functionality</p>
+<h3 id="path-2-complete-tutorial-recommended">🎓 Path 2: Complete Tutorial (Recommended)<a class="headerlink" href="#path-2-complete-tutorial-recommended" title="Permanent link">&para;</a></h3>
+<p>Follow all steps for full understanding:</p>
+<p>1-9 in order</p>
+<p><strong>Time</strong>: ~3 hours<br />
+<strong>Result</strong>: Production-ready application with all features</p>
+<h3 id="path-3-advanced-custom-applications">🚀 Path 3: Advanced (Custom Applications)<a class="headerlink" href="#path-3-advanced-custom-applications" title="Permanent link">&para;</a></h3>
+<p>After completing the tutorial:</p>
+<ul>
+<li>Modify existing applications</li>
+<li>Create complex SPARQL queries</li>
+<li>Implement custom analytics</li>
+<li>Add advanced visualizations</li>
 </ul>
 <hr />
-<h2 id="next-step">Next Step<a class="headerlink" href="#next-step" title="Permanent link">&para;</a></h2>
-<p>👉 <a href="../step-02-load-config/">Step 2: Write load_config Function</a></p>
+<h2 id="application-example">Application Example<a class="headerlink" href="#application-example" title="Permanent link">&para;</a></h2>
+<p>Here's what you'll build - a temperature differential analysis app:</p>
+<p><strong>Input</strong>:
+- Brick model (.ttl file) with temperature sensors
+- Time-series data (.csv file) with sensor readings</p>
+<p><strong>Process</strong>:
+1. Check if building has supply and return temperature sensors
+2. Load and map sensor data
+3. Calculate temperature differential
+4. Compute statistics (mean, std, range, etc.)
+5. Generate visualizations</p>
+<p><strong>Output</strong>:
+- CSV files with statistics and processed data
+- PNG plots (timeseries, histograms, heatmaps)
+- Interactive HTML dashboards</p>
+<p><strong>See it in action</strong>: <code>hhw_brick/applications/secondary_loop_temp_diff/</code></p>
+<hr />
+<h2 id="how-to-use-this-tutorial">How to Use This Tutorial<a class="headerlink" href="#how-to-use-this-tutorial" title="Permanent link">&para;</a></h2>
+<h3 id="reading-the-steps">Reading the Steps<a class="headerlink" href="#reading-the-steps" title="Permanent link">&para;</a></h3>
+<p>Each step follows this structure:</p>
+<ol>
+<li><strong>Goal</strong>: What you'll accomplish</li>
+<li><strong>Code</strong>: Copy-paste ready code snippets</li>
+<li><strong>Explanation</strong>: Understanding what the code does</li>
+<li><strong>Test</strong>: Verify your implementation works</li>
+<li><strong>Checkpoint</strong>: Ensure you're ready for the next step</li>
+</ol>
+<h3 id="code-blocks">Code Blocks<a class="headerlink" href="#code-blocks" title="Permanent link">&para;</a></h3>
+<p><strong>📋 Copy this</strong> - Code ready to paste:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># This code is ready to use</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">example</span><span class="p">():</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">return</span> <span class="s2">&quot;Hello World&quot;</span>
+</span></code></pre></div></p>
+<p><strong>💡 Explanation</strong> - Understanding code:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># This explains the logic</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Variables: x (input), y (output)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># Double the input</span>
+</span></code></pre></div></p>
+<p><strong>⚠️ Common mistakes</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># ❌ Wrong</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># ✅ Correct</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>  <span class="c1"># Don&#39;t forget ()</span>
+</span></code></pre></div></p>
+<h3 id="tips-throughout">Tips Throughout<a class="headerlink" href="#tips-throughout" title="Permanent link">&para;</a></h3>
+<ul>
+<li>💡 <strong>Tip</strong>: Helpful suggestions</li>
+<li>⚠️ <strong>Warning</strong>: Common pitfalls</li>
+<li>📚 <strong>Resource</strong>: External learning materials</li>
+<li>✅ <strong>Best Practice</strong>: Recommended approaches</li>
+<li>❌ <strong>Avoid</strong>: What not to do</li>
+</ul>
+<hr />
+<h2 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<h3 id="during-the-tutorial">During the Tutorial<a class="headerlink" href="#during-the-tutorial" title="Permanent link">&para;</a></h3>
+<p><strong>Issue</strong>: Code doesn't work<br />
+<strong>Solution</strong>:
+1. Check the <strong>Common Issues</strong> section in each step
+2. Compare your code with example applications in <code>hhw_brick/applications/</code>
+3. Run the test scripts provided in each step</p>
+<p><strong>Issue</strong>: Concept unclear<br />
+<strong>Solution</strong>:
+1. Review the <strong>Understanding</strong> sections
+2. Check linked resources
+3. Look at working examples: <code>primary_loop_temp_diff</code> or <code>secondary_loop_temp_diff</code></p>
+<h3 id="after-the-tutorial">After the Tutorial<a class="headerlink" href="#after-the-tutorial" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Brick Schema</strong>: https://docs.brickschema.org/</li>
+<li><strong>SPARQL</strong>: https://www.w3.org/TR/sparql11-query/</li>
+<li><strong>GitHub Issues</strong>: https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues</li>
+</ul>
+<hr />
+<h2 id="example-applications">Example Applications<a class="headerlink" href="#example-applications" title="Permanent link">&para;</a></h2>
+<p>Study these working applications for reference:</p>
+<h3 id="secondary_loop_temp_diff">📁 secondary_loop_temp_diff<a class="headerlink" href="#secondary_loop_temp_diff" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>hhw_brick/applications/secondary_loop_temp_diff/</code></p>
+<p><strong>What it does</strong>: Analyzes temperature differential in secondary hot water loops</p>
+<p><strong>Complexity</strong>: ⭐⭐ Medium</p>
+<p><strong>Learn from it</strong>:
+- Simple SPARQL query
+- Basic statistical analysis
+- Standard visualization patterns</p>
+<h3 id="primary_loop_temp_diff">📁 primary_loop_temp_diff<a class="headerlink" href="#primary_loop_temp_diff" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>hhw_brick/applications/primary_loop_temp_diff/</code></p>
+<p><strong>What it does</strong>: Analyzes temperature differential in primary loops with boilers</p>
+<p><strong>Complexity</strong>: ⭐⭐ Medium</p>
+<p><strong>Learn from it</strong>:
+- Filtered SPARQL queries
+- Anomaly detection
+- Multiple visualization types</p>
+<hr />
+<h2 id="tips-for-success">Tips for Success<a class="headerlink" href="#tips-for-success" title="Permanent link">&para;</a></h2>
+<h3 id="dos">✅ Do's<a class="headerlink" href="#dos" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Read the explanations</strong>: Don't just copy code, understand it</li>
+<li><strong>Run tests frequently</strong>: Catch errors early</li>
+<li><strong>Start simple</strong>: Get basics working before adding features</li>
+<li><strong>Study examples</strong>: Look at existing applications</li>
+<li><strong>Use version control</strong>: Git commit after each step</li>
+</ol>
+<h3 id="donts">❌ Don'ts<a class="headerlink" href="#donts" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Don't skip steps</strong>: Each builds on the previous</li>
+<li><strong>Don't ignore errors</strong>: Fix them before proceeding</li>
+<li><strong>Don't customize prematurely</strong>: Finish tutorial first, then customize</li>
+<li><strong>Don't skip testing</strong>: Tests ensure your code works</li>
+<li><strong>Don't forget documentation</strong>: Update README as you go</li>
+</ol>
+<hr />
+<h2 id="after-completing-the-tutorial">After Completing the Tutorial<a class="headerlink" href="#after-completing-the-tutorial" title="Permanent link">&para;</a></h2>
+<h3 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Customize</strong>: Modify your app for specific use cases</li>
+<li><strong>Create new apps</strong>: Build applications for different analyses</li>
+<li><strong>Contribute</strong>: Share your applications with the community</li>
+<li><strong>Advanced topics</strong>: Explore complex SPARQL, custom analytics</li>
+</ol>
+<h3 id="share-your-work">Share Your Work<a class="headerlink" href="#share-your-work" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Submit pull requests to add your app to HHW Brick</li>
+<li>Write blog posts about your application</li>
+<li>Help others in GitHub Issues</li>
+</ul>
+<hr />
+<h2 id="ready-to-start">Ready to Start?<a class="headerlink" href="#ready-to-start" title="Permanent link">&para;</a></h2>
+<p>👉 <strong>Begin with <a href="step-01-structure/">Step 1: Create Application Structure</a></strong></p>
+<hr />
+<h2 id="questions-before-starting">Questions Before Starting?<a class="headerlink" href="#questions-before-starting" title="Permanent link">&para;</a></h2>
+<p><strong>Q: Do I need to know Brick Schema?</strong><br />
+A: No! We'll teach you the essentials as you build.</p>
+<p><strong>Q: How much Python experience do I need?</strong><br />
+A: Basic knowledge (variables, functions, loops). If you can follow Python tutorials, you're ready.</p>
+<p><strong>Q: Can I skip visualization steps?</strong><br />
+A: You need at least basic visualization. Steps 6-7 can be simplified.</p>
+<p><strong>Q: How long until I have a working app?</strong><br />
+A: Following Path 1 (Quick Start), about 1.5 hours.</p>
+<p><strong>Q: Can I build my own app idea while following tutorial?</strong><br />
+A: Yes! Follow the steps but adapt them to your needs. The structure works for any analysis.</p>
+<hr />
+<p><strong>🚀 Let's build your first HHW Brick application!</strong></p>
+<p>👉 <a href="step-01-structure/">Start Tutorial - Step 1</a></p>
 
 
 
@@ -2346,12 +2588,12 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../../javascripts/extra.js"></script>
+        <script src="../javascripts/extra.js"></script>
       
     
   </body>
