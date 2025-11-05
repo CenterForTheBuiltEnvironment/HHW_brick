@@ -1,4 +1,3 @@
- # Application Development Tutorial - Overview
 
 Learn to create HHW Brick analytics applications through hands-on, step-by-step tutorials.
 

@@ -178,7 +178,7 @@ nav:
     - Primary Loop: apps/primary-loop.md
 
   - Developer Guide:
-    - Overview: app-development/index.md
+    - Application Development Tutorial: app-development/index.md
     - Step 1 - Structure: app-development/step-01-structure.md
     - Step 2 - Load Config: app-development/step-02-load-config.md
     - Step 3 - SPARQL & Qualify: app-development/step-03-sparql-qualify.md
