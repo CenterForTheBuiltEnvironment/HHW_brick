@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#secondary-loop-temperature-differential-analysis" class="md-skip">
+        <a href="#secondary-loop-temperature-differential-analysis-app" class="md-skip">
           Skip to content
         </a>
       
@@ -1610,6 +1610,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Secondary Loop
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1621,6 +1634,280 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-if-building-qualifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check if Building Qualifies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-run-basic-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Run Basic Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-use-custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Use Custom Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brick-model-ttl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brick Model (.ttl)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-series-data-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Series Data (.csv)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Results
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#statistical-file-csvjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Statistical File (CSV/JSON)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-series-file-csvjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Series File (CSV/JSON)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualization-charts-pngpdfsvg" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visualization Charts (PNG/PDF/SVG)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file-example-configyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration File Example (config.yaml)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qualifybrick_model_path-str-tuplebool-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      qualify(brick_model_path: str) -&gt; Tuple[bool, Dict]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzebrick_model_path-str-timeseries_data_path-str-config-optionaldict-none-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      analyze(brick_model_path: str, timeseries_data_path: str, config: Optional[Dict] = None) -&gt; Dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_configconfig_path-str-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_config(config_path: str) -&gt; Dict
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#missing-sensors-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing Sensors Error
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-column-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Column Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#empty-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Empty Results
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#author" class="md-nav__link">
+    <span class="md-ellipsis">
+      Author
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2035,6 +2322,269 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-if-building-qualifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check if Building Qualifies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-run-basic-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Run Basic Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-use-custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Use Custom Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brick-model-ttl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brick Model (.ttl)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-series-data-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Series Data (.csv)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Results
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#statistical-file-csvjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Statistical File (CSV/JSON)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-series-file-csvjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Series File (CSV/JSON)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualization-charts-pngpdfsvg" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visualization Charts (PNG/PDF/SVG)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file-example-configyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration File Example (config.yaml)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qualifybrick_model_path-str-tuplebool-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      qualify(brick_model_path: str) -&gt; Tuple[bool, Dict]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzebrick_model_path-str-timeseries_data_path-str-config-optionaldict-none-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      analyze(brick_model_path: str, timeseries_data_path: str, config: Optional[Dict] = None) -&gt; Dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_configconfig_path-str-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_config(config_path: str) -&gt; Dict
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#missing-sensors-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing Sensors Error
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-column-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Column Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#empty-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Empty Results
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#author" class="md-nav__link">
+    <span class="md-ellipsis">
+      Author
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2052,7 +2602,6 @@
   
 
 
-<h1 id="secondary-loop-temperature-differential-analysis">Secondary Loop Temperature Differential Analysis<a class="headerlink" href="#secondary-loop-temperature-differential-analysis" title="Permanent link">&para;</a></h1>
 <h1 id="secondary-loop-temperature-differential-analysis-app">Secondary Loop Temperature Differential Analysis App<a class="headerlink" href="#secondary-loop-temperature-differential-analysis-app" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>This application analyzes the temperature differential between supply and return water in heating hot water secondary loops. It can:
