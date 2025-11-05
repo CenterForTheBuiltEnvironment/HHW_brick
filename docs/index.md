@@ -205,7 +205,7 @@ if qualified:
 
 ## Documentation
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
 
   <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
     <h3 style="margin-top: 0;">🚀 Getting Started</h3>
@@ -226,8 +226,14 @@ if qualified:
   </div>
 
   <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
-    <h3 style="margin-top: 0;">📊 Applications Guide</h3>
-    <p>Application management, temperature difference analysis, running applications, and qualification checks.</p>
+    <h3 style="margin-top: 0;">📱 Available Apps</h3>
+    <p>Browse ready-to-use analytics applications: temperature differential analysis, efficiency monitoring, and more.</p>
+    <a href="apps/" style="color: #3f51b5; font-weight: bold;">View Apps →</a>
+  </div>
+
+  <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
+    <h3 style="margin-top: 0;">📊 User Guide</h3>
+    <p>Application management, running apps, and detailed usage instructions for all features.</p>
     <a href="user-guide/applications/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
   </div>
 
@@ -235,12 +241,6 @@ if qualified:
     <h3 style="margin-top: 0;">👨‍💻 Developer Guide</h3>
     <p>Create your own applications: step-by-step tutorials, SPARQL queries, visualization, and best practices.</p>
     <a href="app-development/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
-  </div>
-
-  <div style="padding: 1.2rem; background: var(--md-default-bg-color); border: 2px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
-    <h3 style="margin-top: 0;">🎨 Plotly Visualization</h3>
-    <p>Interactive HTML visualizations with Plotly: dashboards, time-series, heatmaps, and box plots.</p>
-    <a href="user-guide/plotly-visualization/" style="color: #3f51b5; font-weight: bold;">Read Guide →</a>
   </div>
 
 </div>
@@ -258,6 +258,7 @@ if qualified:
     <p style="margin-top: 0.8rem; font-size: 0.95rem;">
       <a href="getting-started/">Getting Started</a><br/>
       <a href="user-guide/conversion/">User Guide</a><br/>
+      <a href="apps/">Available Apps</a><br/>
       <a href="app-development/">Developer Guide</a><br/>
       <a href="faq/">FAQ</a>
     </p>

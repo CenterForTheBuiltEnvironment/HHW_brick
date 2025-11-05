@@ -172,6 +172,11 @@ nav:
     - Plotly Visualization:
       - user-guide/plotly-visualization.md
 
+  - Apps:
+    - apps/index.md
+    - Secondary Loop: apps/secondary-loop.md
+    - Primary Loop: apps/primary-loop.md
+
   - Developer Guide:
     - Overview: app-development/index.md
     - Step 1 - Structure: app-development/step-01-structure.md
