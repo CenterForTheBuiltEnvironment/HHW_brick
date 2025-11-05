@@ -43,14 +43,14 @@ Before writing SPARQL, understand your target system architecture.
 **Reference Diagrams**: See `docs/Figures/Development_Guide/` for common patterns:
 
 ### Pattern 1: Boiler System
-![Boiler System Pattern](../../Figures/Development_Guide/pattern_1_boiler_system.png)
+![Boiler System Pattern](../Figures/Development_Guide/pattern_1_boiler_system.png)
 
 - **Equipment**: Boiler, Hot_Water_Loop
 - **Sensors**: Leaving/Entering Temperature Sensors
 - **Relationships**: Loop `hasPart` sensors
 
 ### Pattern 2: District System  
-![District System Pattern](../../Figures/Development_Guide/pattern_2_district_system.png)
+![District System Pattern](../Figures/Development_Guide/pattern_2_district_system.png)
 
 - **Equipment**: Heat_Exchanger, Hot_Water_Loop
 - **Sensors**: Supply/Return Temperature Sensors
