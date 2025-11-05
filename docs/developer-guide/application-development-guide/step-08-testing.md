@@ -1,4 +1,209 @@
-# Application Development Tutorial - Step 8: Testing Your Application
+# Step 8: Testing Your Application
+
+Create a comprehensive test suite for your application.
+
+---
+
+## 1. Create Test Script
+
+Create `test_app.py` in your app directory:
+
+```python
+"""Comprehensive test suite"""
+from pathlib import Path
+import sys
+
+app_dir = Path(__file__).parent
+sys.path.insert(0, str(app_dir.parent.parent.parent))
+
+from hhw_brick.applications.my_first_app.app import load_config, qualify, analyze
+
+def test_load_config():
+    """Test config loading"""
+    print("\n" + "="*60)
+    print("TEST 1: Load Config")
+    print("="*60)
+
+    try:
+        config = load_config()
+        assert "analysis" in config
+        assert "output" in config
+        print("✅ Config loaded")
+        return True
+    except Exception as e:
+        print(f"❌ Failed: {e}")
+        return False
+
+def test_qualify():
+    """Test qualification"""
+    print("\n" + "="*60)
+    print("TEST 2: Qualify")
+    print("="*60)
+
+    fixtures = Path(__file__).parent.parent.parent.parent / "tests" / "fixtures"
+    brick_dir = fixtures / "Brick_Model_File"
+
+    if not brick_dir.exists():
+        print("⚠️  Test data not found")
+        return True
+
+    passed = 0
+    for model_file in list(brick_dir.glob("*.ttl"))[:3]:  # Test first 3
+        try:
+            qualified, _ = qualify(str(model_file))
+            if qualified:
+                passed += 1
+                print(f"✅ {model_file.name}")
+        except Exception as e:
+            print(f"❌ {model_file.name}: {e}")
+
+    print(f"\n{passed} buildings qualified")
+    return True
+
+def test_analyze():
+    """Test complete analysis"""
+    print("\n" + "="*60)
+    print("TEST 3: Analyze")
+    print("="*60)
+
+    fixtures = Path(__file__).parent.parent.parent.parent / "tests" / "fixtures"
+    model = fixtures / "Brick_Model_File" / "building_29.ttl"
+    data = fixtures / "TimeSeriesData" / "29hhw_system_data.csv"
+
+    if not model.exists():
+        print("⚠️  Test files not found")
+        return True
+
+    try:
+        config = load_config()
+        config["output"]["output_dir"] = "./test_output"
+
+        results = analyze(str(model), str(data), config)
+
+        if results:
+            assert "stats" in results
+            assert "data" in results
+            print(f"\n✅ Analysis complete")
+            print(f"  Points: {results['stats']['count']}")
+            print(f"  Mean: {results['stats']['mean_temp_diff']:.2f}°C")
+            return True
+        return False
+    except Exception as e:
+        print(f"❌ Failed: {e}")
+        return False
+
+def run_all_tests():
+    """Run all tests"""
+    print("\n" + "#"*60)
+    print("# RUNNING TESTS")
+    print("#"*60)
+
+    results = [
+        ("Config", test_load_config()),
+        ("Qualify", test_qualify()),
+        ("Analyze", test_analyze())
+    ]
+
+    print("\n" + "="*60)
+    print("SUMMARY")
+    print("="*60)
+    for name, passed in results:
+        status = "✅ PASS" if passed else "❌ FAIL"
+        print(f"{status}: {name}")
+
+    total = sum(1 for _, p in results if p)
+    print(f"\n{total}/{len(results)} tests passed")
+
+    return total == len(results)
+
+if __name__ == "__main__":
+    success = run_all_tests()
+    sys.exit(0 if success else 1)
+```
+
+---
+
+## 2. Run Tests
+
+```bash
+python test_app.py
+```
+
+**Expected output**:
+```
+============================================================
+# RUNNING TESTS
+============================================================
+
+============================================================
+TEST 1: Load Config
+============================================================
+✅ Config loaded
+
+============================================================
+TEST 2: Qualify
+============================================================
+✅ building_29.ttl
+✅ building_105.ttl
+
+2 buildings qualified
+
+============================================================
+TEST 3: Analyze
+============================================================
+✅ Analysis complete
+  Points: 26013
+  Mean: 0.60°C
+
+============================================================
+SUMMARY
+============================================================
+✅ PASS: Config
+✅ PASS: Qualify
+✅ PASS: Analyze
+
+3/3 tests passed
+```
+
+---
+
+## 3. Test with AppsManager
+
+Verify integration:
+
+```python
+"""Test AppsManager integration"""
+from hhw_brick import apps
+
+# List apps
+all_apps = apps.list_apps()
+assert "my_first_app" in [a["name"] for a in all_apps]
+print("✓ App discovered")
+
+# Load app
+app = apps.load_app("my_first_app")
+print("✓ App loaded")
+
+# Get config
+config = apps.get_default_config("my_first_app")
+print("✓ Config retrieved")
+```
+
+---
+
+## Checkpoint
+
+- [x] Test script created
+- [x] All functions tested
+- [x] Integration with AppsManager verified
+- [x] All tests pass
+
+---
+
+## Next Step
+
+👉 [Step 9: Deployment & Integration](./step-09-deployment.md)
+
 
 In this step, you'll learn how to test your application to ensure it works correctly.
 

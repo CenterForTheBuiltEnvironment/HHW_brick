@@ -1,102 +1,76 @@
-# Application Development Tutorial - Step 1: Create Application Structure
+# Step 1: Create Application Structure
 
-This tutorial will guide you through creating your first HHW Brick analytics application step by step.
-
-## Goal of This Step
-
-Create the basic file structure and framework code for your application.
+Set up the basic file structure for your application.
 
 ---
 
-## Step 1.1: Create Application Directory
-
-First, create your application folder under `hhw_brick/applications/`.
+## 1. Create Directory
 
 ```bash
-# Navigate to applications directory
 cd hhw_brick/applications/
-
-# Create new application folder (use your app name)
 mkdir my_first_app
 cd my_first_app
 ```
 
-**Naming Rules**:
-- Use lowercase letters
-- Separate words with underscores
-- Use descriptive names
-- Examples: `temperature_analysis`, `energy_consumption`, `fault_detection`
+**Naming**: Use lowercase with underscores (e.g., `temperature_analysis`)
 
 ---
 
-## Step 1.2: Create Required Files
+## 2. Create Required Files
 
-Create these 5 files in your application folder:
+Every application needs these 5 files:
 
 ```
 my_first_app/
-├── __init__.py
-├── app.py
-├── config.yaml
-├── requirements.txt
-└── README.md
+├── __init__.py          # Package metadata and exports
+├── app.py               # Main application code
+├── config.yaml          # Default configuration
+├── requirements.txt     # Python dependencies
+└── README.md            # User documentation
 ```
 
-**Create empty files** (Windows PowerShell):
+**Windows**:
 ```powershell
-New-Item __init__.py
-New-Item app.py
-New-Item config.yaml
-New-Item requirements.txt
-New-Item README.md
+New-Item __init__.py, app.py, config.yaml, requirements.txt, README.md
 ```
 
-**Create empty files** (Linux/Mac):
+**Linux/Mac**:
 ```bash
 touch __init__.py app.py config.yaml requirements.txt README.md
 ```
 
 ---
 
-## Step 1.3: Write `__init__.py`
+## 3. File Contents
 
-This file defines your application's metadata and exports core functions.
+### `__init__.py`
 
-**Copy the following code into `__init__.py`**:
+Exports the three required functions and defines metadata.
 
 ```python
 """
 My First Application
 
-This is an example application for learning how to create HHW Brick analytics apps.
+Temperature differential analysis for hot water systems.
 
 Author: Your Name
 """
 
 from .app import qualify, analyze, load_config
 
-# Export core functions (required)
 __all__ = ["qualify", "analyze", "load_config"]
 
-# Application metadata
 __app_name__ = "my_first_app"
 __version__ = "1.0.0"
-__description__ = "My First HHW Brick Application"
+__description__ = "Temperature differential analysis"
 __author__ = "Your Name"
 ```
 
-**Key Points**:
-- ✅ `from .app import ...` - Import three core functions from app.py
-- ✅ `__all__` - Define the public API
-- ✅ Metadata variables - Provide application information
-
 ---
 
-## Step 1.4: Write `requirements.txt`
+### `requirements.txt`
 
-List the Python packages your application needs.
-
-**Copy the following into `requirements.txt`**:
+Lists all Python packages your app needs.
 
 ```txt
 pandas>=1.3.0
@@ -109,194 +83,93 @@ brickschema>=0.6.0
 pyyaml>=5.4.0
 ```
 
-**Notes**:
-- These are standard dependencies most apps need
-- `>=` specifies minimum version requirements
-- Add other packages if your app needs them
-
 ---
 
-## Step 1.5: Create Basic `config.yaml`
+### `config.yaml`
 
-The configuration file stores your application's default settings.
-
-**Copy the following into `config.yaml`**:
+Default configuration that users can customize.
 
 ```yaml
-# My First Application - Configuration File
-
-# Analysis parameters
+# Analysis parameters (customize for your app)
 analysis:
-  # Add your app-specific parameters here
-  # For example:
-  # threshold: 5.0
-  # window_size: 10
+  threshold_min_delta: 0.5
+  threshold_max_delta: 10.0
 
-# Output settings (required, do not modify key names)
+# Output settings (standard, keep structure)
 output:
-  # Whether to save results
   save_results: true
-
-  # Output directory
   output_dir: "./results"
-
-  # Export format: csv or json
-  export_format: "csv"
-
-  # Whether to generate matplotlib plots
+  export_format: "csv"           # csv or json
   generate_plots: true
-
-  # Plot format: png, pdf, or svg
-  plot_format: "png"
-
-  # Whether to generate interactive Plotly HTML
+  plot_format: "png"             # png, pdf, or svg
   generate_plotly_html: true
 
-# Time range (optional)
+# Time filtering (optional)
 time_range:
-  # Start time in YYYY-MM-DD format (null = use all data)
-  start_time: null
-
-  # End time in YYYY-MM-DD format (null = use all data)
+  start_time: null               # YYYY-MM-DD or null
   end_time: null
 ```
 
-**Key Points**:
-- ✅ `analysis` section: Your custom parameters
-- ✅ `output` section: Standard output settings (required)
-- ✅ `time_range` section: Optional time filtering
-
 ---
 
-## Step 1.6: Create Basic `README.md`
+### `README.md`
 
-Documentation file describing your application.
-
-**Copy the following template into `README.md`**:
+User-facing documentation for your application.
 
 ```markdown
 # My First Application
 
 ## Overview
 
-This application is used for... (describe your app's functionality)
-
-## Features
-
-- ✅ Feature 1
-- ✅ Feature 2
-- ✅ Feature 3
+Analyzes temperature differential in hot water systems.
 
 ## Requirements
 
-The building must have the following sensors:
-- Sensor Type 1 (e.g., Temperature Sensor)
-- Sensor Type 2 (e.g., Flow Sensor)
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
+Buildings must have:
+- Hot Water Loop
+- Supply temperature sensor (Leaving_Hot_Water_Temperature_Sensor)
+- Return temperature sensor (Entering_Hot_Water_Temperature_Sensor)
 
 ## Usage
 
-### Method 1: Via AppsManager
-
-```python
+\`\`\`python
 from hhw_brick import apps
 
-# Load application
 app = apps.load_app("my_first_app")
+qualified, details = app.qualify("building.ttl")
 
-# Check if building qualifies
-qualified, details = app.qualify("path/to/brick_model.ttl")
-
-# If qualified, run analysis
 if qualified:
     config = app.load_config()
-    results = app.analyze("path/to/brick_model.ttl", "path/to/data.csv", config)
-```
-
-### Method 2: Command Line
-
-```bash
-python -m hhw_brick.applications.my_first_app.app \
-    brick_model.ttl \
-    timeseries.csv \
-    --output-dir ./my_results
-```
+    results = app.analyze("building.ttl", "data.csv", config)
+\`\`\`
 
 ## Output
 
-The application generates the following files:
 - `stats.csv` - Statistical results
-- `timeseries.csv` - Processed time-series data
-- `*.png` - Visualization charts
+- `timeseries.csv` - Processed data
+- `*.png` - Static plots
 - `*.html` - Interactive visualizations
-
-## Configuration
-
-Customize application behavior by modifying `config.yaml` or passing custom configuration.
 
 ## Author
 
-Your Name
-
-## Version
-
-1.0.0
-```
-
----
-
-## Step 1.7: Verify File Structure
-
-Confirm your file structure looks like this:
-
-```
-hhw_brick/applications/
-└── my_first_app/
-    ├── __init__.py          ✅ Created
-    ├── app.py               ⏳ Create in next step
-    ├── config.yaml          ✅ Created
-    ├── requirements.txt     ✅ Created
-    └── README.md            ✅ Created
+Your Name - v1.0.0
 ```
 
 ---
 
 ## Checkpoint
 
-Before proceeding, ensure:
+Verify your setup:
 
-- [x] Created application directory `my_first_app/`
-- [x] Created 5 required files
-- [x] `__init__.py` contains metadata and import statements
-- [x] `requirements.txt` lists dependencies
+- [x] Directory `my_first_app/` created
+- [x] All 5 files created
+- [x] `__init__.py` has metadata
+- [x] `requirements.txt` has dependencies
 - [x] `config.yaml` has correct structure
-- [x] `README.md` contains basic documentation
+- [x] `README.md` has basic docs
 
 ---
 
-## Next Steps
+## Next Step
 
-✅ File structure complete!
-
-👉 Continue to [Step 2: Write load_config Function](./step-02-load-config.md)
-
----
-
-## FAQ
-
-**Q: Can I use Chinese characters in the app name?**  
-A: Not recommended. App names should be valid Python module names using English and underscores.
-
-**Q: Must I create all 5 files?**  
-A: `__init__.py`, `app.py`, `config.yaml`, `requirements.txt` are required. `README.md` is strongly recommended but not mandatory.
-
-**Q: Can I add other files?**  
-A: Yes! You can add test files, helper modules, etc. But these 5 are the core files.
-
-**Q: Must the config file be named config.yaml?**  
-A: Yes, this is the conventional name. The application will look for `config.yaml` in its own directory.
+👉 [Step 2: Write load_config Function](./step-02-load-config.md)

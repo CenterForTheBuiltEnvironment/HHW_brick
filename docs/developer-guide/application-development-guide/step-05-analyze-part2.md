@@ -1,4 +1,195 @@
-# Application Development Tutorial - Step 5: analyze Function - Part 2 (Analysis Logic)
+# Step 5: analyze Function - Part 2 (Analysis Logic)
+
+Implement statistical analysis and anomaly detection.
+
+---
+
+## 1. Calculate Temperature Differential
+
+Continue the `analyze()` function from Step 4:
+
+```python
+    # Step 6: Analyze
+    print(f"{'='*60}")
+    print("ANALYZE")
+    print(f"{'='*60}\n")
+
+    # Calculate temperature differential
+    df_extracted["temp_diff"] = df_extracted["supply"] - df_extracted["return"]
+    df_clean = df_extracted.dropna().copy()
+
+    if len(df_clean) == 0:
+        print("✗ No valid data after removing NaN\n")
+        return None
+
+    print(f"✓ Valid data points: {len(df_clean)}")
+```
+
+**Why dropna()**: Removes rows with missing values
+
+---
+
+## 2. Compute Statistics
+
+```python
+    # Get thresholds from config
+    threshold_min = config["analysis"]["threshold_min_delta"]
+    threshold_max = config["analysis"]["threshold_max_delta"]
+
+    # Calculate statistics
+    stats = {
+        "count": len(df_clean),
+        "mean_temp_diff": df_clean["temp_diff"].mean(),
+        "std_temp_diff": df_clean["temp_diff"].std(),
+        "min_temp_diff": df_clean["temp_diff"].min(),
+        "max_temp_diff": df_clean["temp_diff"].max(),
+        "median_temp_diff": df_clean["temp_diff"].median(),
+        "q25_temp_diff": df_clean["temp_diff"].quantile(0.25),
+        "q75_temp_diff": df_clean["temp_diff"].quantile(0.75),
+        "mean_supply_temp": df_clean["supply"].mean(),
+        "mean_return_temp": df_clean["return"].mean(),
+    }
+```
+
+**Statistics explained**:
+- `mean()` - Average
+- `std()` - Standard deviation (spread)
+- `quantile(0.25)` - 25th percentile (Q1)
+- `median()` - 50th percentile
+
+---
+
+## 3. Detect Anomalies
+
+```python
+    # Anomaly detection
+    anomalies_low = df_clean[df_clean["temp_diff"] < threshold_min]
+    anomalies_high = df_clean[df_clean["temp_diff"] > threshold_max]
+
+    stats["anomalies_below_threshold"] = len(anomalies_low)
+    stats["anomalies_above_threshold"] = len(anomalies_high)
+    stats["anomaly_rate"] = (
+        (stats["anomalies_below_threshold"] + stats["anomalies_above_threshold"])
+        / stats["count"] * 100
+    )
+
+    # Print summary
+    print(f"\nStatistics:")
+    print(f"  Mean: {stats['mean_temp_diff']:.2f}°C")
+    print(f"  Std:  {stats['std_temp_diff']:.2f}°C")
+    print(f"  Range: [{stats['min_temp_diff']:.2f}, {stats['max_temp_diff']:.2f}]°C")
+    print(f"  Anomalies: {stats['anomaly_rate']:.2f}%")
+```
+
+---
+
+## 4. Add Time Features
+
+```python
+    # Add time features for visualization
+    df_clean.loc[:, "hour"] = df_clean.index.hour
+    df_clean.loc[:, "weekday"] = df_clean.index.dayofweek
+    df_clean.loc[:, "month"] = df_clean.index.month
+```
+
+**Time features**:
+- `hour` - 0-23
+- `weekday` - 0=Monday, 6=Sunday
+- `month` - 1-12
+
+---
+
+## 5. Save Results
+
+```python
+def save_results(results, config):
+    """Save statistics and time-series to CSV/JSON"""
+    output_dir = Path(config["output"]["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+    fmt = config["output"]["export_format"]
+
+    print(f"\n{'='*60}")
+    print(f"SAVE: {output_dir}")
+    print(f"{'='*60}\n")
+
+    # Save stats
+    stats_file = output_dir / f"stats.{fmt}"
+    stats_df = pd.DataFrame([results["stats"]])
+
+    if fmt == "csv":
+        stats_df.to_csv(stats_file, index=False)
+    else:
+        stats_df.to_json(stats_file, orient="records", indent=2)
+    print(f"✓ {stats_file.name}")
+
+    # Save timeseries
+    ts_file = output_dir / f"timeseries.{fmt}"
+    if fmt == "csv":
+        results["data"].to_csv(ts_file)
+    else:
+        results["data"].to_json(ts_file, orient="index", date_format="iso")
+    print(f"✓ {ts_file.name}")
+```
+
+---
+
+## 6. Complete analyze()
+
+```python
+    # Create results
+    results = {"stats": stats, "data": df_clean}
+
+    # Save and visualize
+    if config["output"]["save_results"]:
+        save_results(results, config)
+
+    if config["output"]["generate_plots"]:
+        generate_plots(results, config)  # Step 6
+
+    if config["output"]["generate_plotly_html"]:
+        generate_plotly_html(results, config)  # Step 7
+
+    return results
+```
+
+---
+
+## 7. Test Complete Analysis
+
+Update your test:
+
+```python
+"""Test complete analysis"""
+from hhw_brick.applications.my_first_app.app import analyze, load_config
+
+config = load_config()
+config["output"]["output_dir"] = "./test_output"
+
+results = analyze("building_29.ttl", "29hhw_system_data.csv", config)
+
+if results:
+    print("\n✅ Analysis complete!")
+    print(f"Mean temp diff: {results['stats']['mean_temp_diff']:.2f}°C")
+    print(f"Data points: {len(results['data'])}")
+```
+
+---
+
+## Checkpoint
+
+- [x] Temperature differential calculated
+- [x] Statistics computed
+- [x] Anomaly detection implemented
+- [x] Time features added
+- [x] `save_results()` function created
+- [x] Test runs successfully
+
+---
+
+## Next Step
+
+👉 [Step 6: Matplotlib Visualization](./step-06-visualization-matplotlib.md)
+
 
 In this step, you'll implement the analysis logic - calculating statistics and processing data.
 

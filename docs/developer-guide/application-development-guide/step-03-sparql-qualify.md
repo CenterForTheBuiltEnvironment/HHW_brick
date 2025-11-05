@@ -1,4 +1,249 @@
-# Application Development Tutorial - Step 3: Write SPARQL Query and qualify Function
+# Step 3: SPARQL Query & qualify Function
+
+Learn SPARQL basics and implement building qualification.
+
+---
+
+## 1. Understanding SPARQL for Brick
+
+**SPARQL** queries RDF data (Brick models use RDF).
+
+**Basic Pattern**:
+```sparql
+SELECT ?variable WHERE {
+    ?variable rdf:type brick:SomeClass .
+}
+```
+
+**Example - Find all temperature sensors**:
+```sparql
+SELECT ?sensor WHERE {
+    ?sensor rdf:type/rdfs:subClassOf* brick:Temperature_Sensor .
+}
+```
+
+**Key Patterns**:
+- `?variable` - Variable (like wildcards)
+- `rdf:type` - "is a type of"
+- `rdfs:subClassOf*` - Includes subclasses
+- `brick:hasPart` - Equipment has point
+- `FILTER()` - Filter results
+
+**Learn More**:
+- Brick Docs: https://docs.brickschema.org/
+- SPARQL Tutorial: https://www.w3.org/TR/sparql11-query/
+- Brick Studio: https://brickstudio.io/
+
+---
+
+## 2. Write SPARQL Query
+
+Add this function to find required sensors:
+
+```python
+def find_required_sensors(graph):
+    """
+    Find supply and return temperature sensors on hot water loop
+
+    Returns:
+        Tuple of (loop, supply_sensor, return_sensor) or None
+    """
+    from hhw_brick.utils import query_sensors
+
+    query = """
+    SELECT ?loop ?supply ?return WHERE {
+        # Find hot water loop
+        ?loop rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
+
+        # Find supply sensor (part of loop)
+        ?loop brick:hasPart ?supply .
+        ?supply rdf:type/rdfs:subClassOf* brick:Leaving_Hot_Water_Temperature_Sensor .
+
+        # Find return sensor (part of loop)
+        ?loop brick:hasPart ?return .
+        ?return rdf:type/rdfs:subClassOf* brick:Entering_Hot_Water_Temperature_Sensor .
+    }
+    """
+
+    results = query_sensors(graph, [], custom_query=query)
+    return results[0] if results else None
+```
+
+**How it works**:
+1. Find any Hot_Water_Loop
+2. Find supply sensor (Leaving temp) that's part of loop
+3. Find return sensor (Entering temp) that's part of loop
+4. Return first match or None
+
+---
+
+## 3. Implement qualify()
+
+Check if building has required sensors:
+
+```python
+def qualify(brick_model_path):
+    """
+    Check if building has required sensors
+
+    Args:
+        brick_model_path: Path to Brick model (.ttl file)
+
+    Returns:
+        Tuple of (qualified: bool, details: dict)
+    """
+    print(f"\n{'='*60}")
+    print(f"QUALIFY: Checking required sensors")
+    print(f"{'='*60}\n")
+
+    from rdflib import Graph
+
+    # Load Brick model
+    g = Graph()
+    g.parse(brick_model_path, format="turtle")
+
+    # Find sensors
+    result = find_required_sensors(g)
+
+    if result:
+        loop, supply, return_sensor = result
+        print(f"[OK] Building qualified")
+        print(f"   Loop: {loop}")
+        print(f"   Supply: {supply}")
+        print(f"   Return: {return_sensor}\n")
+
+        return True, {
+            "loop": str(loop),
+            "supply": str(supply),
+            "return": str(return_sensor)
+        }
+    else:
+        print(f"[FAIL] Building NOT qualified")
+        print(f"   Missing: Supply and return sensors on hot water loop\n")
+        return False, {}
+```
+
+**Returns**:
+- `qualified=True` + sensor details if building has sensors
+- `qualified=False` + empty dict if missing sensors
+
+---
+
+## 4. Test qualify()
+
+Create `test_qualify.py`:
+
+```python
+"""Test qualification"""
+from pathlib import Path
+import sys
+
+app_dir = Path(__file__).parent
+sys.path.insert(0, str(app_dir.parent.parent.parent))
+
+from hhw_brick.applications.my_first_app.app import qualify
+
+# Test with a Brick model
+fixtures = Path(__file__).parent.parent.parent.parent / "tests" / "fixtures"
+model_file = fixtures / "Brick_Model_File" / "building_29.ttl"
+
+if model_file.exists():
+    qualified, details = qualify(str(model_file))
+
+    if qualified:
+        print("✅ Test passed - building qualified")
+        print(f"   Found sensors: {list(details.keys())}")
+    else:
+        print("⚠️  Building not qualified")
+else:
+    print("⚠️  Test file not found")
+```
+
+**Run**:
+```bash
+python test_qualify.py
+```
+
+---
+
+## 5. Complete app.py So Far
+
+Your `app.py` should now have:
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""My First Application"""
+
+import sys
+from pathlib import Path
+import yaml
+
+app_dir = Path(__file__).parent
+package_dir = app_dir.parent.parent.parent
+sys.path.insert(0, str(package_dir))
+
+__all__ = ["qualify", "analyze", "load_config"]
+
+
+def load_config(config_file=None):
+    """Load configuration from YAML file"""
+    # ...implementation from Step 2...
+
+
+def find_required_sensors(graph):
+    """Find required sensors using SPARQL"""
+    # ...implementation from this step...
+
+
+def qualify(brick_model_path):
+    """Check if building has required sensors"""
+    # ...implementation from this step...
+
+
+# analyze() will be added in Step 4
+```
+
+---
+
+## Checkpoint
+
+- [x] Understand basic SPARQL patterns
+- [x] `find_required_sensors()` implemented
+- [x] `qualify()` function implemented
+- [x] Test finds qualified buildings
+- [x] Returns correct format: (bool, dict)
+
+---
+
+## SPARQL Tips
+
+**Debug queries**:
+1. Start simple - find just the loop
+2. Add one sensor at a time
+3. Test in Brick Studio
+
+**Common patterns**:
+```sparql
+# Find by type
+?equipment rdf:type brick:Hot_Water_Loop .
+
+# Find with subclasses
+?sensor rdf:type/rdfs:subClassOf* brick:Temperature_Sensor .
+
+# Filter by name
+FILTER(CONTAINS(LCASE(STR(?equipment)), "primary"))
+
+# Relationship
+?equipment brick:hasPart ?point .
+```
+
+---
+
+## Next Step
+
+👉 [Step 4: analyze Function - Part 1](./step-04-analyze-part1.md)
+
 
 In this step, you'll learn to write SPARQL queries to find sensors in Brick models and implement the `qualify()` function.
 

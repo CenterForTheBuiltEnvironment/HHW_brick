@@ -1,4 +1,184 @@
-# Application Development Tutorial - Step 4: analyze Function - Part 1 (Data Loading)
+# Step 4: analyze Function - Part 1 (Data Loading)
+
+Implement data loading and sensor mapping in the analyze function.
+
+---
+
+## 1. Add Data Processing Imports
+
+Add these to the top of `app.py`:
+
+```python
+import pandas as pd
+import numpy as np
+
+from hhw_brick.utils import (
+    load_data,
+    map_sensors_to_columns,
+    extract_data_columns,
+    filter_time_range,
+)
+```
+
+---
+
+## 2. Start analyze() Function
+
+```python
+def analyze(brick_model_path, timeseries_data_path, config):
+    """
+    Execute analysis workflow
+
+    Args:
+        brick_model_path: Path to Brick model (.ttl)
+        timeseries_data_path: Path to time-series data (.csv)
+        config: Configuration dictionary
+
+    Returns:
+        dict: {'stats': {...}, 'data': DataFrame} or None if failed
+    """
+    # Step 1: Qualify building
+    qualified, qualify_result = qualify(brick_model_path)
+    if not qualified:
+        return None
+
+    # Step 2: Load data
+    print(f"\n{'='*60}")
+    print("LOAD DATA")
+    print(f"{'='*60}\n")
+
+    g, df = load_data(brick_model_path, timeseries_data_path)
+    print(f"✓ Loaded {len(df)} data points")
+    print(f"✓ Time range: {df.index.min()} to {df.index.max()}\n")
+```
+
+**What happens**:
+- Checks if building qualifies (from Step 3)
+- Loads Brick model as RDF graph (`g`)
+- Loads CSV as pandas DataFrame (`df`)
+
+---
+
+## 3. Map Sensors to Data Columns
+
+```python
+    # Step 3: Map sensors to columns
+    print(f"{'='*60}")
+    print("MAP SENSORS")
+    print(f"{'='*60}\n")
+
+    supply_uri = qualify_result["supply"]
+    return_uri = qualify_result["return"]
+
+    sensor_mapping = map_sensors_to_columns(g, [supply_uri, return_uri], df)
+
+    if len(sensor_mapping) != 2:
+        print("✗ Failed to map sensors to data columns\n")
+        return None
+
+    print(f"✓ Sensors mapped:")
+    for uri, col in sensor_mapping.items():
+        print(f"  {uri.split('#')[-1]} → {col}")
+    print()
+```
+
+**Why mapping**:
+- Brick models use URIs like `building:sensor1`
+- CSV has column names like `"temp_supply"`
+- Need to connect them
+
+---
+
+## 4. Extract and Rename Data
+
+```python
+    # Step 4: Extract data
+    df_extracted = extract_data_columns(
+        df,
+        sensor_mapping,
+        rename_map={supply_uri: "supply", return_uri: "return"}
+    )
+
+    print(f"✓ Extracted {len(df_extracted)} rows")
+    print(f"✓ Columns: {list(df_extracted.columns)}\n")
+```
+
+**Result**: DataFrame with just `supply` and `return` columns
+
+---
+
+## 5. Filter Time Range (Optional)
+
+```python
+    # Step 5: Filter time range (optional)
+    if config["time_range"]["start_time"] or config["time_range"]["end_time"]:
+        df_extracted = filter_time_range(
+            df_extracted,
+            config["time_range"]["start_time"],
+            config["time_range"]["end_time"]
+        )
+        print(f"✓ Filtered to {len(df_extracted)} rows\n")
+
+    # Temporary return (will add analysis in Step 5)
+    return {"stats": {}, "data": df_extracted}
+```
+
+---
+
+## 6. Test Data Loading
+
+Create `test_analyze.py`:
+
+```python
+"""Test analyze data loading"""
+from pathlib import Path
+import sys
+
+app_dir = Path(__file__).parent
+sys.path.insert(0, str(app_dir.parent.parent.parent))
+
+from hhw_brick.applications.my_first_app.app import analyze, load_config
+
+fixtures = Path(__file__).parent.parent.parent.parent / "tests" / "fixtures"
+model = fixtures / "Brick_Model_File" / "building_29.ttl"
+data = fixtures / "TimeSeriesData" / "29hhw_system_data.csv"
+
+if model.exists() and data.exists():
+    config = load_config()
+    results = analyze(str(model), str(data), config)
+
+    if results:
+        print("\n✅ Data loading successful")
+        print(f"Data shape: {results['data'].shape}")
+        print(f"Columns: {list(results['data'].columns)}")
+    else:
+        print("\n✗ Failed")
+else:
+    print("⚠️  Test files not found")
+```
+
+**Run**:
+```bash
+python test_analyze.py
+```
+
+---
+
+## Checkpoint
+
+- [x] Data processing imports added
+- [x] `analyze()` function started
+- [x] Data loading works
+- [x] Sensor mapping successful
+- [x] Data extraction returns DataFrame
+- [x] Test runs successfully
+
+---
+
+## Next Step
+
+👉 [Step 5: analyze Function - Part 2](./step-05-analyze-part2.md)
+
 
 In this step, you'll implement the first part of the `analyze()` function, focusing on loading and preparing data.
 

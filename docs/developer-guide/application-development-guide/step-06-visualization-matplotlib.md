@@ -1,4 +1,174 @@
-# Application Development Tutorial - Step 6: Matplotlib Visualization
+# Step 6: Matplotlib Visualization
+
+Create professional static plots with matplotlib.
+
+---
+
+## 1. Add Imports
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Plot settings
+sns.set_style("whitegrid")
+sns.set_palette("husl")
+plt.rcParams["figure.figsize"] = (14, 8)
+plt.rcParams["font.size"] = 10
+```
+
+---
+
+## 2. Implement generate_plots()
+
+```python
+def generate_plots(results, config):
+    """Generate matplotlib plots"""
+    output_dir = Path(config["output"]["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+    fmt = config["output"]["plot_format"]
+
+    print(f"\n{'='*60}")
+    print("PLOTS")
+    print(f"{'='*60}\n")
+
+    df = results["data"]
+    stats = results["stats"]
+
+    # Generate 4 plots
+    plot_timeseries(df, stats, output_dir, fmt)
+    plot_distribution(df, stats, output_dir, fmt)
+    plot_heatmap(df, output_dir, fmt)
+    plot_hourly_pattern(df, output_dir, fmt)
+
+    print("✓ All plots generated")
+```
+
+---
+
+## 3. Time-Series Plot
+
+```python
+def plot_timeseries(df, stats, output_dir, fmt):
+    """Plot temperatures and differential over time"""
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10), sharex=True)
+
+    # Plot 1: Supply and Return
+    ax1.plot(df.index, df["supply"], label="Supply", color="#e74c3c", linewidth=1.5)
+    ax1.plot(df.index, df["return"], label="Return", color="#3498db", linewidth=1.5)
+    ax1.set_ylabel("Temperature (°C)")
+    ax1.set_title("Supply and Return Temperatures", fontweight="bold")
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+
+    # Plot 2: Differential
+    ax2.plot(df.index, df["temp_diff"], color="#9b59b6", linewidth=1.5)
+    ax2.axhline(stats["mean_temp_diff"], color="#27ae60", linestyle="--",
+                label=f"Mean: {stats['mean_temp_diff']:.2f}°C")
+    ax2.set_xlabel("Time")
+    ax2.set_ylabel("Temperature Difference (°C)")
+    ax2.set_title("Temperature Differential", fontweight="bold")
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f"timeseries.{fmt}", dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"✓ timeseries.{fmt}")
+```
+
+---
+
+## 4. Distribution Histogram
+
+```python
+def plot_distribution(df, stats, output_dir, fmt):
+    """Plot distribution histogram"""
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    ax.hist(df["temp_diff"], bins=50, color="#3498db", alpha=0.7, edgecolor="black")
+    ax.axvline(stats["mean_temp_diff"], color="#e74c3c", linestyle="--",
+               linewidth=2, label=f"Mean: {stats['mean_temp_diff']:.2f}°C")
+    ax.axvline(stats["median_temp_diff"], color="#27ae60", linestyle="--",
+               linewidth=2, label=f"Median: {stats['median_temp_diff']:.2f}°C")
+
+    ax.set_xlabel("Temperature Difference (°C)")
+    ax.set_ylabel("Frequency")
+    ax.set_title("Distribution", fontweight="bold")
+    ax.legend()
+    ax.grid(True, alpha=0.3, axis="y")
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f"distribution.{fmt}", dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"✓ distribution.{fmt}")
+```
+
+---
+
+## 5. Heatmap
+
+```python
+def plot_heatmap(df, output_dir, fmt):
+    """Plot heatmap by hour and weekday"""
+    pivot = df.pivot_table(values="temp_diff", index="hour",
+                           columns="weekday", aggfunc="mean")
+
+    fig, ax = plt.subplots(figsize=(10, 8))
+    sns.heatmap(pivot, annot=True, fmt=".1f", cmap="RdYlBu_r",
+                center=pivot.values.mean(),
+                cbar_kws={"label": "Mean Temp Diff (°C)"}, ax=ax)
+
+    ax.set_xlabel("Day of Week (0=Mon, 6=Sun)")
+    ax.set_ylabel("Hour of Day")
+    ax.set_title("Average by Hour and Weekday", fontweight="bold")
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f"heatmap.{fmt}", dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"✓ heatmap.{fmt}")
+```
+
+---
+
+## 6. Hourly Pattern
+
+```python
+def plot_hourly_pattern(df, output_dir, fmt):
+    """Plot hourly pattern with error bars"""
+    hourly = df.groupby("hour")["temp_diff"].agg(["mean", "std"])
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.bar(hourly.index, hourly["mean"], yerr=hourly["std"],
+           color="#3498db", alpha=0.7, error_kw={"elinewidth": 2, "capsize": 5})
+
+    ax.set_xlabel("Hour of Day")
+    ax.set_ylabel("Mean Temperature Difference (°C)")
+    ax.set_title("Hourly Pattern", fontweight="bold")
+    ax.set_xticks(range(24))
+    ax.grid(True, alpha=0.3, axis="y")
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f"hourly_pattern.{fmt}", dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"✓ hourly_pattern.{fmt}")
+```
+
+---
+
+## Checkpoint
+
+- [x] Matplotlib imports added
+- [x] 4 plot types implemented
+- [x] Plots save in correct format
+- [x] Test generates all plots
+
+---
+
+## Next Step
+
+👉 [Step 7: Plotly HTML Visualization](./step-07-visualization-plotly.md)
+
 
 In this step, you'll create professional static plots using matplotlib and seaborn.
 

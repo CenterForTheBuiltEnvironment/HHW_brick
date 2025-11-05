@@ -1,4 +1,278 @@
-# Application Development Tutorial - Step 9: Deployment & Integration
+# Step 9: Deployment & Integration
+
+Final steps to deploy and share your application.
+
+---
+
+## 1. Verify File Structure
+
+Ensure all required files are present:
+
+```
+my_first_app/
+├── __init__.py          ✅ Metadata and exports
+├── app.py               ✅ Complete implementation
+├── config.yaml          ✅ Default configuration
+├── requirements.txt     ✅ Dependencies
+└── README.md            ✅ Documentation
+```
+
+---
+
+## 2. Update README.md
+
+Complete your user documentation:
+
+```markdown
+# My First Application
+
+## Overview
+
+Analyzes temperature differential between supply and return water in hot water systems.
+
+## Requirements
+
+Buildings must have:
+- Hot Water Loop
+- Supply temperature sensor (Leaving_Hot_Water_Temperature_Sensor)
+- Return temperature sensor (Entering_Hot_Water_Temperature_Sensor)
+
+## Usage
+
+\`\`\`python
+from hhw_brick import apps
+
+app = apps.load_app("my_first_app")
+
+# Check qualification
+qualified, details = app.qualify("building.ttl")
+
+# Run analysis
+if qualified:
+    config = app.load_config()
+    config["output"]["output_dir"] = "./results"
+    results = app.analyze("building.ttl", "data.csv", config)
+\`\`\`
+
+## Output
+
+- `stats.csv` - Statistical summary
+- `timeseries.csv` - Processed data
+- `timeseries.png` - Temperature plots
+- `distribution.png` - Distribution histogram
+- `heatmap.png` - Hour/weekday patterns
+- `hourly_pattern.png` - Hourly averages
+- `dashboard_interactive.html` - Interactive dashboard
+- `timeseries_interactive.html` - Interactive timeseries
+- `heatmap_interactive.html` - Interactive heatmap
+- `boxplot_interactive.html` - Interactive box plot
+
+## Configuration
+
+Edit `config.yaml`:
+
+\`\`\`yaml
+analysis:
+  threshold_min_delta: 0.5
+  threshold_max_delta: 10.0
+
+output:
+  output_dir: "./results"
+  export_format: "csv"      # csv or json
+  plot_format: "png"        # png, pdf, svg
+  generate_plots: true
+  generate_plotly_html: true
+\`\`\`
+
+## Author
+
+Your Name - v1.0.0
+```
+
+---
+
+## 3. Test with AppsManager
+
+Verify integration:
+
+```python
+"""Integration test"""
+from hhw_brick import apps
+
+# List apps
+all_apps = apps.list_apps()
+print([app["name"] for app in all_apps])
+
+# Load app
+app = apps.load_app("my_first_app")
+print(f"Loaded: {app.__name__}")
+
+# Get config
+config = apps.get_default_config("my_first_app")
+print(f"Config: {list(config.keys())}")
+
+# Get info
+info = apps.get_app_info("my_first_app")
+print(f"Functions: {[f['name'] for f in info['functions']]}")
+```
+
+**Expected**:
+```
+['my_first_app', 'secondary_loop_temp_diff', 'primary_loop_temp_diff']
+Loaded: hhw_brick.applications.my_first_app.app
+Config: ['analysis', 'output', 'time_range']
+Functions: ['qualify', 'analyze', 'load_config']
+```
+
+---
+
+## 4. Create Usage Example
+
+Add `example_usage.py`:
+
+```python
+"""Example usage of my_first_app"""
+from pathlib import Path
+from hhw_brick import apps
+
+# Load application
+app = apps.load_app("my_first_app")
+
+# Paths
+fixtures = Path("tests/fixtures")
+model = fixtures / "Brick_Model_File" / "building_29.ttl"
+data = fixtures / "TimeSeriesData" / "29hhw_system_data.csv"
+
+# Qualify
+qualified, details = app.qualify(str(model))
+
+if not qualified:
+    print("Building does not qualify")
+    exit(1)
+
+print(f"✓ Building qualified")
+
+# Configure
+config = app.load_config()
+config["output"]["output_dir"] = "./results/building_29"
+
+# Analyze
+results = app.analyze(str(model), str(data), config)
+
+if results:
+    print(f"\n✅ Analysis complete!")
+    print(f"  Mean: {results['stats']['mean_temp_diff']:.2f}°C")
+    print(f"  Output: {config['output']['output_dir']}")
+```
+
+---
+
+## 5. Deployment Checklist
+
+Before sharing:
+
+- [x] All 5 files present and complete
+- [x] `__init__.py` has correct metadata
+- [x] `README.md` has usage examples
+- [x] All tests pass
+- [x] Works with AppsManager
+- [x] Example usage provided
+- [x] Error messages are clear
+
+---
+
+## 6. Sharing Your App
+
+### Option 1: Contribute to HHW Brick
+
+```bash
+cd HHW_brick
+git checkout -b feature/my-first-app
+git add hhw_brick/applications/my_first_app/
+git commit -m "Add my_first_app application"
+git push origin feature/my-first-app
+# Then create Pull Request on GitHub
+```
+
+### Option 2: Standalone Package
+
+Create `setup.py`:
+
+```python
+from setuptools import setup, find_packages
+
+setup(
+    name="my-first-app",
+    version="1.0.0",
+    packages=find_packages(),
+    install_requires=[
+        "hhw-brick>=0.1.0",
+        "pandas>=1.3.0",
+        "matplotlib>=3.5.0",
+        "plotly>=5.0.0",
+    ]
+)
+```
+
+---
+
+## 🎉 Congratulations!
+
+You've completed the Application Development Guide!
+
+### What You Built
+
+✅ **Complete Application**
+- Building qualification
+- Data processing
+- Statistical analysis
+- Matplotlib plots (4 types)
+- Plotly HTML (4 interactive)
+- Results export
+
+✅ **Professional Package**
+- Proper structure
+- Comprehensive tests
+- Complete documentation
+- Framework integration
+
+✅ **Portable & Reusable**
+- Works on any qualified building
+- Configurable parameters
+- Easy to extend
+
+---
+
+## Next Steps
+
+**Enhance**:
+- Add more analysis metrics
+- Implement advanced SPARQL
+- Create custom visualizations
+
+**Learn More**:
+- Study: `secondary_loop_temp_diff`, `primary_loop_temp_diff`
+- Explore: https://docs.brickschema.org/
+- Learn SPARQL: https://www.w3.org/TR/sparql11-query/
+
+**Contribute**:
+- Share your app
+- Help improve docs
+- Report bugs
+
+---
+
+## Resources
+
+- HHW Brick: https://github.com/CenterForTheBuiltEnvironment/HHW_brick
+- Brick Schema: https://brickschema.org/
+- SPARQL: https://www.w3.org/TR/sparql11-query/
+- Plotly: https://plotly.com/python/
+
+---
+
+**Thank you for building with HHW Brick!** 🚀
+
 
 In this final step, you'll learn how to deploy your application and integrate it with the HHW Brick framework.
 

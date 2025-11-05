@@ -1,4 +1,211 @@
-# Application Development Tutorial - Step 7: Plotly HTML Visualization
+# Step 7: Plotly HTML Visualization
+
+Create interactive HTML visualizations with Plotly.
+
+---
+
+## 1. Add Imports
+
+```python
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+```
+
+---
+
+## 2. Implement generate_plotly_html()
+
+```python
+def generate_plotly_html(results, config):
+    """Generate interactive Plotly HTML"""
+    output_dir = Path(config["output"]["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"\n{'='*60}")
+    print("PLOTLY HTML")
+    print(f"{'='*60}\n")
+
+    df = results["data"]
+    stats = results["stats"]
+
+    create_dashboard(df, stats, output_dir)
+    create_timeseries(df, stats, output_dir)
+    create_heatmap(df, output_dir)
+    create_boxplot(df, stats, output_dir)
+
+    print("✓ All HTML generated")
+```
+
+---
+
+## 3. Interactive Dashboard
+
+```python
+def create_dashboard(df, stats, output_dir):
+    """Create 6-panel dashboard"""
+    fig = make_subplots(
+        rows=3, cols=2,
+        subplot_titles=("Supply & Return", "Differential", "Distribution",
+                       "Hourly", "Box Plot", "Stats"),
+        specs=[[{"type": "scatter"}, {"type": "scatter"}],
+               [{"type": "histogram"}, {"type": "bar"}],
+               [{"type": "box"}, {"type": "table"}]],
+        vertical_spacing=0.12, horizontal_spacing=0.10
+    )
+
+    # Panel 1: Supply & Return
+    fig.add_trace(go.Scatter(x=df.index, y=df["supply"], name="Supply",
+                            line=dict(color="#e74c3c")), row=1, col=1)
+    fig.add_trace(go.Scatter(x=df.index, y=df["return"], name="Return",
+                            line=dict(color="#3498db")), row=1, col=1)
+
+    # Panel 2: Differential
+    fig.add_trace(go.Scatter(x=df.index, y=df["temp_diff"], name="Diff",
+                            line=dict(color="#9b59b6")), row=1, col=2)
+
+    # Panel 3: Distribution
+    fig.add_trace(go.Histogram(x=df["temp_diff"], name="Dist",
+                              marker=dict(color="#3498db")), row=2, col=1)
+
+    # Panel 4: Hourly
+    hourly = df.groupby("hour")["temp_diff"].mean()
+    fig.add_trace(go.Bar(x=hourly.index, y=hourly.values,
+                        marker=dict(color="#27ae60")), row=2, col=2)
+
+    # Panel 5: Box plot
+    for hour in sorted(df["hour"].unique()):
+        fig.add_trace(go.Box(y=df[df["hour"]==hour]["temp_diff"],
+                            name=str(hour), showlegend=False), row=3, col=1)
+
+    # Panel 6: Stats table
+    stats_data = [
+        ["Mean", f"{stats['mean_temp_diff']:.2f}"],
+        ["Std", f"{stats['std_temp_diff']:.2f}"],
+        ["Min", f"{stats['min_temp_diff']:.2f}"],
+        ["Max", f"{stats['max_temp_diff']:.2f}"]
+    ]
+    fig.add_trace(go.Table(
+        header=dict(values=["Metric", "Value"], fill_color="lightgray"),
+        cells=dict(values=list(zip(*stats_data)), fill_color="white")
+    ), row=3, col=2)
+
+    fig.update_layout(title="Dashboard", showlegend=True, height=1200,
+                     template="plotly_white")
+
+    fig.write_html(output_dir / "dashboard_interactive.html")
+    print("✓ dashboard_interactive.html")
+```
+
+---
+
+## 4. Detailed Time-Series
+
+```python
+def create_timeseries(df, stats, output_dir):
+    """Interactive time-series with dual y-axes"""
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    fig.add_trace(go.Scatter(x=df.index, y=df["supply"], name="Supply",
+                            line=dict(color="#e74c3c", width=2)), secondary_y=False)
+    fig.add_trace(go.Scatter(x=df.index, y=df["return"], name="Return",
+                            line=dict(color="#3498db", width=2)), secondary_y=False)
+    fig.add_trace(go.Scatter(x=df.index, y=df["temp_diff"], name="Diff",
+                            line=dict(color="#9b59b6", width=2, dash="dash")),
+                 secondary_y=True)
+
+    fig.add_hline(y=stats["mean_temp_diff"], line_dash="dash",
+                 line_color="#27ae60", secondary_y=True)
+
+    fig.update_xaxes(title_text="Time")
+    fig.update_yaxes(title_text="Temperature (°C)", secondary_y=False)
+    fig.update_yaxes(title_text="Difference (°C)", secondary_y=True)
+    fig.update_layout(title="Temperature Analysis", hovermode="x unified",
+                     template="plotly_white", height=600)
+
+    fig.write_html(output_dir / "timeseries_interactive.html")
+    print("✓ timeseries_interactive.html")
+```
+
+---
+
+## 5. Interactive Heatmap
+
+```python
+def create_heatmap(df, output_dir):
+    """Interactive heatmap"""
+    pivot = df.pivot_table(values="temp_diff", index="hour",
+                          columns="weekday", aggfunc="mean")
+
+    fig = go.Figure(data=go.Heatmap(
+        z=pivot.values,
+        x=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        y=list(range(24)),
+        colorscale="RdYlBu_r",
+        colorbar=dict(title="Mean<br>Diff (°C)")
+    ))
+
+    fig.update_layout(title="Patterns by Hour and Day",
+                     xaxis_title="Day of Week", yaxis_title="Hour",
+                     template="plotly_white", height=700)
+
+    fig.write_html(output_dir / "heatmap_interactive.html")
+    print("✓ heatmap_interactive.html")
+```
+
+---
+
+## 6. Box Plot
+
+```python
+def create_boxplot(df, stats, output_dir):
+    """Interactive box plot"""
+    fig = go.Figure()
+    fig.add_trace(go.Box(y=df["temp_diff"], marker_color="#3498db",
+                        boxmean="sd"))
+
+    fig.add_annotation(
+        text=f"Mean: {stats['mean_temp_diff']:.2f}°C<br>"
+             f"Median: {stats['median_temp_diff']:.2f}°C",
+        xref="paper", yref="paper", x=0.98, y=0.98,
+        showarrow=False, bgcolor="lightgray"
+    )
+
+    fig.update_layout(title="Distribution", yaxis_title="Temp Diff (°C)",
+                     template="plotly_white", height=600)
+
+    fig.write_html(output_dir / "boxplot_interactive.html")
+    print("✓ boxplot_interactive.html")
+```
+
+---
+
+## Interactive Features
+
+All plots have:
+- 🔍 **Zoom**: Box select or scroll
+- 👆 **Pan**: Click and drag
+- 📊 **Hover**: Detailed tooltips
+- 👁️ **Toggle**: Click legend
+- 📸 **Export**: Camera icon
+- 🔄 **Reset**: Double-click
+
+---
+
+## Checkpoint
+
+- [x] Plotly imports added
+- [x] Dashboard with 6 panels
+- [x] Time-series with dual axes
+- [x] Interactive heatmap
+- [x] Box plot with stats
+- [x] HTML files open in browser
+
+---
+
+## Next Step
+
+👉 [Step 8: Testing Your Application](./step-08-testing.md)
+
 
 In this step, you'll create interactive HTML visualizations using Plotly that users can open in web browsers.
 
