@@ -36,7 +36,45 @@ SELECT ?sensor WHERE {
 
 ---
 
-## 2. Write SPARQL Query
+## 2. Visualize System Architecture
+
+Before writing SPARQL, understand your target system architecture.
+
+**Reference Diagrams**: See `docs/Figures/Development_Guide/` for common patterns:
+
+### Pattern 1: Boiler System
+![Boiler System Pattern](../../Figures/Development_Guide/pattern_1_boiler_system.png)
+
+- **Equipment**: Boiler, Hot_Water_Loop
+- **Sensors**: Leaving/Entering Temperature Sensors
+- **Relationships**: Loop `hasPart` sensors
+
+### Pattern 2: District System  
+![District System Pattern](../../Figures/Development_Guide/pattern_2_district_system.png)
+
+- **Equipment**: Heat_Exchanger, Hot_Water_Loop
+- **Sensors**: Supply/Return Temperature Sensors
+- **Relationships**: Loop `hasPart` sensors
+
+**How to Use Diagrams**:
+1. **Identify equipment** (rectangles) → Use in `?equipment rdf:type brick:Hot_Water_Loop`
+2. **Identify sensors** (circles) → Use in `?sensor rdf:type brick:Temperature_Sensor`
+3. **Trace relationships** (arrows) → Use in `?equipment brick:hasPart ?sensor`
+
+**Example**: For boiler pattern, SPARQL query:
+```sparql
+SELECT ?loop ?leaving ?entering WHERE {
+    ?loop rdf:type brick:Hot_Water_Loop .
+    ?loop brick:hasPart ?leaving .
+    ?leaving rdf:type brick:Leaving_Hot_Water_Temperature_Sensor .
+    ?loop brick:hasPart ?entering .
+    ?entering rdf:type brick:Entering_Hot_Water_Temperature_Sensor .
+}
+```
+
+---
+
+## 3. Write SPARQL Query
 
 Add this function to find required sensors:
 
@@ -77,7 +115,7 @@ def find_required_sensors(graph):
 
 ---
 
-## 3. Implement qualify()
+## 4. Implement qualify()
 
 Check if building has required sensors:
 
@@ -129,7 +167,7 @@ def qualify(brick_model_path):
 
 ---
 
-## 4. Test qualify()
+## 5. Test qualify()
 
 Create `test_qualify.py`:
 
@@ -166,7 +204,7 @@ python test_qualify.py
 
 ---
 
-## 5. Complete app.py So Far
+## 6. Complete app.py So Far
 
 Your `app.py` should now have:
 

@@ -173,18 +173,16 @@ nav:
       - user-guide/plotly-visualization.md
 
   - Developer Guide:
-    - developer-guide/index.md
-    - Application Development Guide:
-      - Overview: developer-guide/application-development-guide/index.md
-      - Step 1 - Structure: developer-guide/application-development-guide/step-01-structure.md
-      - Step 2 - Load Config: developer-guide/application-development-guide/step-02-load-config.md
-      - Step 3 - SPARQL & Qualify: developer-guide/application-development-guide/step-03-sparql-qualify.md
-      - Step 4 - Analyze Part 1: developer-guide/application-development-guide/step-04-analyze-part1.md
-      - Step 5 - Analyze Part 2: developer-guide/application-development-guide/step-05-analyze-part2.md
-      - Step 6 - Matplotlib: developer-guide/application-development-guide/step-06-visualization-matplotlib.md
-      - Step 7 - Plotly HTML: developer-guide/application-development-guide/step-07-visualization-plotly.md
-      - Step 8 - Testing: developer-guide/application-development-guide/step-08-testing.md
-      - Step 9 - Deployment: developer-guide/application-development-guide/step-09-deployment.md
+    - Overview: developer-guide/application-development-guide/index.md
+    - Step 1 - Structure: developer-guide/application-development-guide/step-01-structure.md
+    - Step 2 - Load Config: developer-guide/application-development-guide/step-02-load-config.md
+    - Step 3 - SPARQL & Qualify: developer-guide/application-development-guide/step-03-sparql-qualify.md
+    - Step 4 - Analyze Part 1: developer-guide/application-development-guide/step-04-analyze-part1.md
+    - Step 5 - Analyze Part 2: developer-guide/application-development-guide/step-05-analyze-part2.md
+    - Step 6 - Matplotlib: developer-guide/application-development-guide/step-06-visualization-matplotlib.md
+    - Step 7 - Plotly HTML: developer-guide/application-development-guide/step-07-visualization-plotly.md
+    - Step 8 - Testing: developer-guide/application-development-guide/step-08-testing.md
+    - Step 9 - Deployment: developer-guide/application-development-guide/step-09-deployment.md
 
   - FAQ: faq.md
   - Changelog: changelog.md
