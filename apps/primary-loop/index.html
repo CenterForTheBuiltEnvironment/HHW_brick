@@ -2053,7 +2053,298 @@
 
 
 <h1 id="primary-loop-temperature-differential-analysis">Primary Loop Temperature Differential Analysis<a class="headerlink" href="#primary-loop-temperature-differential-analysis" title="Permanent link">&para;</a></h1>
-<p>{!../hhw_brick/applications/primary_loop_temp_diff/README.md!}</p>
+<h1 id="primary-loop-temperature-differential-analysis-app">Primary Loop Temperature Differential Analysis App<a class="headerlink" href="#primary-loop-temperature-differential-analysis-app" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This application analyzes the temperature differential between supply and return water in <strong>primary loops</strong> of hot water systems with boilers. It is specifically designed for boiler systems where:
+- Primary loop connects boilers to heat exchangers
+- Temperature differentials are typically larger than secondary loops
+- Analysis helps identify boiler efficiency and loop performance</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<p>✅ <strong>Automatic Point Detection</strong>: Checks if Brick model contains required supply and return temperature sensors on primary loop<br />
+✅ <strong>Boiler System Validation</strong>: Ensures the loop has boilers (characteristic of primary loops)<br />
+✅ <strong>Flexible Configuration</strong>: Supports custom time ranges, thresholds, and output formats<br />
+✅ <strong>Multiple Sensor Type Support</strong>: Automatically recognizes equivalent sensor types<br />
+✅ <strong>Rich Statistical Analysis</strong>: Computes mean, standard deviation, quantiles, etc.<br />
+✅ <strong>Visualization Plots</strong>: Auto-generates timeseries, distribution, and hourly statistics plots<br />
+✅ <strong>Anomaly Detection</strong>: Identifies temperature differentials outside normal range  </p>
+<h2 id="key-differences-from-secondary-loop-app">Key Differences from Secondary Loop App<a class="headerlink" href="#key-differences-from-secondary-loop-app" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Primary Loop</th>
+<th>Secondary Loop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Loop Type</strong></td>
+<td>Primary loop with boilers</td>
+<td>Secondary loop</td>
+</tr>
+<tr>
+<td><strong>Typical ΔT</strong></td>
+<td>2-20°C (larger)</td>
+<td>0.5-10°C (smaller)</td>
+</tr>
+<tr>
+<td><strong>Equipment</strong></td>
+<td>Must have boilers</td>
+<td>No boilers</td>
+</tr>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>Boiler efficiency analysis</td>
+<td>Distribution system analysis</td>
+</tr>
+</tbody>
+</table>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+<p>Main dependencies:
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- rdflib
+- brickschema
+- pyyaml</p>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="1-check-if-building-qualifies">1. Check if Building Qualifies<a class="headerlink" href="#1-check-if-building-qualifies" title="Permanent link">&para;</a></h3>
+<p>The building must have:
+- A primary loop with boilers
+- Supply temperature sensor on primary loop
+- Return temperature sensor on primary loop</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick.applications.primary_loop_temp_diff.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">qualify</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">qualified</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">qualify</span><span class="p">(</span><span class="s1">&#39;path/to/brick_model.ttl&#39;</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">if</span> <span class="n">qualified</span><span class="p">:</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Building qualified for primary loop analysis&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Loop: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;loop&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Supply: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;supply&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Return: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="2-run-basic-analysis">2. Run Basic Analysis<a class="headerlink" href="#2-run-basic-analysis" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>app.py<span class="w"> </span>brick_model.ttl<span class="w"> </span>timeseries_data.csv
+</span></code></pre></div>
+<h3 id="3-use-custom-configuration">3. Use Custom Configuration<a class="headerlink" href="#3-use-custom-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>app.py<span class="w"> </span>brick_model.ttl<span class="w"> </span>timeseries_data.csv<span class="w"> </span>--config<span class="w"> </span>config.yaml
+</span></code></pre></div>
+<h2 id="python-api-usage">Python API Usage<a class="headerlink" href="#python-api-usage" title="Permanent link">&para;</a></h2>
+<h3 id="simple-usage">Simple Usage<a class="headerlink" href="#simple-usage" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick.applications.primary_loop_temp_diff.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">analyze</span><span class="p">,</span> <span class="n">load_config</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Load configuration</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="s1">&#39;config.yaml&#39;</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Run analysis</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">results</span> <span class="o">=</span> <span class="n">analyze</span><span class="p">(</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">brick_model_path</span><span class="o">=</span><span class="s1">&#39;path/to/brick_model.ttl&#39;</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">timeseries_data_path</span><span class="o">=</span><span class="s1">&#39;path/to/timeseries_data.csv&#39;</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Analysis completed!&quot;</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Mean temp differential: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;mean_temp_diff&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Anomaly rate: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;anomaly_rate&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="custom-configuration-in-code">Custom Configuration in Code<a class="headerlink" href="#custom-configuration-in-code" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick.applications.primary_loop_temp_diff.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">analyze</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="s1">&#39;time_range&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="s1">&#39;2018-12-31&#39;</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="p">},</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="s1">&#39;threshold_min_delta&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>   <span class="c1"># Minimum temp diff threshold (°C)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="s1">&#39;threshold_max_delta&#39;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>  <span class="c1"># Maximum temp diff threshold (°C)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="p">},</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="s1">&#39;save_results&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="s1">&#39;output_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;./results&#39;</span><span class="p">,</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>        <span class="s1">&#39;export_format&#39;</span><span class="p">:</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span>  <span class="c1"># &#39;csv&#39; or &#39;json&#39;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>        <span class="s1">&#39;generate_plots&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>        <span class="s1">&#39;plot_format&#39;</span><span class="p">:</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span>    <span class="c1"># &#39;png&#39;, &#39;pdf&#39;, &#39;svg&#39;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="p">}</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="p">}</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">results</span> <span class="o">=</span> <span class="n">analyze</span><span class="p">(</span><span class="s1">&#39;model.ttl&#39;</span><span class="p">,</span> <span class="s1">&#39;data.csv&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
+<h3 id="analysis-parameters">Analysis Parameters<a class="headerlink" href="#analysis-parameters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>threshold_min_delta</code>: Minimum temperature differential (default: 2.0°C)</li>
+<li>Below this value is considered anomalous</li>
+<li>
+<p>Primary loops typically need higher thresholds than secondary loops</p>
+</li>
+<li>
+<p><code>threshold_max_delta</code>: Maximum temperature differential (default: 20.0°C)</p>
+</li>
+<li>Above this value is considered anomalous</li>
+</ul>
+<h3 id="output-settings">Output Settings<a class="headerlink" href="#output-settings" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>save_results</code>: Whether to save analysis results (default: true)</li>
+<li><code>output_dir</code>: Directory for output files (default: './results')</li>
+<li><code>export_format</code>: 'csv' or 'json' (default: 'csv')</li>
+<li><code>generate_plots</code>: Whether to generate visualizations (default: true)</li>
+<li><code>plot_format</code>: 'png', 'pdf', or 'svg' (default: 'png')</li>
+</ul>
+<h3 id="time-range">Time Range<a class="headerlink" href="#time-range" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>start_time</code>: Start date in 'YYYY-MM-DD' format (null = use all data)</li>
+<li><code>end_time</code>: End date in 'YYYY-MM-DD' format (null = use all data)</li>
+</ul>
+<h2 id="output-files">Output Files<a class="headerlink" href="#output-files" title="Permanent link">&para;</a></h2>
+<h3 id="statistics-file">Statistics File<a class="headerlink" href="#statistics-file" title="Permanent link">&para;</a></h3>
+<p><code>primary_loop_temp_diff_stats.csv</code> or <code>.json</code></p>
+<p>Contains:
+- Mean, median, std deviation of temperature differential
+- Min/max values
+- Quartiles (Q25, Q75)
+- Mean supply and return temperatures
+- Anomaly counts and rates</p>
+<h3 id="timeseries-file">Timeseries File<a class="headerlink" href="#timeseries-file" title="Permanent link">&para;</a></h3>
+<p><code>primary_loop_temp_diff_timeseries.csv</code> or <code>.json</code></p>
+<p>Contains:
+- Timestamp
+- Supply temperature
+- Return temperature
+- Temperature differential
+- Hour, weekday, month (for analysis)</p>
+<h3 id="visualization-plots">Visualization Plots<a class="headerlink" href="#visualization-plots" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>primary_loop_timeseries.png</strong></li>
+<li>Supply and return temperatures over time</li>
+<li>
+<p>Temperature differential over time with mean/median lines</p>
+</li>
+<li>
+<p><strong>primary_loop_distribution.png</strong></p>
+</li>
+<li>Histogram of temperature differentials</li>
+<li>Box plot</li>
+<li>
+<p>Cumulative distribution function</p>
+</li>
+<li>
+<p><strong>primary_loop_time_analysis.png</strong></p>
+</li>
+<li>Temperature differential by hour of day</li>
+<li>Temperature differential by day of week</li>
+<li>Temperature differential by month</li>
+<li>
+<p>Scatter plot: supply vs return temperature</p>
+</li>
+<li>
+<p><strong>primary_loop_heatmap.png</strong></p>
+</li>
+<li>Heatmap of temperature differential by hour and day of week</li>
+</ol>
+<h2 id="supported-sensor-types">Supported Sensor Types<a class="headerlink" href="#supported-sensor-types" title="Permanent link">&para;</a></h2>
+<h3 id="supply-temperature-sensors">Supply Temperature Sensors<a class="headerlink" href="#supply-temperature-sensors" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Supply_Water_Temperature_Sensor</code></li>
+<li><code>Leaving_Hot_Water_Temperature_Sensor</code></li>
+<li><code>Hot_Water_Supply_Temperature_Sensor</code></li>
+</ul>
+<h3 id="return-temperature-sensors">Return Temperature Sensors<a class="headerlink" href="#return-temperature-sensors" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Return_Water_Temperature_Sensor</code></li>
+<li><code>Entering_Hot_Water_Temperature_Sensor</code></li>
+<li><code>Hot_Water_Return_Temperature_Sensor</code></li>
+</ul>
+<h2 id="example-workflow">Example Workflow<a class="headerlink" href="#example-workflow" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hhw_brick.applications.primary_loop_temp_diff.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">qualify</span><span class="p">,</span> <span class="n">analyze</span><span class="p">,</span> <span class="n">load_config</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Step 1: Check qualification</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">brick_model</span> <span class="o">=</span> <span class="s1">&#39;building_105_non-condensing_h.ttl&#39;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">timeseries</span> <span class="o">=</span> <span class="s1">&#39;building_105_timeseries.csv&#39;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">qualified</span><span class="p">,</span> <span class="n">qualify_result</span> <span class="o">=</span> <span class="n">qualify</span><span class="p">(</span><span class="n">brick_model</span><span class="p">)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">qualified</span><span class="p">:</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✗ Building does not have required sensors on primary loop&quot;</span><span class="p">)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># Step 2: Load configuration</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="s1">&#39;config.yaml&#39;</span><span class="p">)</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1"># Optional: customize config</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="n">config</span><span class="p">[</span><span class="s1">&#39;time_range&#39;</span><span class="p">][</span><span class="s1">&#39;start_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2018-06-01&#39;</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="n">config</span><span class="p">[</span><span class="s1">&#39;time_range&#39;</span><span class="p">][</span><span class="s1">&#39;end_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2018-08-31&#39;</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;output_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;./summer_analysis&#39;</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1"># Step 3: Run analysis</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">results</span> <span class="o">=</span> <span class="n">analyze</span><span class="p">(</span><span class="n">brick_model</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="c1"># Step 4: Review results</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="n">stats</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;stats&#39;</span><span class="p">]</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Primary Loop Analysis Results ===&quot;</span><span class="p">)</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean Temperature Differential: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mean_temp_diff&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard Deviation: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;std_temp_diff&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean Supply Temperature: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mean_supply_temp&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean Return Temperature: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mean_return_temp&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Anomaly Rate: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;anomaly_rate&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Results saved to: </span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;output_dir&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="interpretation-guidelines">Interpretation Guidelines<a class="headerlink" href="#interpretation-guidelines" title="Permanent link">&para;</a></h2>
+<h3 id="normal-operation">Normal Operation<a class="headerlink" href="#normal-operation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ΔT Range</strong>: 2-15°C is typical for primary loops</li>
+<li><strong>Higher ΔT</strong>: Indicates good heat transfer from boiler to secondary loop</li>
+<li><strong>Stable ΔT</strong>: Suggests consistent boiler operation</li>
+</ul>
+<h3 id="potential-issues">Potential Issues<a class="headerlink" href="#potential-issues" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ΔT &lt; 2°C</strong>: Possible issues:</li>
+<li>Low load on the system</li>
+<li>Boiler not operating efficiently</li>
+<li>
+<p>Excessive flow rate</p>
+</li>
+<li>
+<p><strong>ΔT &gt; 20°C</strong>: Possible issues:</p>
+</li>
+<li>Very high load</li>
+<li>Flow rate too low</li>
+<li>
+<p>Sensor calibration issues</p>
+</li>
+<li>
+<p><strong>High Variability</strong>: May indicate:</p>
+</li>
+<li>Cycling boiler operation</li>
+<li>Variable load patterns</li>
+<li>Control system issues</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="building-not-qualified">Building Not Qualified<a class="headerlink" href="#building-not-qualified" title="Permanent link">&para;</a></h3>
+<p><strong>Error</strong>: "Building NOT qualified - Missing: Supply and return temperature sensors on primary loop with boiler"</p>
+<p><strong>Solutions</strong>:
+1. Verify the Brick model has a primary loop defined
+2. Check that the primary loop has <code>brick:hasPart</code> relationships to temperature sensors
+3. Ensure the primary loop contains boilers
+4. Verify sensor types match the supported list</p>
+<h3 id="no-data-points-found">No Data Points Found<a class="headerlink" href="#no-data-points-found" title="Permanent link">&para;</a></h3>
+<p><strong>Error</strong>: "Failed to map sensors to data columns"</p>
+<p><strong>Solutions</strong>:
+1. Check that sensor URIs in Brick model match column names in timeseries data
+2. Verify timeseries CSV file has correct format
+3. Ensure data columns exist for the identified sensors</p>
+<h3 id="all-data-filtered-out">All Data Filtered Out<a class="headerlink" href="#all-data-filtered-out" title="Permanent link">&para;</a></h3>
+<p><strong>Issue</strong>: Analysis shows 0 valid data points</p>
+<p><strong>Solutions</strong>:
+1. Check time range in configuration
+2. Verify data quality (remove NaN/null values)
+3. Check data types in CSV file</p>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>Part of the HHW Brick package.</p>
 
 
 
