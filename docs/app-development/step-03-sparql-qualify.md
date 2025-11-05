@@ -26,7 +26,8 @@ SELECT ?sensor WHERE {
 - `?variable` - Variable (like wildcards)
 - `rdf:type` - "is a type of"
 - `rdfs:subClassOf*` - Includes subclasses
-- `brick:hasPart` - Equipment has point
+- `brick:hasPart` - System/Loop has point (used by Hot_Water_Loop, Hot_Water_System)
+- `brick:hasPoint` - Equipment has point (used by Boiler, Pump, Weather_Station)
 - `FILTER()` - Filter results
 
 **Learn More**:
@@ -61,14 +62,82 @@ Before writing SPARQL, understand your target system architecture.
 2. **Identify sensors** (circles) → Use in `?sensor rdf:type brick:Temperature_Sensor`
 3. **Trace relationships** (arrows) → Use in `?equipment brick:hasPart ?sensor`
 
-**Example**: For boiler pattern, SPARQL query:
+### Understanding Point-Equipment Relationships
+
+Before writing SPARQL queries, you need to know which points are connected to which equipment and the relationship type used. This information comes from `sensor_to_brick_mapping.yaml`.
+
+**Important: Relationship Types**
+- **Equipment** (Boiler, Pump, Weather_Station) → Use `brick:hasPoint` to connect sensors
+- **Systems/Loops** (Hot_Water_System, Primary_Loop, Secondary_Loop) → Use `brick:hasPart` to connect sensors
+
+**Complete Point-to-Equipment Mapping**:
+
+| Equipment/System | Relationship | Point Name | Point Type | Description |
+|------------------|--------------|------------|------------|-------------|
+| **secondary_loop** | `hasPart` | `sup` | Leaving_Hot_Water_Temperature_Sensor | Supply water temp entering building |
+| | `hasPart` | `ret` | Entering_Hot_Water_Temperature_Sensor | Return water temp leaving building |
+| | `hasPart` | `flow` | Flow_Sensor | Flow rate entering building |
+| | `hasPart` | `dp` | Differential_Pressure_Sensor | End-of-line differential pressure |
+| | `hasPart` | `hw` | Thermal_Power_Sensor | Heating power supplied to building |
+| | `hasPart` | `gas_u` | Natural_Gas_Flow_Sensor | Gas consumption at utility meter |
+| | `hasPart` | `sup_stpt` | Hot_Water_Temperature_Setpoint | Supply temp setpoint |
+| | `hasPart` | `dp_stpt` | Differential_Pressure_Setpoint | Pressure setpoint |
+| **primary_loop** | `hasPart` | `supp` | Leaving_Hot_Water_Temperature_Sensor | Common supply temp (primary circuit) |
+| | `hasPart` | `retp` | Entering_Hot_Water_Temperature_Sensor | Common return temp (primary circuit) |
+| | `hasPart` | `flowp` | Flow_Sensor | Hot water flow rate (primary circuit) |
+| | `hasPart` | `gas` | Natural_Gas_Flow_Sensor | Gas consumption at boiler plant |
+| **boiler** | `hasPoint` | `sup1-4` | Leaving_Hot_Water_Temperature_Sensor | Boiler 1-4 outlet water temp |
+| | `hasPoint` | `ret1-4` | Entering_Hot_Water_Temperature_Sensor | Boiler 1-4 inlet water temp |
+| | `hasPoint` | `fire1-4` | Firing_Rate_Sensor | Boiler 1-4 firing rate |
+| **pump** | `hasPoint` | `pmp1_pwr` | Power_Sensor | Pump 1 power consumption |
+| | `hasPoint` | `pmp2_pwr` | Power_Sensor | Pump 2 power consumption |
+| | `hasPoint` | `pmp1_spd` | Speed_Command | Pump 1 speed command |
+| | `hasPoint` | `pmp2_spd` | Speed_Command | Pump 2 speed command |
+| | `hasPoint` | `pmp_spd` | Speed_Command | Main pump speed command |
+| | `hasPoint` | `pmp1_vfd` | VFD_Enable_Command | Pump 1 VFD enable |
+| | `hasPoint` | `pmp2_vfd` | VFD_Enable_Command | Pump 2 VFD enable |
+| **weather_station** | `hasPoint` | `t_out` | Outside_Air_Temperature_Sensor | Outdoor drybulb temperature |
+| **hot_water_system** | `hasPart` | `enab` | Enable_Command | System enable/disable command |
+| | `hasPart` | `oper` | Enable_Status | System operation status |
+
+**Key Summary by Type**:
+- **Loops (use hasPart)**:
+  - Secondary Loop: 8 points
+  - Primary Loop: 4 points  
+  - Hot Water System: 2 points
+- **Equipment (use hasPoint)**:
+  - Boiler: 12 points (4 boilers)
+  - Pump: 7 points
+  - Weather Station: 1 point
+
+**Example 1**: For secondary loop (uses `hasPart`), SPARQL query:
 ```sparql
-SELECT ?loop ?leaving ?entering WHERE {
+SELECT ?loop ?supply ?return WHERE {
+    # Find secondary hot water loop (Loop uses hasPart)
     ?loop rdf:type brick:Hot_Water_Loop .
-    ?loop brick:hasPart ?leaving .
-    ?leaving rdf:type brick:Leaving_Hot_Water_Temperature_Sensor .
-    ?loop brick:hasPart ?entering .
-    ?entering rdf:type brick:Entering_Hot_Water_Temperature_Sensor .
+    FILTER(CONTAINS(LCASE(STR(?loop)), "secondary"))
+
+    # Loops use brick:hasPart for sensors
+    ?loop brick:hasPart ?supply .
+    ?supply rdf:type brick:Leaving_Hot_Water_Temperature_Sensor .
+
+    ?loop brick:hasPart ?return .
+    ?return rdf:type brick:Entering_Hot_Water_Temperature_Sensor .
+}
+```
+
+**Example 2**: For boiler sensors (uses `hasPoint`), SPARQL query:
+```sparql
+SELECT ?boiler ?supply ?return WHERE {
+    # Find boiler equipment (Equipment uses hasPoint)
+    ?boiler rdf:type brick:Boiler .
+
+    # Equipment use brick:hasPoint for sensors
+    ?boiler brick:hasPoint ?supply .
+    ?supply rdf:type brick:Leaving_Hot_Water_Temperature_Sensor .
+
+    ?boiler brick:hasPoint ?return .
+    ?return rdf:type brick:Entering_Hot_Water_Temperature_Sensor .
 }
 ```
 
@@ -90,14 +159,16 @@ def find_required_sensors(graph):
 
     query = """
     SELECT ?loop ?supply ?return WHERE {
-        # Find hot water loop
+        # Find hot water loop (could be secondary_loop or primary_loop)
         ?loop rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
 
         # Find supply sensor (part of loop)
+        # In our system: 'sup' on secondary_loop, 'supp' on primary_loop
         ?loop brick:hasPart ?supply .
         ?supply rdf:type/rdfs:subClassOf* brick:Leaving_Hot_Water_Temperature_Sensor .
 
         # Find return sensor (part of loop)
+        # In our system: 'ret' on secondary_loop, 'retp' on primary_loop
         ?loop brick:hasPart ?return .
         ?return rdf:type/rdfs:subClassOf* brick:Entering_Hot_Water_Temperature_Sensor .
     }
@@ -108,10 +179,19 @@ def find_required_sensors(graph):
 ```
 
 **How it works**:
-1. Find any Hot_Water_Loop
-2. Find supply sensor (Leaving temp) that's part of loop
-3. Find return sensor (Entering temp) that's part of loop
+1. Find any Hot_Water_Loop (secondary or primary)
+2. Find supply sensor (Leaving temp) that's **part of** the loop
+   - `brick:hasPart` establishes the point-equipment relationship
+3. Find return sensor (Entering temp) that's **part of** the loop
 4. Return first match or None
+
+**Equipment-Point Relationships**:
+- Based on `sensor_to_brick_mapping.yaml`, points are assigned to equipment:
+  - **Secondary loop**: `sup`, `ret`, `flow`, `dp`, `hw`, `gas_u`, `sup_stpt`, `dp_stpt`
+  - **Primary loop**: `supp`, `retp`, `flowp`, `gas`
+  - **Boiler**: `sup1-4`, `ret1-4`, `fire1-4`
+  - **Pump**: `pmp1_pwr`, `pmp2_pwr`, `pmp1_spd`, `pmp2_spd`, `pmp1_vfd`, `pmp2_vfd`
+  - **Weather station**: `t_out`
 
 ---
 
@@ -272,8 +352,9 @@ def qualify(brick_model_path):
 # Filter by name
 FILTER(CONTAINS(LCASE(STR(?equipment)), "primary"))
 
-# Relationship
-?equipment brick:hasPart ?point .
+# Relationships (use hasPart for Systems/Loops, hasPoint for Equipment)
+?loop brick:hasPart ?point .        # For Hot_Water_Loop, Hot_Water_System
+?equipment brick:hasPoint ?point .  # For Boiler, Pump, Weather_Station
 ```
 
 ---
@@ -310,8 +391,9 @@ building:temp_sensor1 rdf:type brick:Temperature_Sensor .
 ```
 
 **Common Relationships**:
-- `brick:hasPart` - Equipment has a point as part
-- `brick:isPointOf` - Point belongs to equipment
+- `brick:hasPart` - System/Loop has a point as part (used for Hot_Water_System, Hot_Water_Loop)
+- `brick:hasPoint` - Equipment has a point (used for Boiler, Pump, Weather_Station)
+- `brick:isPointOf` - Point belongs to equipment (inverse of hasPoint)
 - `rdf:type` - Entity is of a certain type
 - `rdfs:subClassOf*` - Includes subclasses (e.g., all types of temperature sensors)
 
@@ -335,6 +417,17 @@ SELECT ?sensor WHERE {
     ?sensor rdf:type/rdfs:subClassOf* brick:Temperature_Sensor .
 }
 ```
+
+**Point-to-Equipment Relationships**:
+In our system, points are connected to equipment/systems via two different relationships:
+- **Systems/Loops** use `brick:hasPart` (e.g., secondary_loop, primary_loop, hot_water_system)
+- **Equipment** use `brick:hasPoint` (e.g., boiler, pump, weather_station)
+
+This mapping is defined in `sensor_to_brick_mapping.yaml`. For example:
+- `secondary_loop` **hasPart**: `sup`, `ret`, `flow`, `dp`, `hw` (Loops use hasPart)
+- `primary_loop` **hasPart**: `supp`, `retp`, `flowp`, `gas` (Loops use hasPart)
+- `boiler` **hasPoint**: `sup1-4`, `ret1-4`, `fire1-4` (Equipment use hasPoint)
+- `pump` **hasPoint**: `pmp1_pwr`, `pmp2_pwr`, `pmp1_spd`, `pmp2_spd` (Equipment use hasPoint)
 
 **SPARQL Resources**:
 - Brick Schema Docs: https://docs.brickschema.org/
@@ -362,23 +455,30 @@ def find_required_sensors(graph):
 
     Example:
         This query finds:
-        - A Hot_Water_Loop
-        - A Leaving_Hot_Water_Temperature_Sensor (supply)
-        - An Entering_Hot_Water_Temperature_Sensor (return)
+        - A Hot_Water_Loop (secondary_loop or primary_loop)
+        - A Leaving_Hot_Water_Temperature_Sensor (supply) - part of that loop
+        - An Entering_Hot_Water_Temperature_Sensor (return) - part of that loop
+
+    Note:
+        Based on sensor_to_brick_mapping.yaml:
+        - secondary_loop has: sup (leaving), ret (entering)
+        - primary_loop has: supp (leaving), retp (entering)
     """
     from hhw_brick.utils import query_sensors
 
     # SPARQL query to find sensors
     query = """
     SELECT ?equipment ?supply_sensor ?return_sensor WHERE {
-        # Find a Hot Water Loop
+        # Find a Hot Water Loop (secondary_loop or primary_loop)
         ?equipment rdf:type/rdfs:subClassOf* brick:Hot_Water_Loop .
 
         # Find supply temperature sensor (part of the loop)
+        # This could be 'sup' on secondary_loop or 'supp' on primary_loop
         ?equipment brick:hasPart ?supply_sensor .
         ?supply_sensor rdf:type/rdfs:subClassOf* brick:Leaving_Hot_Water_Temperature_Sensor .
 
         # Find return temperature sensor (part of the loop)
+        # This could be 'ret' on secondary_loop or 'retp' on primary_loop
         ?equipment brick:hasPart ?return_sensor .
         ?return_sensor rdf:type/rdfs:subClassOf* brick:Entering_Hot_Water_Temperature_Sensor .
     }
@@ -675,10 +775,13 @@ Before proceeding, verify:
 **Common SPARQL Patterns**:
 
 ```sparql
-# Find all points of an equipment
-?equipment brick:hasPart ?point .
+# Find all points of a system/loop (hasPart)
+?system brick:hasPart ?point .
 
-# Find equipment a point belongs to
+# Find all points of equipment (hasPoint)
+?equipment brick:hasPoint ?point .
+
+# Find equipment a point belongs to (inverse)
 ?point brick:isPointOf ?equipment .
 
 # Find by exact type
