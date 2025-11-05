@@ -172,17 +172,17 @@ nav:
     - Plotly Visualization:
       - user-guide/plotly-visualization.md
 
-  - Application Development Guide:
-    - Overview: application-development-guide/index.md
-    - Step 1 - Structure: application-development-guide/step-01-structure.md
-    - Step 2 - Load Config: application-development-guide/step-02-load-config.md
-    - Step 3 - SPARQL & Qualify: application-development-guide/step-03-sparql-qualify.md
-    - Step 4 - Analyze Part 1: application-development-guide/step-04-analyze-part1.md
-    - Step 5 - Analyze Part 2: application-development-guide/step-05-analyze-part2.md
-    - Step 6 - Matplotlib: application-development-guide/step-06-visualization-matplotlib.md
-    - Step 7 - Plotly HTML: application-development-guide/step-07-visualization-plotly.md
-    - Step 8 - Testing: application-development-guide/step-08-testing.md
-    - Step 9 - Deployment: application-development-guide/step-09-deployment.md
+  - Developer Guide:
+    - Overview: app-development/index.md
+    - Step 1 - Structure: app-development/step-01-structure.md
+    - Step 2 - Load Config: app-development/step-02-load-config.md
+    - Step 3 - SPARQL & Qualify: app-development/step-03-sparql-qualify.md
+    - Step 4 - Analyze Part 1: app-development/step-04-analyze-part1.md
+    - Step 5 - Analyze Part 2: app-development/step-05-analyze-part2.md
+    - Step 6 - Matplotlib: app-development/step-06-visualization-matplotlib.md
+    - Step 7 - Plotly HTML: app-development/step-07-visualization-plotly.md
+    - Step 8 - Testing: app-development/step-08-testing.md
+    - Step 9 - Deployment: app-development/step-09-deployment.md
 
   - FAQ: faq.md
   - Changelog: changelog.md
