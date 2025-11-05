@@ -1,4 +1,4 @@
-# Application Development Tutorial - Overview
+ # Application Development Tutorial - Overview
 
 Learn to create HHW Brick analytics applications through hands-on, step-by-step tutorials.
 
@@ -42,14 +42,9 @@ By the end of this tutorial, you'll have built a complete analytics application 
 
 - **Python Basics**: Variables, functions, file I/O
 - **Command Line**: Navigate directories, run Python scripts
-- **YAML**: Basic configuration file syntax (we'll teach SPARQL!)
+- **YAML**: Basic configuration file syntax
 
-### No Experience Needed With
-
-- ❌ Brick Schema (we'll teach you!)
-- ❌ SPARQL (covered in Step 3)
-- ❌ RDF/Semantic Web (explained as we go)
-- ❌ Advanced visualization (templates provided)
+**Note**: No prior experience with Brick Schema or SPARQL needed - we'll teach you!
 
 ### Software Requirements
 
@@ -127,8 +122,6 @@ Here's what you'll build - a temperature differential analysis app:
 
 ## How to Use This Tutorial
 
-### Reading the Steps
-
 Each step follows this structure:
 
 1. **Goal**: What you'll accomplish
@@ -137,91 +130,41 @@ Each step follows this structure:
 4. **Test**: Verify your implementation works
 5. **Checkpoint**: Ensure you're ready for the next step
 
-### Code Blocks
-
-**📋 Copy this** - Code ready to paste:
-```python
-# This code is ready to use
-def example():
-    return "Hello World"
-```
-
-**💡 Explanation** - Understanding code:
-```python
-# This explains the logic
-# Variables: x (input), y (output)
-y = x * 2  # Double the input
-```
-
-**⚠️ Common mistakes**:
-```python
-# ❌ Wrong
-config = load_config
-
-# ✅ Correct
-config = load_config()  # Don't forget ()
-```
-
-### Tips Throughout
+**Icons Used**:
 
 - 💡 **Tip**: Helpful suggestions
 - ⚠️ **Warning**: Common pitfalls
 - 📚 **Resource**: External learning materials
 - ✅ **Best Practice**: Recommended approaches
-- ❌ **Avoid**: What not to do
 
 ---
 
 ## Getting Help
 
-### During the Tutorial
+**If code doesn't work**:
 
-**Issue**: Code doesn't work  
-**Solution**:
 1. Check the **Common Issues** section in each step
-2. Compare your code with example applications in `hhw_brick/applications/`
-3. Run the test scripts provided in each step
+2. Compare with example applications in `hhw_brick/applications/`
+3. Run the test scripts provided
 
-**Issue**: Concept unclear  
-**Solution**:
-1. Review the **Understanding** sections
-2. Check linked resources
-3. Look at working examples: `primary_loop_temp_diff` or `secondary_loop_temp_diff`
+**Resources**:
 
-### After the Tutorial
-
-- **Brick Schema**: https://docs.brickschema.org/
-- **SPARQL**: https://www.w3.org/TR/sparql11-query/
-- **GitHub Issues**: https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues
+- [Brick Schema Docs](https://docs.brickschema.org/)
+- [SPARQL Tutorial](https://www.w3.org/TR/sparql11-query/)
+- [GitHub Issues](https://github.com/CenterForTheBuiltEnvironment/HHW_brick/issues)
 
 ---
 
 ## Example Applications
 
-Study these working applications for reference:
+Study these working applications in `hhw_brick/applications/` for reference:
 
-### 📁 secondary_loop_temp_diff
-
-**Location**: `hhw_brick/applications/secondary_loop_temp_diff/`
-
-**What it does**: Analyzes temperature differential in secondary hot water loops
-
-**Complexity**: ⭐⭐ Medium
-
-**Learn from it**:
+**secondary_loop_temp_diff** (⭐⭐ Medium):
 - Simple SPARQL query
-- Basic statistical analysis
+- Basic statistical analysis  
 - Standard visualization patterns
 
-### 📁 primary_loop_temp_diff
-
-**Location**: `hhw_brick/applications/primary_loop_temp_diff/`
-
-**What it does**: Analyzes temperature differential in primary loops with boilers
-
-**Complexity**: ⭐⭐ Medium
-
-**Learn from it**:
+**primary_loop_temp_diff** (⭐⭐ Medium):
 - Filtered SPARQL queries
 - Anomaly detection
 - Multiple visualization types
@@ -267,29 +210,6 @@ Study these working applications for reference:
 
 ## Ready to Start?
 
-👉 **Begin with [Step 1: Create Application Structure](./step-01-structure.md)**
-
----
-
-## Questions Before Starting?
-
-**Q: Do I need to know Brick Schema?**  
-A: No! We'll teach you the essentials as you build.
-
-**Q: How much Python experience do I need?**  
-A: Basic knowledge (variables, functions, loops). If you can follow Python tutorials, you're ready.
-
-**Q: Can I skip visualization steps?**  
-A: You need at least basic visualization. Steps 6-7 can be simplified.
-
-**Q: How long until I have a working app?**  
-A: Following Path 1 (Quick Start), about 1.5 hours.
-
-**Q: Can I build my own app idea while following tutorial?**  
-A: Yes! Follow the steps but adapt them to your needs. The structure works for any analysis.
-
----
-
 **🚀 Let's build your first HHW Brick application!**
 
-👉 [Start Tutorial - Step 1](./step-01-structure.md)
+👉 **Begin with [Step 1: Create Application Structure](./step-01-structure.md)**
