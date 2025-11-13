@@ -1,0 +1,39 @@
+# Primary Loop Temperature Differential Analysis - Configuration File
+
+# Analysis parameters
+analysis:
+
+  DET_THR: 3.2   # °C, min supply-return deltaT
+  CYC_THR: 3     # consecutive on-off transitions to count as cycling
+  SPT_THR: 2     # °C, supply close to setpoint threshold
+  TOUT_MILD: 12  # °C, mild outdoor criterion
+  N_CYC_THR: 60  # daily cycle threshold (~5/hr * 12hr)
+  
+
+# Output settings
+output:
+  # Whether to save results
+  save_results: true
+
+  # Output directory
+  output_dir: "./results"
+
+  # Export format: csv or json
+  export_format: "csv"
+
+  # Whether to generate plots
+  generate_plots: true
+
+  # Plot format: png, pdf, svg
+  plot_format: "png"
+
+  # Whether to generate interactive HTML visualizations with Plotly
+  generate_plotly_html: true
+
+# Time range (optional)
+time_range:
+  # Start time in YYYY-MM-DD format (null = use all data)
+  start_time: null
+
+  # End time in YYYY-MM-DD format (null = use all data)
+  end_time: null
