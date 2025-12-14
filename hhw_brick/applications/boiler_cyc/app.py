@@ -196,7 +196,7 @@ def qualify(brick_model_path):
     else:
         print(f"[FAIL] Building NOT qualified")
         print(f"   Missing: Boiler firing rate sensor\n")
-        qualified = qualified and False
+        qualified = qualified or False
         qualified_result.update({})
     
     return qualified, qualified_result
@@ -312,11 +312,11 @@ def run_hwst_analysis(dataframe, config, plot_options=False):
         )
         
         # Export csv file
-        df[['tag', 'datetime_UTC', 'sup', 'sup_stpt', 'ret', 't_out', 'flag_hwst']].to_csv(csv_dir / 'hwst_spt.csv', index=False)
+        df[['datetime_UTC', 'sup', 'sup_stpt', 'ret', 't_out', 'flag_hwst']].to_csv(csv_dir / 'hwst_spt.csv', index=False)
 
         # Plot
         if plot_options:
-            fig, ax = plt.subplots(figsize=(8, 8), dpi=150)
+            fig, ax = plt.subplots(figsize=(12, 8), dpi=150)
             m = (df["flag_hwst"] == 0)
             ax.scatter(df.loc[m, "t_out"], df.loc[m, "deltaT"], s=4, c=LS_COLORS["Others"], alpha=0.2, label="Others")
             m = (df["flag_hwst"] == 1)
@@ -343,7 +343,7 @@ def run_hwst_analysis(dataframe, config, plot_options=False):
 
     # Plot
     if plot_options:
-        fig, ax = plt.subplots(figsize=(8, 8), dpi=150)
+        fig, ax = plt.subplots(figsize=(12, 8), dpi=150)
         m = (df["flag_hwst"] == 0)
         ax.scatter(df.loc[m, "t_out"], df.loc[m, "deltaT"], s=4, c=LS_COLORS["Others"], alpha=0.2, label="Others")
         m = (df["flag_hwst"] == 1)
@@ -360,7 +360,7 @@ def run_hwst_analysis(dataframe, config, plot_options=False):
         plt.close(fig)
     
     # Export csv file
-    df[['tag', 'datetime_UTC', 'sup', 'sup_stpt', 'ret', 't_out', 'flag_hwst']].to_csv(csv_dir / 'hwst.csv', index=False)
+    df[['datetime_UTC', 'sup', 'ret', 't_out', 'flag_hwst']].to_csv(csv_dir / 'hwst.csv', index=False)
     
     return df
 
@@ -436,7 +436,7 @@ def run_fire_analysis(dataframe, config, plot_options=False):
     df["cyc"] = np.where(df["value"] < thr, 1, 0)
 
     df["flag_fire"] = np.where((df["value"] > 0) & (df["value"] < thr), 1, 0)
-    df[['datetime_UTC', 'value', 'flag_fire']].to_csv(csv_dir / f"fire_{boiler}.csv", index=False)
+    df[['datetime_UTC', 'sup', 'ret', 't_out', 'value', 'flag_fire']].to_csv(csv_dir / f"fire_{boiler}.csv", index=False)
 
     # rle duplicate adjustment (collapse long zero runs)
     for dt_val, grp in df.sort_values("datetime_UTC").groupby("dt"):
@@ -455,7 +455,6 @@ def run_fire_analysis(dataframe, config, plot_options=False):
             "exceed": 1 if daily_cyc > N_CYC_THR else 0,
         })
 
-    # import pdb; pdb.set_trace()
     daily_cyc_df = pd.DataFrame(daily_cycle_rows)
 
     # Plot histogram of daily cycles
@@ -513,27 +512,54 @@ def load_df(brick_model_path, timeseries_data_path, config):
     print(f"{'='*60}\n")
 
     g, df = load_data(brick_model_path, timeseries_data_path)
+
     print(f"[OK] Loaded {len(df)} data points")
     print(f"[OK] Time range: {df.index.min()} to {df.index.max()}\n")
 
-    # Map sensors to columns
-    supply_uri = qualify_result["supply"]
-    return_uri = qualify_result["return"]
-    oper_uri = qualify_result["oper"]
-    firing_uri = qualify_result["firing_rate"]
-    oat_uri = qualify_result["oat"]
+    # Map sensors to columns (use safe retrieval in case some keys are missing)
+    supply_uri = qualify_result.get("supply")
+    return_uri = qualify_result.get("return")
+    oper_uri = qualify_result.get("oper")
+    firing_uri = qualify_result.get("firing_rate", [])
+    oat_uri = qualify_result.get("oat")
 
-    sensor_mapping = map_sensors_to_columns(g, [supply_uri, return_uri, oper_uri, oat_uri] + firing_uri, df)
+    # Normalize firing_uri to a list (it may be absent, a single string, or a list)
+    if firing_uri is None:
+        firing_uri = []
+    elif isinstance(firing_uri, str):
+        firing_uri = [firing_uri]
+
+    # Build the requested sensor list excluding any None values
+    requested_sensors = []
+    for uri in (supply_uri, return_uri, oper_uri, oat_uri):
+        if uri:
+            requested_sensors.append(uri)
+    requested_sensors.extend(firing_uri)
+
+    sensor_mapping = map_sensors_to_columns(g, requested_sensors, df)
     app = 0
+    # If no sensors were mapped at all, fail early (preserve previous behaviour)
     if len(sensor_mapping) == 0:
         print("[FAIL] Failed to map sensors to data columns\n")
         return None
-    elif set(firing_uri).issubset(sensor_mapping.keys()):
+
+    # Prefer the firing-rate path if all firing sensors are available
+    try:
+        firing_set = set(firing_uri)
+    except Exception:
+        firing_set = set()
+
+    if firing_set and firing_set.issubset(sensor_mapping.keys()):
         print(f"[Firing Rate Sensors] Mapped: {firing_uri}\n")
         app = 2
-    else:
+    # Otherwise check for supply/return/oper/oat sensors
+    elif all(uri in sensor_mapping for uri in (supply_uri, return_uri, oper_uri, oat_uri)):
         print(f"[Supply/Return/Oper/OAT Sensors] Mapped: {supply_uri}, {return_uri}, {oper_uri}, {oat_uri}\n")
         app = 1
+    else:
+        # Neither full firing-rate nor full plant-sensor set available
+        print("[WARN] Required sensors for either analysis path are not fully available.\n")
+        app = 0
 
     # Extract and filter data
     df_extracted = extract_data_columns(
@@ -591,20 +617,19 @@ Examples:
     print("Running HWST analysis...")
 
     df, app = load_df(args.brick_model, args.timeseries_data, config)
-    
-    # import pdb; pdb.set_trace()
+
     if app == 0:
         return(f"[FAIL] Analysis cannot proceed due to no sensor data.")
     elif app == 1:
-        run_hwst_analysis(df, config, plot_options=False)
+        run_hwst_analysis(df, config, plot_options=True)
     else:
         # Get all fire columns
-        fire_columns = [col for col in df.columns if col != 'datetime_UTC']
+        fire_columns = [col for col in df.columns if 'fire' in col]
         for fire_col in fire_columns:
-            sub_df = df[['datetime_UTC', fire_col]].copy()
+            sub_df = df[['datetime_UTC', 'sup', 'ret', 't_out', fire_col]].copy()
             sub_df = sub_df.rename(columns={fire_col: 'value'})
             sub_df['boiler'] = fire_col
-            run_fire_analysis(sub_df, config, plot_options=False)
+            run_fire_analysis(sub_df, config, plot_options=True)
 
     # Process notification
     print(f"\n{'='*60}")
