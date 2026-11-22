@@ -181,6 +181,7 @@ temp/
 tmp/
 output/
 results/
+results_*/
 analysis_output/
 test_output/
 *.pickle

@@ -1,0 +1,42 @@
+# Pump Differential Pressure Setpoint Tracking Analysis - Configuration File
+
+# Analysis parameters
+analysis:
+  # Two-sided tolerance: a point is within tolerance if |dp - dp_stpt| <= sept_threshold * dp_stpt;
+  # below the band it is under-pressurised, above it over-pressurised
+  sept_threshold: 0.10
+  # Number of equal-width flow bins between the minimum and maximum loop flow
+  flow_bins: 10
+  # Minimum points in a flow bin for the bin median / IQR in the signed-error plot
+  min_bin_points: 30
+  # Pump speed (fraction of full speed) counted as high-speed operation
+  high_speed_threshold: 0.95
+  # A DP setpoint value is "stable" if it holds at least this share of the operating points
+  stable_setpoint_ratio_threshold: 0.05
+  # The setpoint is "dynamic" if the stable values cover less than this share of the points
+  dynamic_setpoint_coverage_threshold: 0.95
+  # Minimum complete pairs for the Spearman correlations of non-stable setpoints
+  min_correlation_points: 30
+  # DP outlier removal: IQR multiplier on the DP values and on their second differences
+  dp_outlier_iqr_k: 2.0
+  dp_spike_iqr_k: 1.5
+
+# Output settings
+output:
+  # Whether to save the analysis results
+  save_results: true
+  # Directory for output files
+  output_dir: "./results"
+  # Export format: csv or json
+  export_format: "csv"
+  # Whether to generate plots
+  generate_plots: true
+  # Plot format: png, pdf, or svg
+  plot_format: "png"
+
+# Time range (optional)
+time_range:
+  # Start time in YYYY-MM-DD format (null = use all data)
+  start_time: null
+  # End time in YYYY-MM-DD format (null = use all data)
+  end_time: null
